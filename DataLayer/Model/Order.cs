@@ -15,7 +15,7 @@ public class Order
     public int BuyerId { get; set; }
     public OrderStatus OrderStatus { get; set; }
     public DateTime DateInitiated { get; set; }
-    public DateTime DateCompleted { get; set; }
+    public DateTime ? DateCompleted { get; set; }
 
     // Foreign keys for source and destination
     public int SourceCityId { get; set; }
@@ -28,7 +28,6 @@ public class Order
 
     public virtual Cities SourceCity { get; set; }
     public virtual Cities DestinationCity { get; set; }
-
 }
 
 public enum OrderStatus
