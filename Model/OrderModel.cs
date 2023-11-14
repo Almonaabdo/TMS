@@ -13,7 +13,6 @@ public class OrderModel
     public OrderModel(TmsDbContext context)
     { 
         _db = context;
-    
     }
 
 
@@ -48,4 +47,19 @@ public class OrderModel
             LoggerModel.LogError("Specified Order Wasn't Found In Database.");
         }
     }
+
+    //public void updateCity (int OrderID,string newCity)
+    //{
+    //    var Order =_db.Orders.Find(OrderID);
+
+    //    if (Order != null)
+    //    {
+    //        Order.
+    //        _db.SaveChanges();
+    //    }
+    //    else
+    //    {
+    //        LoggerModel.LogError("Specified Order city Couldn't be updated");
+    //    }
+    //}
 }
