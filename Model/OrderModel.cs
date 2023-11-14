@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System;
 using DataLayer.Context;
+using NLog;
 
 namespace TMS_Project.Model;
 
@@ -32,16 +33,19 @@ public class OrderModel
         return newOrder;
     }
 
-    public Order deleteOrder (int contractID, int buyerID)
+    public void deleteOrder (int OrderID)
     {
-        var newOrder = new Order
+        // searching for the ented order
+        var Order = _db.Orders.Find(OrderID);
+
+        if (Order != null)
         {
-            ContractId = contractID,
-            BuyerId = buyerID
-        };
-
-        _db.Orders.Remove(newOrder);
-
-        return newOrder;
+            _db.Orders.Remove(Order);
+            _db.SaveChanges();
+        }
+        else
+        {
+            LoggerModel.LogError("Specified Order Wasn't Found In Database.");
+        }
     }
 }
