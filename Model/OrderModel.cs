@@ -31,4 +31,17 @@ public class OrderModel
         _db.SaveChanges();
         return newOrder;
     }
+
+    public Order deleteOrder (int contractID, int buyerID)
+    {
+        var newOrder = new Order
+        {
+            ContractId = contractID,
+            BuyerId = buyerID
+        };
+
+        _db.Orders.Remove(newOrder);
+
+        return newOrder;
+    }
 }
