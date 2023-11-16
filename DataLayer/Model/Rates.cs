@@ -2,12 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataLayer.Model;
+namespace TMS_Project.DataLayer.Model;
+
 [Table("Rates")]
 public class Rates
 {
-    [Key]
-    public int RateId { get; set; }
+    [Key] public int RateId { get; set; }
     public RateType RateType { get; set; }
     public decimal Amount { get; set; }
 

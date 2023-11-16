@@ -1,16 +1,14 @@
-﻿using DataLayer.Model;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DataLayer.Model;
 
-namespace Model;
+namespace TMS_Project.DataLayer.Model;
 
-[Table("Order")]
+[Table("Orders")]
 public class Order
 {
-    [Key] public int OrderId { get; set; }
+    public int OrderId { get; set; }
     public int ContractId { get; set; }
     public int BuyerId { get; set; }
     public OrderStatus OrderStatus { get; set; }
@@ -22,12 +20,13 @@ public class Order
     public int DestinationCityId { get; set; }
 
     // Navigation properties
-    public virtual User? Buyer { get; set; }
-    public virtual ICollection<Trip>? Trips { get; set; }
-    public virtual ICollection<Invoice>? Invoices { get; set; }
+    public User? Buyer { get; set; }
 
-    public virtual Cities SourceCity { get; set; }
-    public virtual Cities DestinationCity { get; set; }
+    //public ICollection<Trip>? Trip { get; set; }
+    public ICollection<Invoice>? Invoices { get; set; }
+
+    public Cities SourceCity { get; set; }
+    public Cities DestinationCity { get; set; }
 }
 
 public enum OrderStatus
