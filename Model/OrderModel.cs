@@ -48,18 +48,19 @@ public class OrderModel
         }
     }
 
-    //public void updateCity (int OrderID,string newCity)
-    //{
-    //    var Order =_db.Orders.Find(OrderID);
+    public void updateCity(int OrderID, string newCity, int newCityID)
+    {
+        var Order = _db.Orders.Find(OrderID);
 
-    //    if (Order != null)
-    //    {
-    //        Order.
-    //        _db.SaveChanges();
-    //    }
-    //    else
-    //    {
-    //        LoggerModel.LogError("Specified Order city Couldn't be updated");
-    //    }
-    //}
+        if (Order != null)
+        {
+            Order.DestinationCity.CityName.Equals(newCity);
+            Order.DestinationCity.CityId.Equals(newCityID);
+            _db.SaveChanges();
+        }
+        else
+        {
+            LoggerModel.LogError("Specified Order city Couldn't be updated");
+        }
+    }
 }
