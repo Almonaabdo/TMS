@@ -13,22 +13,20 @@ public class OrderModel
         _db = context;
     }
 
-    public Order CreateOrder(int contractId, int buyerId)
+    /// <summary>
+    /// Method to create an order and update the database
+    /// </summary>
+    /// <param name="order"></param>
+    public void CreateOrder(Order order)
     {
-        var newOrder = new Order
-        {
-            ContractId = contractId,
-            BuyerId = buyerId,
-            OrderStatus = OrderStatus.InProgress,
-            DateInitiated = DateTime.Now,
-            DateCompleted = null
-        };
-
-        _db.Orders?.Add(newOrder);
+        _db.Orders?.Add(order);
         _db.SaveChanges();
-        return newOrder;
     }
 
+    /// <summary>
+    /// Method to delete a give order based on the id
+    /// </summary>
+    /// <param name="orderId">The order to delete specified by the id</param>
     public void DeleteOrder (int orderId)
     {
         // searching for the entered order
@@ -42,6 +40,21 @@ public class OrderModel
         else
         {
             LoggerModel.LogError("Specified Order Wasn't Found In Database.");
+        }
+    }
+
+    /// <summary>
+    /// Method to update the status of a trip
+    /// </summary>
+    /// <param name="tripId">Id to identify each trip</param>
+    /// <param name="newStatus">The new status to be given</param>
+    public void UpdateTripStatus(int tripId, TripStatus newStatus)
+    {
+        var trip = _db.Trips.Find(tripId);
+        if (trip != null)
+        {
+            trip.TripStatus = newStatus;
+            _db.SaveChanges();
         }
     }
 }
