@@ -1,66 +1,47 @@
-﻿using Model;
-using System.Runtime.CompilerServices;
-using System;
-using DataLayer.Context;
-using NLog;
+﻿using System;
+using TMS_Project.DataLayer.Context;
+using TMS_Project.DataLayer.Model;
+// ReSharper disable UnusedType.Global
 
 namespace TMS_Project.Model;
 
 public class OrderModel
 {
     private readonly TmsDbContext _db;
-
     public OrderModel(TmsDbContext context)
     { 
         _db = context;
     }
 
-
-    public Order createOrder(int contractID, int buyerID)
+    public Order CreateOrder(int contractId, int buyerId)
     {
         var newOrder = new Order
         {
-            ContractId = contractID,
-            BuyerId = buyerID,
+            ContractId = contractId,
+            BuyerId = buyerId,
             OrderStatus = OrderStatus.InProgress,
             DateInitiated = DateTime.Now,
             DateCompleted = null
         };
 
-        _db.Orders.Add(newOrder);
+        _db.Orders?.Add(newOrder);
         _db.SaveChanges();
         return newOrder;
     }
 
-    public void deleteOrder (int OrderID)
+    public void DeleteOrder (int orderId)
     {
-        // searching for the ented order
-        var Order = _db.Orders.Find(OrderID);
+        // searching for the entered order
+        var order = _db.Orders?.Find(orderId);
 
-        if (Order != null)
+        if (order != null)
         {
-            _db.Orders.Remove(Order);
+            _db.Orders?.Remove(order);
             _db.SaveChanges();
         }
         else
         {
             LoggerModel.LogError("Specified Order Wasn't Found In Database.");
-        }
-    }
-
-    public void updateCity(int OrderID, string newCity, int newCityID)
-    {
-        var Order = _db.Orders.Find(OrderID);
-
-        if (Order != null)
-        {
-            Order.DestinationCity.CityName.Equals(newCity);
-            Order.DestinationCity.CityId.Equals(newCityID);
-            _db.SaveChanges();
-        }
-        else
-        {
-            LoggerModel.LogError("Specified Order city Couldn't be updated");
         }
     }
 }
