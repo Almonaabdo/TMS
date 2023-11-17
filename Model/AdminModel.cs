@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Devart.Data.MySql;
+using Microsoft.Extensions.Configuration;
 
 namespace TMS_Project.Model;
 
@@ -11,9 +12,6 @@ public class AdminModel
     /// </summary>
     public void BackUpDatabase()
     {
-        // Set connection string
-        const string connectionString = "server=localhost; port=3306; database=lab8; user=root; password=PHW#84#jeor;";
-        // Path to the backup folder in the exe directory
         var backUpFolder = Path.Combine(Environment.CurrentDirectory, "Backup");
 
         // Get current date and time
@@ -26,6 +24,14 @@ public class AdminModel
 
         try
         {
+            // Build configuration to parse connection string from json file
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory()) // Get config file path
+                .AddJsonFile("appsettings.json") // Add json file as the source
+                .Build();
+                // Grab the connection string
+            var connectingString = configuration.GetConnectionString("MyDatabase");
+
             // Create back up folder directory if it doesnt exist
             Directory.CreateDirectory(backUpFolder);
 
