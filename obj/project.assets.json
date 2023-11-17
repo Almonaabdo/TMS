@@ -1111,19 +1111,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\abdal\\.nuget\\packages\\": {}
+    "C:\\Users\\Erin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\abdal\\Desktop\\Text Files\\TMS-Project.csproj",
+      "projectUniqueName": "C:\\erin\\college3\\softwarequa\\PGM\\TMS\\TMS-Project.csproj",
       "projectName": "TMS-Project",
-      "projectPath": "C:\\Users\\abdal\\Desktop\\Text Files\\TMS-Project.csproj",
-      "packagesPath": "C:\\Users\\abdal\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\abdal\\Desktop\\Text Files\\obj\\",
+      "projectPath": "C:\\erin\\college3\\softwarequa\\PGM\\TMS\\TMS-Project.csproj",
+      "packagesPath": "C:\\Users\\Erin\\.nuget\\packages\\",
+      "outputPath": "C:\\erin\\college3\\softwarequa\\PGM\\TMS\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\abdal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Erin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1193,7 +1193,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }
