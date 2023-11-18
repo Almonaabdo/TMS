@@ -46,3 +46,5 @@
 /obj/Debug/net6.0-windows/TMS-Project_zdwqfgdj_wpftmp.assets.cache
 /obj/Debug/net6.0-windows/TMS-Project_zdwqfgdj_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
 /DataLayer/Migrations/TmsDbContextModelSnapshot.cs
+/appsettings.json
+/.idea/.idea.TMS.dir/.idea/dataSources.xml
