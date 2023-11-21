@@ -34,6 +34,8 @@ public class OrderModel
         }
     }
 
+
+
     /*
     * METHOD NAME: DeleteOrder
     * DESCRIPTION: Deletes an order from DB if it's found
@@ -57,8 +59,39 @@ public class OrderModel
         }
     }
 
+
+
     /*
-    * METHOD NAME: DeleteOrder
+    * METHOD NAME: CompleteOrder
+    * DESCRIPTION: Changes status of specified order, and completed order data as todays date.
+    *
+    * RETURN: void
+    */
+    public void CompleteOrder(int orderId)
+    {
+        // searching for the entered order
+        var order = _db.Orders?.Find(orderId);
+
+        if (order != null)
+        {
+            // updating the status of the found order by changing status and dateCompleted.
+            UpdateTripStatus(orderId, TripStatus.Completed);
+
+            // changing dataCopleted to the current date of today.
+            order.DateCompleted = DateTime.Now;
+
+            _db.SaveChanges();
+        }
+        else
+        {
+            LoggerModel.LogError("Info: Can't Complete order! Specified Order Wasn't Found In Database.");
+        }
+    }
+
+
+
+    /*
+    * METHOD NAME: UpdateTripStatus
     * DESCRIPTION: Deletes an order from DB if it's found
     * 
     * RETURN: void
@@ -79,12 +112,12 @@ public class OrderModel
             }
             else
             {
-                LoggerModel.LogError("Info: specified trip remains the same ");
+                LoggerModel.LogError("Info: Trip Status Wasn't change as new status remains the same");
             }
         }
         else
         {
-            LoggerModel.LogError("Info: Specified trip Wasn't Found In Database.");
+            LoggerModel.LogError("Info: Can't Change Trip Status! Specified trip Wasn't Found In Database.");
         }
     }
 }
