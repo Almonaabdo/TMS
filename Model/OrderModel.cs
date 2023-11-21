@@ -13,20 +13,33 @@ public class OrderModel
         _db = context;
     }
 
-    /// <summary>
-    /// Method to create an order and update the database
-    /// </summary>
-    /// <param name="order"></param>
+
+
+    /*
+    * METHOD NAME: CreateOrder
+    * DESCRIPTION: Creates new order by calling the database Add method and saves changes
+    * 
+    * RETURN: void
+    */
     public void CreateOrder(Order order)
     {
-        _db.Orders?.Add(order);
-        _db.SaveChanges();
+        try 
+        { 
+            _db.Orders?.Add(order);
+            _db.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            LoggerModel.LogError($"Order creating erro: {ex.Message}");
+        }
     }
 
-    /// <summary>
-    /// Method to delete a give order based on the id
-    /// </summary>
-    /// <param name="orderId">The order to delete specified by the id</param>
+    /*
+    * METHOD NAME: DeleteOrder
+    * DESCRIPTION: Deletes an order from DB if it's found
+    *
+    * RETURN: void
+    */
     public void DeleteOrder (int orderId)
     {
         // searching for the entered order
@@ -34,28 +47,44 @@ public class OrderModel
 
         if (order != null)
         {
+            // remove order and save changes
             _db.Orders?.Remove(order);
             _db.SaveChanges();
         }
         else
         {
-            LoggerModel.LogError("Specified Order Wasn't Found In Database.");
+            LoggerModel.LogError("Info: Specified Order Wasn't Found In Database.");
         }
     }
 
-    /// <summary>
-    /// Method to update the status of a trip
-    /// </summary>
-    /// <param name="tripId">Id to identify each trip</param>
-    /// <param name="newStatus">The new status to be given</param>
+    /*
+    * METHOD NAME: DeleteOrder
+    * DESCRIPTION: Deletes an order from DB if it's found
+    * 
+    * RETURN: void
+    */
     public void UpdateTripStatus(int tripId, TripStatus newStatus)
     {
-        // comment
-        var trip = _db.Trips.Find(tripId);
+        // find specified trip.
+        var trip = _db.Trips?.Find(tripId);
+
         if (trip != null)
         {
-            trip.TripStatus = newStatus;
-            _db.SaveChanges();
+            // check if new status matches old status
+            if (trip.TripStatus != newStatus)
+            { 
+                // update trip if it's found and doesn't match
+                trip.TripStatus = newStatus;
+                _db.SaveChanges();
+            }
+            else
+            {
+                LoggerModel.LogError("Info: specified trip remains the same ");
+            }
+        }
+        else
+        {
+            LoggerModel.LogError("Info: Specified trip Wasn't Found In Database.");
         }
     }
 }
