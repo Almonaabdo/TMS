@@ -18,7 +18,7 @@ namespace TMS_Project.DataLayer.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            const string connectionString = "server=localhost; port=3306; database=tms; user=root; password=";
+            const string connectionString = "server=10.0.0.136; port=3306; database=tms; user=tms-user1; password=root";
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
 
