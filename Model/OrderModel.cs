@@ -50,6 +50,7 @@ public class OrderModel
     /// <param name="newStatus">The new status to be given</param>
     public void UpdateTripStatus(int tripId, TripStatus newStatus)
     {
+        // comment
         var trip = _db.Trips.Find(tripId);
         if (trip != null)
         {
