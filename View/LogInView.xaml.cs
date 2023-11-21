@@ -1,83 +1,38 @@
-﻿using DataLayer.Model;
-using NLog.Fluent;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using TMS_Project.ViewModel;
 
-namespace TMS_Project.View
+namespace TMS_Project.View;
+
+public partial class LogInView
 {
     /// <summary>
-    /// Interaction logic for LogInView.xaml
+    /// Initializes a new instance of the LogInView class.
     /// </summary>
-    public partial class LogInView : Window
+    public LogInView()
     {
-        /* CLASS COMMENT
-         * Name		: public class Login
-         * Purpose	: Use for binding of the error message. Has one private attribute and accessor.
-         */
-        public class Login
+        InitializeComponent();
+
+        // Set the DataContext to an instance of LogInViewModel for data binding
+        DataContext = new LogInViewModel();
+    }
+
+    /// <summary>
+    /// Event handler for the PasswordBox's PasswordChanged event.
+    /// Updates the Password property in the associated LogInViewModel.
+    /// </summary>
+    /// <param name="sender">The event sender (PasswordBox).</param>
+    /// <param name="e">The event arguments.</param>
+    private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+    {
+        // Check if the sender is a PasswordBox
+        if (sender is not PasswordBox passwordBox) return;
+
+        // Check if the DataContext is an instance of LogInViewModel
+        if (DataContext is LogInViewModel viewModel)
         {
-            private string error;
-
-            public string Error
-            {
-                get { return error; }
-                set { error = value; }
-            }
-
+            // Update the Password property in the view model with the entered password
+            viewModel.Password = passwordBox.Password;
         }
-
-        public LogInView()
-        {
-            InitializeComponent();
-        }
-
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            string pass = PASS.Password;
-            string user = USER.Text;
-
-            //shows the buyer window if successful login
-            if (pass == "buyer" && user == "buyer")
-            {
-                BuyerView buyer = new BuyerView();
-                buyer.Show();
-                this.Close();
-            }
-            //if password is wrong/blank
-            else if (pass != "buyer" && user == "buyer" || pass != null && user == "buyer")
-            {
-                Login testPass = new Login { Error = "Password is incorrect!" };
-                this.DataContext = testPass;
-
-            }
-            //if username is wrong/blank
-            else if (user != "buyer" && pass == "buyer" || pass == "buyer" && user == null)
-            {
-                Login testUser = new Login { Error = "Username is incorrect!" };
-                this.DataContext = testUser;
-
-            }
-            //if both are missing
-            else
-            {
-                Login error = new Login { Error = "Username and Password is incorrect!" };
-                this.DataContext = error;
-            }
-
-        }
-
-
-    }//END LOGINVIEW
-}//END TMS.PROJECT.VIEW
+    }
+}
