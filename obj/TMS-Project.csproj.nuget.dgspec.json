@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\haboc\\Source\\Repos\\TMS_new\\TMS-Project.csproj": {}
+    "C:\\Users\\Erin\\source\\repos\\newTMS\\TMS-Project.csproj": {}
   },
   "projects": {
-    "C:\\Users\\haboc\\Source\\Repos\\TMS_new\\TMS-Project.csproj": {
+    "C:\\Users\\Erin\\source\\repos\\newTMS\\TMS-Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\haboc\\Source\\Repos\\TMS_new\\TMS-Project.csproj",
+        "projectUniqueName": "C:\\Users\\Erin\\source\\repos\\newTMS\\TMS-Project.csproj",
         "projectName": "TMS-Project",
-        "projectPath": "C:\\Users\\haboc\\Source\\Repos\\TMS_new\\TMS-Project.csproj",
-        "packagesPath": "C:\\Users\\haboc\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\haboc\\Source\\Repos\\TMS_new\\obj\\",
+        "projectPath": "C:\\Users\\Erin\\source\\repos\\newTMS\\TMS-Project.csproj",
+        "packagesPath": "C:\\Users\\Erin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Erin\\source\\repos\\newTMS\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\haboc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Erin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

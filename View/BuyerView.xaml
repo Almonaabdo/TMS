@@ -7,6 +7,65 @@
         mc:Ignorable="d"
         Title="BuyerView" Height="450" Width="800">
     <Grid>
-        
+        <TabControl>
+            <!--HOME TAB-->
+            <TabItem Header="Home">
+                <Grid Background="#91BAD6">
+                    <Label Content="Welcome Buyer" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
+
+                    <!--logs out of teh user; may or may not go back to the login page-->
+                    <Button Content="Log Out" HorizontalAlignment="Left" Margin="718,369,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
+
+                </Grid>
+            </TabItem>
+
+            <!--MARKETPLACE TAB-->
+            <TabItem Header="Marketplace">
+                <Grid Background="#91BAD6">
+                    <ListView Margin="121,53,111,56" d:ItemsSource="{d:SampleData ItemCount=5}">
+                        <ListView.View>
+                            <GridView>
+
+                                <!--contract marketplace data-->
+                                <GridViewColumn Header="Client Name"/>
+
+                                <GridViewColumn Header="Job Type"/>
+
+                                <GridViewColumn Header="Quantity"/>
+
+                                <GridViewColumn Header="Origin"/>
+
+                                <GridViewColumn Header="Destination"/>
+
+                                <GridViewColumn Header="Van Type"/>
+
+                            </GridView>
+                        </ListView.View>
+
+                    </ListView>
+                    <Label Content="Order Requests" HorizontalAlignment="Left" Margin="121,16,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
+                    <!--accepts the order and sends it to the Planner-->
+                    <Button Content="Accept Order" HorizontalAlignment="Left" Margin="594,355,0,0" VerticalAlignment="Top" Height="31" Width="89"/>
+                </Grid>
+            </TabItem>
+
+
+            <!--COMPLETED ORDERS TAB-->
+            <TabItem Header="Compeleted Orders">
+                <Grid Background="#91BAD6">
+                    <ListView d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,10,56">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <!--processes the invoice if order is complete-->
+                    <Button Content="Process Invoice" HorizontalAlignment="Left" Margin="636,361,0,0" VerticalAlignment="Top" Height="38" Width="134"/>
+                </Grid>
+            </TabItem>
+
+
+        </TabControl>
     </Grid>
 </Window>
