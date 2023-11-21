@@ -1116,11 +1116,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\SecondyearFirst\\WindowsProg\\TMS\\TMS\\TMS-Project.csproj",
+      "projectUniqueName": "C:\\SecondyearFirst\\SQ\\TMS\\TMS\\TMS-Project.csproj",
       "projectName": "TMS-Project",
-      "projectPath": "C:\\SecondyearFirst\\WindowsProg\\TMS\\TMS\\TMS-Project.csproj",
+      "projectPath": "C:\\SecondyearFirst\\SQ\\TMS\\TMS\\TMS-Project.csproj",
       "packagesPath": "C:\\Users\\haboc\\.nuget\\packages\\",
-      "outputPath": "C:\\SecondyearFirst\\WindowsProg\\TMS\\TMS\\obj\\",
+      "outputPath": "C:\\SecondyearFirst\\SQ\\TMS\\TMS\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\haboc\\AppData\\Roaming\\NuGet\\NuGet.Config",

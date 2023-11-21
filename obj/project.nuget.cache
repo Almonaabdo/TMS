@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5/Aw0UE3VVWRVmu6IhGVWSLg7KvnQups7NXbGNktBKZUoMpdg2kBbVtN3ECJ+JFssUckjN9tpBqBu/zJr/fDxA==",
+  "dgSpecHash": "bsHK7KOjRfxpPyDx4mYP4yIT5FAG4agPrIz4aWMsCOxSGpbcSgvUDZSEeuFzsM/E43GRtSJNBwisryuVWOI8XQ==",
   "success": true,
-  "projectFilePath": "C:\\SecondyearFirst\\WindowsProg\\TMS\\TMS\\TMS-Project.csproj",
+  "projectFilePath": "C:\\SecondyearFirst\\SQ\\TMS\\TMS\\TMS-Project.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\haboc\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\haboc\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.7\\microsoft.entityframeworkcore.7.0.7.nupkg.sha512",
