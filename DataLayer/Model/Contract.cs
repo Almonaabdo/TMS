@@ -1,7 +1,19 @@
-﻿namespace TMS_Project.DataLayer.Model;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace TMS_Project.DataLayer.Model;
+
+[Table("Contract")]
 public class Contract
 {
-    public int ContractId { get; set; }
-    public string ConctractDetails { get; set; }
+    public string Client_Name { get; set; }
+
+    public int Job_Type { get; set; }
+
+    public int Quantity { get; set; }
+
+    public string Origin { get; set; }
+
+    public string Destination { get; set; }
+
+    public int Van_Type { get; set; }
 }

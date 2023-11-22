@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TMS_Project.DataLayer.Model;
 
-namespace DataLayer.Context;
+namespace TMS_Project.DataLayer.Context;
 
 public class ContractMarketPlaceDbContext : DbContext
 {
@@ -15,15 +15,6 @@ public class ContractMarketPlaceDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-        
-        // Configuration for the 'Contract' entity.
-        modelBuilder.Entity<Contract>(entity =>
-        {
-            entity.ToTable("Contract");
-            entity.HasKey(e => e.ContractId); // Set ContractId as primary key
-            entity.Property(e => e.ContractId).ValueGeneratedOnAdd();
-            entity.Property(e => e.ConctractDetails).IsRequired();
-        });
+        modelBuilder.Entity<Contract>().HasNoKey();
     }
 }
