@@ -10,7 +10,7 @@ public class BuyerModel
 {
     private readonly TmsDbContext _db;
 
-   
+ 
     public void addCustomer(string name, string phoneNumer, string email)
     {
         var newCustomer = new Customer();
@@ -19,6 +19,8 @@ public class BuyerModel
         newCustomer.Email = email;
         _db.Customers.Add(newCustomer);
         _db.SaveChanges();
+        var contract = new Contract();
+        Console.WriteLine(contract.ConctractDetails);
 
     }
 }

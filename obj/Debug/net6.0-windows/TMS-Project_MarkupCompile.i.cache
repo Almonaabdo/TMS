@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\haboc\Source\Repos\TMS_new\obj\Debug\net6.0-windows\
+C:\Users\haboc\source\repos\TMS_new\obj\Debug\net6.0-windows\
 TMS_Project
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\haboc\Source\Repos\TMS_new\App.xaml
+C:\Users\haboc\source\repos\TMS_new\App.xaml
 4-20007761
 
 35-1546819960
 218-1204322000
 View\AdminView.xaml;View\BuyerView.xaml;View\LogInView.xaml;View\PlannerView.xaml;
 
-True
+False
 
