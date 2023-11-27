@@ -9,13 +9,15 @@ namespace TMS_Project.ViewModel
 {
     public sealed class LogInViewModel : INotifyPropertyChanged
     {
-        private readonly LogInModel _userService;
+        private readonly LogInModel _logInModel;
         private readonly TmsDbContext _dbContext;
+        private readonly NavigationService _navigation;
         
         public LogInViewModel()
         {
+            _navigation = new NavigationService();
             _dbContext = new TmsDbContext(); // Initialize _dbContext with a valid instance
-            _userService = new LogInModel(_dbContext);
+            _logInModel = new LogInModel(_dbContext);
             LoginCommand = new RelayCommand(Login, CanLogin);
 
             // Initialize the message property
@@ -86,13 +88,27 @@ namespace TMS_Project.ViewModel
         {
             try
             {
-                bool isAuthenticated = _userService.VerifyUser(Username, Password);
+                bool isAuthenticated = _logInModel.VerifyUser(Username, Password);
 
                 if (isAuthenticated)
                 {
                     // Authentication successful, set the success message
                     LoginMessage = "Login successful! Welcome!";
                     LoggerModel.LogInfo("Successful login");
+                   
+                    // Based on the user, show the appropriate window
+                    if (Username.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+                    {
+                        _navigation.NavigateToAdmin();
+                    }
+                    else if (Username.Equals("Buyer", StringComparison.OrdinalIgnoreCase))
+                    {
+                        _navigation.NavigateToBuyer();
+                    }                              
+                    else if (Username.Equals("Planner", StringComparison.OrdinalIgnoreCase))
+                    {
+                        _navigation.NavigateToPlanner();
+                    }
                 }
                 else
                 {
