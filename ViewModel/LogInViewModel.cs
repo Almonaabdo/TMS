@@ -69,13 +69,13 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        private bool CanLogin(object parameter)
+        private bool CanLogin()
         {
             // Add any additional validation logic here
             return !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
         }
 
-        private void Login(object parameter)
+        private void Login()
         {
             try
             {
