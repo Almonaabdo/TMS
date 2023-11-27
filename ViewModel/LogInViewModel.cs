@@ -69,12 +69,19 @@ namespace TMS_Project.ViewModel
             }
         }
 
+        /// <summary>
+        ///  Sets Execute method to true
+        /// </summary>
+        /// <returns>True if text boxes are not empty</returns>
         private bool CanLogin()
         {
             // Add any additional validation logic here
             return !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
         }
 
+        /// <summary>
+        /// Method associated with command to validate login info
+        /// </summary>
         private void Login()
         {
             try
