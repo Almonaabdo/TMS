@@ -63,10 +63,10 @@ namespace TMS_Project.Model
                 LoggerModel.LogWarning($"User {username} not found in the database.");
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Log exception details if an error occurs during user verification.
-                LoggerModel.LogException(ex, $"Error verifying the user. Username: {username}");
+                LoggerModel.LogException($"Error verifying the user. Username: {username}");
                 return false;
             }
         }
