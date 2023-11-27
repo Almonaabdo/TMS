@@ -82,9 +82,9 @@ namespace TMS_Project.Model
         /// </summary>
         /// <param name="ex">The exception to be logged</param>
         /// <param name="message"> The additional message to be logged</param>
-        public static void LogException(Exception ex, string message)
+        public static void LogException(string message)
         {
-            Log(CustomLogLevel.Error, $"{message} Exception Details: {ex}");
+            Log(CustomLogLevel.Error, $"Exception details: {message}");
         }
 
     }
