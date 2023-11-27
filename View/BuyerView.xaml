@@ -22,7 +22,7 @@
             <!--MARKETPLACE TAB-->
             <TabItem Header="Marketplace">
                 <Grid Background="#91BAD6">
-                    <ListView Margin="121,53,111,56" d:ItemsSource="{d:SampleData ItemCount=5}">
+                    <ListView Margin="210,53,10,56" d:ItemsSource="{d:SampleData ItemCount=5}">
                         <ListView.View>
                             <GridView>
 
@@ -43,9 +43,19 @@
                         </ListView.View>
 
                     </ListView>
-                    <Label Content="Order Requests" HorizontalAlignment="Left" Margin="121,16,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
+                    <Label Content="Order Requests" HorizontalAlignment="Left" Margin="210,16,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
+                    <Label Content="Values" HorizontalAlignment="Left" Margin="10,16,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
                     <!--accepts the order and sends it to the Planner-->
                     <Button Content="Accept Order" HorizontalAlignment="Left" Margin="594,355,0,0" VerticalAlignment="Top" Height="31" Width="89"/>
+                    <Grid Margin="10,53,596,56" Background="DarkBlue">
+                        <Label Content="Job Type" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="15" Foreground="AntiqueWhite"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="47" Width="132" FontWeight="Medium" Foreground="AntiqueWhite" FontSize="13"><Run Language="en-ca" Text="0 - FTL"/><LineBreak/><Run Language="en-ca" Text="1 - LTL"/></TextBlock>
+                        <Label Content="Quantity" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="15" Foreground="AntiqueWhite" Margin="0,94,0,0"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,124,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="60" Width="132" FontWeight="Medium" Foreground="AntiqueWhite" FontSize="13"><Run Language="en-ca" Text="0 - FTL"/><LineBreak/><Run Language="en-ca" Text="INT - number of pallets of LTL cargo"/></TextBlock>
+                        <Label Content="Van Type" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="15" Foreground="AntiqueWhite" Margin="0,204,0,0"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,239,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="58" Width="126" FontWeight="Medium" Foreground="AntiqueWhite" FontSize="13"><Run Language="en-ca" Text="0 - Dry Van"/><LineBreak/><Run Language="en-ca" Text="1 - Reefer"/></TextBlock>
+
+                    </Grid>
                 </Grid>
             </TabItem>
 
