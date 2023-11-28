@@ -6,14 +6,15 @@
         xmlns:local="clr-namespace:TMS_Project.View"
         mc:Ignorable="d"
         Title="AdminView" Height="450" Width="800">
-    <Grid>
+    
+    <Grid Background="#304674">
         <TabControl>
             <!--HOME TAB-->
             <TabItem Header="Home" FontWeight="Medium" Background="#304674">
                 <Grid Background="#91BAD6">
                     <Label Content="Welcome Admin" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
                     <!--logs out of the user; may or may not go back to the login page-->
-                    <Button Content="Log Out" HorizontalAlignment="Left" Margin="699,353,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium" Click="Button_Logout"/>
+                    <Button Content="Log Out"  Command="{Binding LogOutAdmin}" HorizontalAlignment="Left" Margin="699,353,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
 
                 </Grid>
             </TabItem>
@@ -28,22 +29,42 @@
                         <TabItem Header="Log Files" Background="#304674">
                             <Grid Background="#304674">
                                 <!--review log files-->
-                                <Button Content="Review Log Files" HorizontalAlignment="Left" Margin="38,31,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
-                                <Label Content="Review existing log files" HorizontalAlignment="Left" Margin="196,37,0,0" VerticalAlignment="Top" FontWeight="Medium" Foreground="#b2cbde"/>
+                                <Button Content="Review Log Files" HorizontalAlignment="Left" Margin="38,17,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
+                                <Label Content="Review existing log files" HorizontalAlignment="Left" Margin="196,23,0,0" VerticalAlignment="Top" FontWeight="Medium" Foreground="#b2cbde"/>
 
                                 <!--alter carrier data-->
-                                <Button Content="Modify Carrier Data" HorizontalAlignment="Left" Margin="38,99,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
-                                <Label Content="Modify information for Carrier Data" HorizontalAlignment="Left" Margin="196,105,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
+                                <Button Content="Modify Carrier Data" HorizontalAlignment="Left" Margin="38,74,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
+                                <Label Content="Modify information for Carrier Data" HorizontalAlignment="Left" Margin="196,80,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
 
                                 <!--alter route table-->
-                                <Button Content="Modify Route Table" HorizontalAlignment="Left" Margin="38,166,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
-                                <Label Content="Modify information in the Route table" HorizontalAlignment="Left" Margin="196,172,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
+                                <Button Content="Modify Route Table" HorizontalAlignment="Left" Margin="38,130,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
+                                <Label Content="Modify information in the Route table" HorizontalAlignment="Left" Margin="196,136,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
 
                                 <!--alter rate/fee table-->
-                                <Button Content="Modify Rate/Fee Table" HorizontalAlignment="Left" Margin="38,238,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
-                                <Label Content="Modify information in the Rate/Fee table" HorizontalAlignment="Left" Margin="196,244,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
+                                <Button Content="Modify Rate/Fee Table" HorizontalAlignment="Left" Margin="38,188,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
+                                <Label Content="Modify information in the Rate/Fee table" HorizontalAlignment="Left" Margin="196,194,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
+
+                                <Button Content="Backup Database" HorizontalAlignment="Left" Margin="38,244,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
+                                <Label Content="Backs up the database" HorizontalAlignment="Left" Margin="196,250,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
 
                             </Grid>
+                        </TabItem>
+
+                        <TabItem Header="Carrier Data" Background="#304674">
+                            <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Name="CarrierData"  Background="Azure" IsReadOnly="False" SelectionChanged="CarrierData_SelectionChanged"/>
+
+                        </TabItem>
+
+
+                        <TabItem Header="Route Table" Background="#304674">
+                            <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Name="RouteTable"  Background="Azure" IsReadOnly="False" SelectionChanged="RouteTable_SelectionChanged"/>
+
+                        </TabItem>
+
+
+                        <TabItem Header="Rate/Fee Table" Background="#304674">
+                            <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Name="RateFeeTable"  Background="Azure" IsReadOnly="False"/>
+
                         </TabItem>
 
                         <!--MODIFIES THE CMP CONNECTION-->
@@ -64,17 +85,16 @@
                                 <Label Content="Port" HorizontalAlignment="Left" Margin="207,244,0,0" VerticalAlignment="Top" Foreground="#b2cbde"/>
                                 <TextBox HorizontalAlignment="Left" Margin="29,242,0,0" TextWrapping="Wrap" Text="3306" VerticalAlignment="Top" Width="160" Height="30" FontSize="20"/>
 
-                                <Button Content="Connect" HorizontalAlignment="Left" Margin="479,244,0,0" VerticalAlignment="Top" Height="54" Width="140" FontSize="25" Background="azure"/>
+                                <Button Content="Connect" Command ="{Binding ConnectCMP}" HorizontalAlignment="Left" Margin="479,244,0,0" VerticalAlignment="Top" Height="54" Width="140" FontSize="25" Background="azure"/>
                             </Grid>
-
-
                         </TabItem>
+
                     </TabControl>
 
                 </Grid>
             </TabItem>
 
         </TabControl>
-        
+
     </Grid>
 </Window>

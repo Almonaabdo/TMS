@@ -78,6 +78,7 @@ public class BuyerModel
         return totalAmount;
 
     }
+
     public Contract GetContracts()
     {
         Contract contract = new Contract();

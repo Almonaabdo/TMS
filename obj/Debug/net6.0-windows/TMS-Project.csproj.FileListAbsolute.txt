@@ -218,3 +218,13 @@ C:\Users\haboc\Source\Repos\TMS\obj\Debug\net6.0-windows\refint\TMS-Project.dll
 C:\Users\haboc\Source\Repos\TMS\obj\Debug\net6.0-windows\TMS-Project.pdb
 C:\Users\haboc\Source\Repos\TMS\obj\Debug\net6.0-windows\TMS-Project.genruntimeconfig.cache
 C:\Users\haboc\Source\Repos\TMS\obj\Debug\net6.0-windows\ref\TMS-Project.dll
+C:\erin\college3\softwarequa\PGM\TMS\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\erin\college3\softwarequa\PGM\TMS\bin\Debug\net6.0-windows\Devart.Data.MySql.dll
+C:\erin\college3\softwarequa\PGM\TMS\bin\Debug\net6.0-windows\Devart.Data.dll
+C:\erin\college3\softwarequa\PGM\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.dll
+C:\erin\college3\softwarequa\PGM\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\erin\college3\softwarequa\PGM\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.Json.dll
+C:\erin\college3\softwarequa\PGM\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\erin\college3\softwarequa\PGM\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.FileProviders.Physical.dll
+C:\erin\college3\softwarequa\PGM\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\erin\college3\softwarequa\PGM\TMS\bin\Debug\net6.0-windows\MySqlBackupNet.DevartExpress.dll
