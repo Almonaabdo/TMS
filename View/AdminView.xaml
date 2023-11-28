@@ -7,6 +7,74 @@
         mc:Ignorable="d"
         Title="AdminView" Height="450" Width="800">
     <Grid>
+        <TabControl>
+            <!--HOME TAB-->
+            <TabItem Header="Home" FontWeight="Medium" Background="#304674">
+                <Grid Background="#91BAD6">
+                    <Label Content="Welcome Admin" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
+                    <!--logs out of the user; may or may not go back to the login page-->
+                    <Button Content="Log Out" HorizontalAlignment="Left" Margin="699,353,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium" Click="Button_Logout"/>
+
+                </Grid>
+            </TabItem>
+
+            <!--CONFIGURATIONS TAB-->
+            <TabItem Header="Configurations" Background="#304674" FontWeight="Medium">
+                <Grid Background="#91BAD6">
+
+                    <TabControl Margin="63,26,63,20">
+
+                        <!--MODIFIES LOG FILES/FILES-->
+                        <TabItem Header="Log Files" Background="#304674">
+                            <Grid Background="#304674">
+                                <!--review log files-->
+                                <Button Content="Review Log Files" HorizontalAlignment="Left" Margin="38,31,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
+                                <Label Content="Review existing log files" HorizontalAlignment="Left" Margin="196,37,0,0" VerticalAlignment="Top" FontWeight="Medium" Foreground="#b2cbde"/>
+
+                                <!--alter carrier data-->
+                                <Button Content="Modify Carrier Data" HorizontalAlignment="Left" Margin="38,99,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
+                                <Label Content="Modify information for Carrier Data" HorizontalAlignment="Left" Margin="196,105,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
+
+                                <!--alter route table-->
+                                <Button Content="Modify Route Table" HorizontalAlignment="Left" Margin="38,166,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
+                                <Label Content="Modify information in the Route table" HorizontalAlignment="Left" Margin="196,172,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
+
+                                <!--alter rate/fee table-->
+                                <Button Content="Modify Rate/Fee Table" HorizontalAlignment="Left" Margin="38,238,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
+                                <Label Content="Modify information in the Rate/Fee table" HorizontalAlignment="Left" Margin="196,244,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
+
+                            </Grid>
+                        </TabItem>
+
+                        <!--MODIFIES THE CMP CONNECTION-->
+                        <TabItem Header="CMP Connection" Background="#304674">
+                            <Grid Background="#304674">
+                                <Label Content="Contract Market Place Connection" HorizontalAlignment="Left" Margin="29,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="azure"/>
+
+                                <!--USERNAME-->
+                                <Label Content="Username" HorizontalAlignment="Left" Margin="207,63,0,0" VerticalAlignment="Top" Foreground="#b2cbde"/>
+                                <TextBox HorizontalAlignment="Left" Margin="29,61,0,0" TextWrapping="Wrap" Text="DevOSHT" VerticalAlignment="Top" Width="160" Height="30" FontSize="20"/>
+                                <!--PASSWORD-->
+                                <Label Content="Password" HorizontalAlignment="Left" Margin="207,121,0,0" VerticalAlignment="Top" Foreground="#b2cbde"/>
+                                <TextBox HorizontalAlignment="Left" Margin="29,119,0,0" TextWrapping="Wrap" Text="Snodgr4ss!" VerticalAlignment="Top" Width="160" Height="30" FontSize="20"/>
+                                <!--IP-->
+                                <Label Content="IP Address" HorizontalAlignment="Left" Margin="207,184,0,0" VerticalAlignment="Top" Foreground="#b2cbde"/>
+                                <TextBox HorizontalAlignment="Left" Margin="29,182,0,0" TextWrapping="Wrap" Text="159.89.117.198" VerticalAlignment="Top" Width="160" Height="30" FontSize="20"/>
+                                <!--PORT-->
+                                <Label Content="Port" HorizontalAlignment="Left" Margin="207,244,0,0" VerticalAlignment="Top" Foreground="#b2cbde"/>
+                                <TextBox HorizontalAlignment="Left" Margin="29,242,0,0" TextWrapping="Wrap" Text="3306" VerticalAlignment="Top" Width="160" Height="30" FontSize="20"/>
+
+                                <Button Content="Connect" HorizontalAlignment="Left" Margin="479,244,0,0" VerticalAlignment="Top" Height="54" Width="140" FontSize="25" Background="azure"/>
+                            </Grid>
+
+
+                        </TabItem>
+                    </TabControl>
+
+                </Grid>
+            </TabItem>
+
+        </TabControl>
         
     </Grid>
 </Window>
