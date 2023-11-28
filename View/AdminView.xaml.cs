@@ -23,5 +23,35 @@ namespace TMS_Project.View
         {
             InitializeComponent();
         }
+
+        ////logs out the user
+        //private void Button_Logout(object sender, RoutedEventArgs e)
+        //{
+        //    LogInView login = new LogInView();
+        //    login.Show();
+        //    this.Close();
+
+        //}
+
+        //data grid for carrier data database
+        private void CarrierData_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CarrierData.AutoGenerateColumns = true;
+        }
+
+        //data grid for route table database
+
+        private void RouteTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RouteTable.AutoGenerateColumns = true;
+        }
+
+        //data grid for rate/fee table database
+
+        private void RateFeeTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RateFeeTable.AutoGenerateColumns = true;
+
+        }
     }
 }
