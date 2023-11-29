@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\erin\college3\softwarequa\PGM\TMS\obj\Debug\net6.0-windows\
+C:\SecondyearFirst\SQ\TMS_Group\TMS\obj\Debug\net6.0-windows\
 TMS_Project
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\erin\college3\softwarequa\PGM\TMS\App.xaml
+C:\SecondyearFirst\SQ\TMS_Group\TMS\App.xaml
 4-20007761
 
 361627847517
-218-1367349054
+218-1204322000
 View\AdminView.xaml;View\BuyerView.xaml;View\LogInView.xaml;View\PlannerView.xaml;
 
-False
+True
 
