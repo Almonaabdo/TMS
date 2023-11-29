@@ -1,4 +1,6 @@
-﻿using TMS_Project.DataLayer.Context;
+﻿using System;
+using TMS_Project.DataLayer.Context;
+using TMS_Project.DataLayer.Model;
 
 namespace TMS_Project.Model;
 
@@ -11,11 +13,67 @@ public class CarrierModel
     }
 
 
+    public void DeleteCarrier(int carrierId)
+    {
+        // searching for the entered order
+        var carrier = _db.Carriers?.Find(carrierId);
 
-    //List<string> AvaiableCities(string CompanyName)
-    //{
-    //    var carrier = _db.Carriers?.Find(CompanyName);
+        if (carrier != null)
+        {
+            // remove order and save changes
+            _db.Carriers?.Remove(carrier);
+            _db.SaveChanges();
+        }
+        else
+        {
+            Console.Write("Error Can't find specified Carrier");
+        }
+    }
 
-    //    return myList;
-    //}
+
+
+    public void EditCarrier(int carrierId)
+    {
+        // searching for the entered order
+        var carrier = _db.Carriers?.Find(carrierId);
+
+        if (carrier != null)
+        {
+            // remove carriers from database and save changes
+            _db.Carriers?.Remove(carrier);
+            _db.SaveChanges();
+        }
+        else
+        {
+            Console.Write("Error Can't find specified Carrier");
+        }
+    }
+
+
+    public void EditFtl(Carrier carrierId, double newRate)
+    {
+        // searching for the entered order
+        var carrier = _db.Carriers?.Find(carrierId);
+
+        if (carrier != null)
+        {
+            carrier.FtlRate = newRate;
+        }
+        else
+        {
+            Console.Write("Error Can't find specified Carrier");
+        }
+
+
+        // if (carrier != null)
+        // {
+        //     // remove carriers from database and save changes
+        //     _db.Carriers?.Remove(carrier);
+        //     _db.SaveChanges();
+        // }
+        // else
+        // {
+        //     Console.Write("Error Can't find specified Carrier");
+        // }
+    }
 }
