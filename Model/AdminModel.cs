@@ -68,13 +68,19 @@ public class AdminModel
     /// Method to retrieve Carrier data from table
     /// </summary>
     /// <returns>Carrier data in a list</returns>
-    public List<Carrier>? LoadCarrierTable()
+    public List<Carrier> LoadCarrierTable()
     {
         try
         {
             using (var dbContext = new TmsDbContext())
             {
-                if (dbContext.Carriers != null) return dbContext.Carriers.ToList();
+                // Check if there are any records in the Carriers table
+                var carriers = dbContext.Carriers.ToList();
+
+                if (carriers.Any())
+                {
+                    return carriers;
+                }
             }
         }
         catch (Exception e)
@@ -83,7 +89,8 @@ public class AdminModel
             LoggerModel.LogException("Error loading carrier data.");
         }
 
-        return null;
+        // Return an empty list instead of null
+        return new List<Carrier>();
     }
 
     /// <summary>
