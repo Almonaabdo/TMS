@@ -16,6 +16,11 @@ namespace TMS_Project.Model;
 
 public class AdminModel
 {
+    private readonly TmsDbContext _dbContext;
+    public AdminModel(TmsDbContext dbContext)
+    {
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+    }
 
     /// <summary>
     /// Method to perform database back up operation
@@ -72,16 +77,14 @@ public class AdminModel
     {
         try
         {
-            using (var dbContext = new TmsDbContext())
-            {
+           
                 // Check if there are any records in the Carriers table
-                var carriers = dbContext.Carriers.ToList();
-
-                if (carriers.Any())
+                if (_dbContext.Carriers != null)
                 {
-                    return carriers;
+                    var carriers = _dbContext.Carriers.ToList();
+
+                    return carriers.Any() ? carriers : new List<Carrier>();
                 }
-            }
         }
         catch (Exception e)
         {
@@ -99,19 +102,19 @@ public class AdminModel
     /// <param name="updatedCarrierData">The table to update</param>
     public void SaveChanges(List<Carrier> updatedCarrierData)
     {
-        using var dbContext = new TmsDbContext();
+
         foreach (var updatedCarrier in updatedCarrierData)
         {
-            var existingCarrier = dbContext.Carriers?.Find(updatedCarrier.CarrierId);
+            var existingCarrier = _dbContext.Carriers?.Find(updatedCarrier.CarrierId);
             if (existingCarrier != null)
             {
-                dbContext.Entry(existingCarrier).CurrentValues.SetValues(updatedCarrier); // Replace current table values with
+                _dbContext.Entry(existingCarrier).CurrentValues.SetValues(updatedCarrier); // Replace current table values with
             }
             else
             {
                 LoggerModel.LogWarning("Carrier not found. Unable to update.");  // Log if error
             }
         }
-        dbContext.SaveChanges();  // Save changes to db
+        _dbContext.SaveChanges();  // Save changes to db
     }
 }
