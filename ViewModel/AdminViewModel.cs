@@ -13,16 +13,22 @@ namespace TMS_Project.ViewModel;
 
 public sealed class AdminViewModel : INotifyPropertyChanged
 {
+    
+    // Initialize variables
+    private readonly AdminModel _adminModel;
+    private ObservableCollection<string> _files; 
+    public ObservableCollection<Carrier> CarrierData { get; private set; }
+    private string _selectedLogFile;
+    
+    // Initialize commands
     public ICommand BackUpDbCommand;
     public ICommand SaveChangesCommand { get; }
     public ICommand OpenSelectedFileCommand { get; }
 
-    private readonly AdminModel _adminModel;
-    private ObservableCollection<string> _files;
-    public ObservableCollection<Carrier> CarrierData { get; private set; }
 
-    private string _selectedLogFile;
-
+    /// <summary>
+    /// Property to hold the selected file
+    /// </summary>
     public string SelectedLogFile
     {
         get => _selectedLogFile;
@@ -33,6 +39,9 @@ public sealed class AdminViewModel : INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// Property to hold files
+    /// </summary>
     public ObservableCollection<string> Files
     {
         get => _files;
@@ -43,11 +52,13 @@ public sealed class AdminViewModel : INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// Default constructor to initialize
+    /// </summary>
     public AdminViewModel()
     {
+        // Initialize
         Files = new ObservableCollection<string>();
-
-
         CarrierData = new ObservableCollection<Carrier>();
         _adminModel = new AdminModel();
 
@@ -55,35 +66,47 @@ public sealed class AdminViewModel : INotifyPropertyChanged
         BackUpDbCommand = new RelayCommand(BackUp, CanBackUp);
         SaveChangesCommand = new RelayCommand(SaveChanges);
         OpenSelectedFileCommand = new RelayCommand(OpenSelected);
+        
+        // Methods
         LoadFiles();
-        LoadData();
+        LoadTableData();
     }
 
+    /// <summary>
+    /// Method to open the selected file, using default application -- NOTE: Hardcoded path for now
+    /// </summary>
     private void OpenSelected()
     {
         var logFolderPath = "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Copy\\bin\\Debug\\net6.0-windows\\Logs";
         if (!string.IsNullOrEmpty(SelectedLogFile))
         {
+            // Construct the file path
             string filePath = Path.Combine(logFolderPath, SelectedLogFile);
 
             try
             {
-                // Use the default associated application for the file type
+                // Use the default application for the file type
                 Process.Start(new System.Diagnostics.ProcessStartInfo
                 {
                     FileName = filePath,
                     UseShellExecute = true
                 });
+
+                //LoadFiles();  just for now 
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error opening file: {ex.Message}");
+                Console.WriteLine($"Error opening file: {ex.Message}"); // Testing purposes
             }
         }
     }
 
+    /// <summary>
+    /// Method to load all files within the selected directory -- NOTE: Hardcoded path for now
+    /// </summary>
     private void LoadFiles()
     {
+        // path
         var directoryPath = "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Copy\\bin\\Debug\\net6.0-windows\\Logs";
 
         try
@@ -109,13 +132,20 @@ public sealed class AdminViewModel : INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// Method to save changes make to db table
+    /// </summary>
     private void SaveChanges()
     {
-        _adminModel.SaveChanges(CarrierData.ToList());
-        LoadData();
+        _adminModel.SaveChanges(CarrierData.ToList()); // Call method to save changes
+        LoadTableData(); // Reload to see changes
     }
 
-    private void LoadData()
+    /// <summary>
+    /// Method to call model and load Carrier table to property
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    private void LoadTableData()
     {
         CarrierData =
             new ObservableCollection<Carrier>(_adminModel.LoadCarrierTable() ?? throw new InvalidOperationException());
@@ -123,7 +153,7 @@ public sealed class AdminViewModel : INotifyPropertyChanged
 
 
     /// <summary>
-    ///     Determines if the backup command can be executed
+    ///  Determines if the backup command can be executed
     /// </summary>
     /// <returns>True if the backup command can be executed</returns>
     private bool CanBackUp()
@@ -132,7 +162,7 @@ public sealed class AdminViewModel : INotifyPropertyChanged
     }
 
     /// <summary>
-    ///     Executes backup command to initiate database back up
+    ///  Executes backup command to initiate database back up
     /// </summary>
     private void BackUp()
     {
