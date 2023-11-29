@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using TMS_Project.DataLayer.Context;
 using TMS_Project.DataLayer.Model;
 using TMS_Project.Helper;
 using TMS_Project.Model;
@@ -60,7 +61,7 @@ public sealed class AdminViewModel : INotifyPropertyChanged
         // Initialize
         Files = new ObservableCollection<string>();
         CarrierData = new ObservableCollection<Carrier>();
-        _adminModel = new AdminModel();
+        _adminModel = new AdminModel(new TmsDbContext());
 
         // Commands
         BackUpDbCommand = new RelayCommand(BackUp, CanBackUp);
@@ -106,19 +107,19 @@ public sealed class AdminViewModel : INotifyPropertyChanged
     /// </summary>
     private void LoadFiles()
     {
-        // path
+        // Hard coded path for now
         var directoryPath = "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Copy\\bin\\Debug\\net6.0-windows\\Logs";
 
         try
         {
-            if (Directory.Exists(directoryPath))
+            if (Directory.Exists(directoryPath))  // Check if directory exist
             {
-                var fileNames = Directory.GetFiles(directoryPath);
+                var fileNames = Directory.GetFiles(directoryPath); // Get all files within directory
                 Files.Clear(); // Clear existing items
 
-                foreach (var filename in fileNames) Files.Add(Path.GetFileName(filename));
+                foreach (var filename in fileNames) Files.Add(Path.GetFileName(filename)); // Add all files names into collection
 
-                if (Files.Count > 0) SelectedLogFile = Files[0];
+                if (Files.Count > 0) SelectedLogFile = Files[0]; // Make the first file, default selected
             }
             else
             {
@@ -127,8 +128,7 @@ public sealed class AdminViewModel : INotifyPropertyChanged
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            Console.WriteLine(e); // Testing purposes only
         }
     }
 
@@ -147,8 +147,7 @@ public sealed class AdminViewModel : INotifyPropertyChanged
     /// <exception cref="InvalidOperationException"></exception>
     private void LoadTableData()
     {
-        CarrierData =
-            new ObservableCollection<Carrier>(_adminModel.LoadCarrierTable() ?? throw new InvalidOperationException());
+        CarrierData = new ObservableCollection<Carrier>(_adminModel.LoadCarrierTable() ?? throw new InvalidOperationException());
     }
 
 
