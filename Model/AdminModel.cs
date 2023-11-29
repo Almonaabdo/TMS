@@ -107,8 +107,4 @@ public class AdminModel
         }
         dbContext.SaveChanges();  // Save changes to db
     }
-
-
-
-
 }
