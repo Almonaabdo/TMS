@@ -12,7 +12,7 @@ public class Carrier
     public string CompanyName { get; set; } = "";
     //public int Capacity { get; set; }
 
-    // Number of avaiable trucks for each.
+    // Number of available trucks for each.
     public int FTLA { get; set; }
     public int LTLA { get; set; }
 

@@ -47,7 +47,11 @@ namespace TMS_Project.DataLayer.Context
                 entity.HasKey(e => e.CarrierId);
                 entity.Property(e => e.CarrierId).ValueGeneratedOnAdd();
                 entity.Property(e => e.CompanyName).IsRequired();
-                //entity.Property(e => e.Capacity).IsRequired();
+                entity.Property(e => e.FTLA).IsRequired();
+                entity.Property(e => e.LTLA).IsRequired();
+                entity.Property(e => e.FtlRate).IsRequired();
+                entity.Property(e => e.LtlRate).IsRequired();
+                entity.Property(e => e.ReefCharge).IsRequired();
 
                 // Relationship: A Carrier can have multiple Trips
                 entity.HasMany(e => e.Trips).WithOne(t => t.Carrier).HasForeignKey(t => t.CarrierId);
