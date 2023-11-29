@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:TMS_Project.View"
         mc:Ignorable="d"
         Title="PlannerView" Height="450" Width="800">
-    <Grid>
+    <Grid Background="#304674">
+        
         
     </Grid>
 </Window>
