@@ -32,6 +32,26 @@ public class CarrierModel
 
 
 
+    public bool AddCarrier(Carrier newCarrier)
+    {
+        // searching for the entered order
+        _db.Carriers?.Add(newCarrier);
+        _db.SaveChanges();
+
+        int carrierID = newCarrier.CarrierId;
+
+        if (_db.Carriers.Find(carrierID) != null)
+        {
+            return true;
+        }
+        else
+        {
+            Console.Write("Error While Adding Carrier");
+            return false;
+        }
+    }
+
+
     public void EditCarrier(int carrierId)
     {
         // searching for the entered order
@@ -63,17 +83,5 @@ public class CarrierModel
         {
             Console.Write("Error Can't find specified Carrier");
         }
-
-
-        // if (carrier != null)
-        // {
-        //     // remove carriers from database and save changes
-        //     _db.Carriers?.Remove(carrier);
-        //     _db.SaveChanges();
-        // }
-        // else
-        // {
-        //     Console.Write("Error Can't find specified Carrier");
-        // }
     }
 }
