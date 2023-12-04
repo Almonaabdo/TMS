@@ -30,13 +30,18 @@
                             <Grid Background="#304674" Height="349">
                                 <!--log files-->
                                 <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,10,69"/>
-                                <Button Content="Open File" HorizontalAlignment="Left" Margin="39,295,0,0" VerticalAlignment="Top" Height="38" Width="144" FontWeight="Bold" Foreground="#001233" Background="azure"/>
-                                <Label Content="Open selected file" HorizontalAlignment="Left" Margin="200,301,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
+                                <Button Content="Open File" HorizontalAlignment="Center" Margin="0,295,0,0" VerticalAlignment="Top" Height="38" Width="144" FontWeight="Bold" Foreground="#001233" Background="azure"/>
+                                <Label Content="Open selected file" HorizontalAlignment="Left" Margin="408,301,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
+                            </Grid>
+                        </TabItem>
 
-                                <!--option to back up the database-->
-                                <Button Content="Backup Database" HorizontalAlignment="Left" Margin="362,295,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233" Background="Azure"/>
-                                <Label Content="Backs up the database" HorizontalAlignment="Left" Margin="521,301,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
-
+                        <!--BACKUP TAB-->
+                        <TabItem Header="Backup Files" Background="#304674">
+                            <Grid Background="#304674" Height="349">
+                                <!--nackups the database-->
+                                <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,10,69"/>
+                                <Button Content="Confirm Backup" HorizontalAlignment="Center" Margin="0,295,0,0" VerticalAlignment="Top" Height="38" Width="144" FontWeight="Bold" Foreground="#001233" Background="azure"/>
+                                <Label Content="Proceed with database backup" HorizontalAlignment="Left" Margin="408,301,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
                             </Grid>
                         </TabItem>
 
@@ -84,7 +89,7 @@
                                 <TextBox HorizontalAlignment="Left" Margin="29,242,0,0" TextWrapping="Wrap" Text="3306" VerticalAlignment="Top" Width="160" Height="30" FontSize="20"/>
 
                                 <Button Content="Connect" Command ="{Binding ConnectCMP}" HorizontalAlignment="Left" Margin="529,285,0,0" VerticalAlignment="Top" Height="42" Width="106" FontSize="15" Background="azure"/>
-                                
+
                             </Grid>
 
                         </TabItem>
