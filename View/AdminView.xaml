@@ -38,7 +38,7 @@
                         <!--BACKUP TAB-->
                         <TabItem Header="Backup Files" Background="#304674">
                             <Grid Background="#304674" Height="349">
-                                <!--nackups the database-->
+                                <!--backups the database-->
                                 <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,10,69"/>
                                 <Button Content="Confirm Backup" HorizontalAlignment="Center" Margin="0,295,0,0" VerticalAlignment="Top" Height="38" Width="144" FontWeight="Bold" Foreground="#001233" Background="azure"/>
                                 <Label Content="Proceed with database backup" HorizontalAlignment="Left" Margin="408,301,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
