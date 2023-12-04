@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMS_Project.View"
+        xmlns:viewModel="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
         Title="AdminView" Height="450" Width="800">
-    
+
+    <Window.DataContext>
+        <viewModel:AdminViewModel />
+    </Window.DataContext>
     <Grid Background="#304674">
         <TabControl>
             <!--HOME TAB-->
@@ -23,51 +27,49 @@
             <TabItem Header="Configurations" Background="#304674" FontWeight="Medium">
                 <Grid Background="#91BAD6">
 
-                    <TabControl Margin="63,26,63,20">
+                    <TabControl Margin="63,10,63,20">
 
-                        <!--MODIFIES LOG FILES/FILES-->
+                        <!--LOG FILES TAB-->
                         <TabItem Header="Log Files" Background="#304674">
-                            <Grid Background="#304674">
-                                <!--review log files-->
-                                <Button Content="Review Log Files" HorizontalAlignment="Left" Margin="38,17,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
-                                <Label Content="Review existing log files" HorizontalAlignment="Left" Margin="196,23,0,0" VerticalAlignment="Top" FontWeight="Medium" Foreground="#b2cbde"/>
+                            <Grid Background="#304674" Height="349">
+                                <!--log files-->
+                                <ListBox Name="LogFiles" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedLogFile}" Margin="10,10,10,69"/>
+                                <Button Content="Open File" Command="{Binding OpenSelectedFileCommand}" HorizontalAlignment="Left" Margin="39,295,0,0" VerticalAlignment="Top" Height="38" Width="144" FontWeight="Bold" Foreground="#001233" Background="azure"/>
+                                <Label Content="Open selected file" HorizontalAlignment="Left" Margin="200,301,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
 
-                                <!--alter carrier data-->
-                                <Button Content="Modify Carrier Data" HorizontalAlignment="Left" Margin="38,74,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
-                                <Label Content="Modify information for Carrier Data" HorizontalAlignment="Left" Margin="196,80,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
-
-                                <!--alter route table-->
-                                <Button Content="Modify Route Table" HorizontalAlignment="Left" Margin="38,130,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
-                                <Label Content="Modify information in the Route table" HorizontalAlignment="Left" Margin="196,136,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
-
-                                <!--alter rate/fee table-->
-                                <Button Content="Modify Rate/Fee Table" HorizontalAlignment="Left" Margin="38,188,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
-                                <Label Content="Modify information in the Rate/Fee table" HorizontalAlignment="Left" Margin="196,194,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
-
-                                <Button Content="Backup Database" HorizontalAlignment="Left" Margin="38,244,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233"/>
-                                <Label Content="Backs up the database" HorizontalAlignment="Left" Margin="196,250,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
+                                <!--option to back up the database-->
+                                <Button Content="Backup Database" HorizontalAlignment="Left" Margin="362,295,0,0" VerticalAlignment="Top" Height="38" Width="145" FontWeight="Bold" Foreground="#001233" Background="Azure"/>
+                                <Label Content="Backs up the database" HorizontalAlignment="Left" Margin="521,301,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
 
                             </Grid>
                         </TabItem>
 
+                        <!--CARRIER DATA TAB-->
                         <TabItem Header="Carrier Data" Background="#304674">
-                            <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Name="CarrierData"  Background="Azure" IsReadOnly="False" SelectionChanged="CarrierData_SelectionChanged"/>
-
+                            <Grid Background="#304674">
+                                <DataGrid ItemsSource="{Binding CarrierData}" Margin="10,10,10,50" Background="Azure" IsReadOnly="False" />
+                                <Button Content="Save" Command="{Binding SaveChangesCommand}" HorizontalAlignment="Left" Margin="554,303,0,0" VerticalAlignment="Top" Height="31" Width="98" x:Name="SaveCarrier" Background="azure" FontWeight="Bold" FontSize="15"/>
+                            </Grid>
                         </TabItem>
 
-
+                        <!--ROUTE TABLE TAB-->
                         <TabItem Header="Route Table" Background="#304674">
-                            <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Name="RouteTable"  Background="Azure" IsReadOnly="False" SelectionChanged="RouteTable_SelectionChanged"/>
-
+                            <Grid Background="#304674">
+                                <DataGrid ItemsSource="{}" Name="RouteTable" Background="Azure" IsReadOnly="False" Margin="10,10,10,50"/>
+                                <Button Content="Save" HorizontalAlignment="Left" Margin="554,303,0,0" VerticalAlignment="Top" Height="31" Width="98" x:Name="SaveRoute" Background="azure" FontWeight="Bold" FontSize="15"/>
+                            </Grid>
                         </TabItem>
 
-
+                        <!--RATE/FEE TABLE TAB-->
                         <TabItem Header="Rate/Fee Table" Background="#304674">
-                            <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Name="RateFeeTable"  Background="Azure" IsReadOnly="False"/>
-
+                            <Grid Background="#304674">
+                                <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Name="RateFeeTable"  Background="Azure" IsReadOnly="False" Margin="10,10,10,50"/>
+                                <Button Content="Save" HorizontalAlignment="Left" Margin="554,303,0,0" VerticalAlignment="Top" Height="31" Width="98" x:Name="SaveRateFee" Background="azure" FontWeight="Bold" FontSize="15"/>
+                            </Grid>
                         </TabItem>
 
-                        <!--MODIFIES THE CMP CONNECTION-->
+
+                        <!--CMP CONNECTION TAB-->
                         <TabItem Header="CMP Connection" Background="#304674">
                             <Grid Background="#304674">
                                 <Label Content="Contract Market Place Connection" HorizontalAlignment="Left" Margin="29,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="azure"/>
@@ -85,8 +87,10 @@
                                 <Label Content="Port" HorizontalAlignment="Left" Margin="207,244,0,0" VerticalAlignment="Top" Foreground="#b2cbde"/>
                                 <TextBox HorizontalAlignment="Left" Margin="29,242,0,0" TextWrapping="Wrap" Text="3306" VerticalAlignment="Top" Width="160" Height="30" FontSize="20"/>
 
-                                <Button Content="Connect" Command ="{Binding ConnectCMP}" HorizontalAlignment="Left" Margin="479,244,0,0" VerticalAlignment="Top" Height="54" Width="140" FontSize="25" Background="azure"/>
+                                <Button Content="Connect" Command ="{Binding ConnectCMP}" HorizontalAlignment="Left" Margin="529,285,0,0" VerticalAlignment="Top" Height="42" Width="106" FontSize="15" Background="azure"/>
+                                
                             </Grid>
+
                         </TabItem>
 
                     </TabControl>

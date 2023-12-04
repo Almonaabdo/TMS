@@ -16,7 +16,7 @@
             <EventSetter Event="PasswordChanged" Handler="PasswordBox_PasswordChanged" />
         </Style>
     </Window.Resources>
-    <Grid>
+    <Grid Background="#304674">
 
         <TextBlock HorizontalAlignment="Left" Margin="365,87,0,0" TextWrapping="Wrap" Text="TMS" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,120,0,0" TextWrapping="Wrap" Text="TRANSPORTATION MANAGEMENT SYSTEM" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
