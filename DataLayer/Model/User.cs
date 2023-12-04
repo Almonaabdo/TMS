@@ -8,11 +8,11 @@ namespace TMS_Project.DataLayer.Model;
 public class User
 {
     [Key] public int UserId { get; set; }
-    public string Username { get; set; } = "";
-    public string Password { get; set; } = "";
+    public string Username { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
     public UserType UserType { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; }
+    public virtual ICollection<Order>? Orders { get; set; }
     public virtual ICollection<LogFile>? LogFiles { get; set; }
 
 }
