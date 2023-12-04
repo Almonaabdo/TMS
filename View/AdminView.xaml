@@ -55,7 +55,7 @@
                         <!--ROUTE TABLE TAB-->
                         <TabItem Header="Route Table" Background="#304674">
                             <Grid Background="#304674">
-                                <DataGrid ItemsSource="{}" Name="RouteTable" Background="Azure" IsReadOnly="False" Margin="10,10,10,50"/>
+                                <DataGrid Name="RouteTable" Background="Azure" IsReadOnly="False" Margin="10,10,10,50"/>
                                 <Button Content="Save" HorizontalAlignment="Left" Margin="554,303,0,0" VerticalAlignment="Top" Height="31" Width="98" x:Name="SaveRoute" Background="azure" FontWeight="Bold" FontSize="15"/>
                             </Grid>
                         </TabItem>
