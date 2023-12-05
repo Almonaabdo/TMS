@@ -46,7 +46,7 @@ public class OrderModel
     {
         // searching for the entered order
         var order = _db.Orders?.Find(orderId);
-
+        
         if (order != null)
         {
             // remove order and save changes
@@ -200,7 +200,12 @@ public class OrderModel
         return totalKmAndHrs;
     }
 
-
+    //GenerateInvoice(Order order)
+    //{
+    //    Invoice invoice = new Invoice();
+    //    invoice.OrderId = order.OrderId;
+    //    LoggerModel.LogInfo("Order Id")
+    //}
 
     /*
     * METHOD NAME: CalculateRate
