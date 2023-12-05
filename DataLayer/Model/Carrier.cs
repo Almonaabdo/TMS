@@ -9,7 +9,7 @@ namespace TMS_Project.DataLayer.Model;
 public class Carrier
 {
     [Key] public int CarrierId { get; set; }
-    public string CompanyName { get; set; } = "";
+    public string? CompanyName { get; set; } = "";
     //public int Capacity { get; set; }
 
     // Number of available trucks for each.

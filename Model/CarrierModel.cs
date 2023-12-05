@@ -30,25 +30,20 @@ public class CarrierModel
         }
     }
 
-
-
-    public bool AddCarrier(Carrier newCarrier)
+    public void CreateCarrier(string? name, int newFtla, int newLtla, double newFtlaRate, double newLtlaRate, double newReefCharge)
     {
-        // searching for the entered order
-        _db.Carriers?.Add(newCarrier);
-        _db.SaveChanges();
-
-        int carrierID = newCarrier.CarrierId;
-
-        if (_db.Carriers.Find(carrierID) != null)
+        var newCarrier = new Carrier
         {
-            return true;
-        }
-        else
-        {
-            Console.Write("Error While Adding Carrier");
-            return false;
-        }
+            CompanyName = name,
+            FTLA = newFtla,
+            LTLA = newLtla,
+            FtlRate = newFtlaRate,
+            LtlRate = newLtlaRate,
+            ReefCharge = newReefCharge
+        };
+
+        _db?.Carriers?.Add(newCarrier);
+        _db?.SaveChanges();
     }
 
 

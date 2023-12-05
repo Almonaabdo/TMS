@@ -1,181 +1,358 @@
-﻿using System;
+﻿// ViewModel class
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using TMS_Project.DataLayer.Context;
 using TMS_Project.DataLayer.Model;
 using TMS_Project.Helper;
 using TMS_Project.Model;
 
-namespace TMS_Project.ViewModel;
-
-public sealed class AdminViewModel : INotifyPropertyChanged
+namespace TMS_Project.ViewModel
 {
-    
-    // Initialize variables
-    private readonly AdminModel _adminModel;
-    private ObservableCollection<string> _files; 
-    public ObservableCollection<Carrier> CarrierData { get; private set; }
-    private string _selectedLogFile;
-    
-    // Initialize commands
-    public ICommand BackUpDbCommand;
-    public ICommand SaveChangesCommand { get; }
-    public ICommand OpenSelectedFileCommand { get; }
-
-
     /// <summary>
-    /// Property to hold the selected file
+    /// ViewModel for the admin functionalities.
     /// </summary>
-    public string SelectedLogFile
+    public sealed class AdminViewModel : INotifyPropertyChanged
     {
-        get => _selectedLogFile;
-        set
-        {
-            _selectedLogFile = value;
-            OnPropertyChanged(nameof(SelectedLogFile));
-        }
-    }
-
-    /// <summary>
-    /// Property to hold files
-    /// </summary>
-    public ObservableCollection<string> Files
-    {
-        get => _files;
-        set
-        {
-            _files = value;
-            OnPropertyChanged(nameof(Files));
-        }
-    }
-
-    /// <summary>
-    /// Default constructor to initialize
-    /// </summary>
-    public AdminViewModel()
-    {
-        // Initialize
-        Files = new ObservableCollection<string>();
-        CarrierData = new ObservableCollection<Carrier>();
-        _adminModel = new AdminModel(new TmsDbContext());
-
         // Commands
-        BackUpDbCommand = new RelayCommand(BackUp, CanBackUp);
-        SaveChangesCommand = new RelayCommand(SaveChanges);
-        OpenSelectedFileCommand = new RelayCommand(OpenSelected);
-        
-        // Methods
-        LoadFiles();
-        LoadTableData();
-    }
+        public ICommand BackUpDbCommand { get; }
+        public ICommand SaveChangesCommand { get; }
+        public ICommand OpenSelectedFileCommand { get; }
+        public ICommand OpenSelectedBackupCommand { get; }
+        public ICommand CreateNewCarrierCommand { get; }
 
-    /// <summary>
-    /// Method to open the selected file, using default application -- NOTE: Hardcoded path for now
-    /// </summary>
-    private void OpenSelected()
-    {
-        var logFolderPath = "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Copy\\bin\\Debug\\net6.0-windows\\Logs";
-        if (!string.IsNullOrEmpty(SelectedLogFile))
+        // Variables
+        private readonly AdminModel _adminModel;
+        private readonly CarrierModel _carrierModel;
+        private readonly TmsDbContext _dbContext;
+        public ObservableCollection<string> LogFiles { get; set; } = null!;
+        public ObservableCollection<string> BackupFiles { get; set; } = null!;
+        private string _selectedLogFile = null!;
+        private string _selectedBackupFile = null!;
+        private int _backUpProgress;
+        private Visibility _progressBarVisibility = Visibility.Collapsed;
+        public ObservableCollection<Carrier>? CarrierData { get; private set; }
+
+     
+        /////////////////////////        Carrier Data        ///////////////////////////////////////////////////
+
+        private string? _companyName;
+        private int _ftla;
+        private int _ltla;
+        private double _ftlaRate;
+        private double _ltlaRate;
+        private double _reefCharge;
+
+        public string? CompanyName
         {
-            // Construct the file path
-            string filePath = Path.Combine(logFolderPath, SelectedLogFile);
+            get => _companyName;
+            set
+            {
+                _companyName = value;
+                OnPropertyChanged(nameof(CompanyName));
+            }
+        }
 
+        public int Ftla
+        {
+            get => _ftla;
+            set
+            {
+                _ftla = value;
+               OnPropertyChanged(nameof(Ftla));
+            }
+        }
+
+        public int Ltla
+        {
+            get => _ltla;
+            set
+            {
+                _ltla = value;
+               OnPropertyChanged(nameof(Ltla));
+            }
+        }
+
+        public double FtlaRate
+        {
+            get => _ftlaRate;
+            set
+            {
+                _ftlaRate = value;
+                OnPropertyChanged(nameof(FtlaRate));
+            }
+        }
+
+        public double LtlaRate
+        {
+            get => _ltlaRate;
+            set
+            {
+                _ltlaRate = value;
+                OnPropertyChanged(nameof(LtlaRate));
+            }
+        }
+
+        public double ReefCharge
+        {
+            get => _reefCharge;
+            set
+            {
+                _reefCharge = value;
+               OnPropertyChanged(nameof(ReefCharge));
+            }
+        }
+
+        /////////////////////////        Carrier Data        ///////////////////////////////////////////////////
+
+        // Properties
+        public string SelectedLogFile
+        {
+            get => _selectedLogFile;
+            set
+            {
+                _selectedLogFile = value;
+                OnPropertyChanged(nameof(SelectedLogFile));
+            }
+        }
+
+        public Visibility ProgressBarVisibility
+        {
+            get => _progressBarVisibility;
+            set
+            {
+                _progressBarVisibility = value;
+                OnPropertyChanged(nameof(ProgressBarVisibility));
+            }
+        }
+
+        public int BackUpProgress
+        {
+            get => _backUpProgress;
+            set
+            {
+                _backUpProgress = value;
+                OnPropertyChanged(nameof(BackUpProgress));
+            }
+        }
+
+        public string SelectedBackupFile
+        {
+            get => _selectedBackupFile;
+            set
+            {
+                _selectedBackupFile = value;
+                OnPropertyChanged(nameof(SelectedBackupFile));
+            }
+        }
+
+        /// <summary>
+        /// Constructor to initialize necessary commands, methods, and variables.
+        /// </summary>
+        public AdminViewModel()
+        {
+            _dbContext = new TmsDbContext();
+            _adminModel = new AdminModel(_dbContext);
+            _carrierModel = new CarrierModel(_dbContext);
+            // Commands
+            BackUpDbCommand = new RelayCommand(BackUp);
+            SaveChangesCommand = new RelayCommand(SaveCarrierChanges);
+            OpenSelectedBackupCommand = new RelayCommand(OpenSelectedBackup);
+            OpenSelectedFileCommand = new RelayCommand(OpenSelectedLog);
+            CreateNewCarrierCommand = new RelayCommand(CreateCarrier);
+            // Methods to invoke upon call
+            LoadLogFiles();
+            LoadBackupFiles();
+            LoadData();
+        }
+
+        private void CreateCarrier()
+        {
+            _carrierModel.CreateCarrier(CompanyName, Ftla,Ltla, FtlaRate,LtlaRate,ReefCharge);
+            LoadData();
+        }
+
+        /// <summary>
+        /// Method to load data.
+        /// </summary>
+        private void LoadData()
+        {
+            CarrierData = new ObservableCollection<Carrier>(_adminModel.LoadCarrierTable() ?? throw new InvalidOperationException());
+        }
+
+        /// <summary>
+        /// Method to save carrier changes.
+        /// </summary>
+        private void SaveCarrierChanges()
+        {
             try
             {
-                // Use the default application for the file type
-                Process.Start(new System.Diagnostics.ProcessStartInfo
+                if (CarrierData != null) _adminModel.SaveChanges(CarrierData.ToList());
+                LoadData();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
+            MessageBox.Show("New Carrier added successfully!");
+            
+             
+        }
+
+        /// <summary>
+        /// Method to perform the backup operation.
+        /// </summary>
+        private void BackUp()
+        {
+            const int numOfIterations = 100;
+
+            Application.Current.Dispatcher.Invoke(() => { ProgressBarVisibility = Visibility.Visible; });
+
+            Task.Run(() =>
+            {
+                for (int i = 0; i <= numOfIterations; i++)
                 {
-                    FileName = filePath,
-                    UseShellExecute = true
-                });
-
-                //LoadFiles();  just for now 
-            }
-            catch (Exception ex)
+                    Thread.Sleep(50);
+                    var currentIteration = i;
+                    Application.Current.Dispatcher.Invoke(() => { BackUpProgress = (currentIteration * 100) / numOfIterations; });
+                }
+            }).ContinueWith(_ =>
             {
-                Console.WriteLine($"Error opening file: {ex.Message}"); // Testing purposes
-            }
+                try
+                {
+                    _adminModel.BackUpDatabase();
+                    Application.Current.Dispatcher.Invoke(() => { BackUpProgress = 100; });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    LoggerModel.LogException("Error performing backup.");
+                }
+                finally
+                {
+                    Application.Current.Dispatcher.Invoke(() => { ProgressBarVisibility = Visibility.Hidden; });
+                    MessageBox.Show("Backup completed successfully!", "Backup operation", MessageBoxButton.OK);
+                }
+            });
         }
-    }
 
-    /// <summary>
-    /// Method to load all files within the selected directory -- NOTE: Hardcoded path for now
-    /// </summary>
-    private void LoadFiles()
-    {
-        // Hard coded path for now
-        var directoryPath = "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Copy\\bin\\Debug\\net6.0-windows\\Logs";
-
-        try
+        /// <summary>
+        /// Method to open the selected log file.
+        /// </summary>
+        private void OpenSelectedLog()
         {
-            if (Directory.Exists(directoryPath))  // Check if directory exist
+            var logFolderPath = "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Copy\\bin\\Debug\\net6.0-windows\\Logs";
+            if (!string.IsNullOrEmpty(SelectedLogFile)) // Check if the selected string is empty or not
             {
-                var fileNames = Directory.GetFiles(directoryPath); // Get all files within directory
-                Files.Clear(); // Clear existing items
+                string filePath = Path.Combine(logFolderPath, SelectedLogFile); // Construct file path
 
-                foreach (var filename in fileNames) Files.Add(Path.GetFileName(filename)); // Add all files names into collection
-
-                if (Files.Count > 0) SelectedLogFile = Files[0]; // Make the first file, default selected
-            }
-            else
-            {
-                LoggerModel.LogError("Error retrieving filenames.");
+                try
+                {
+                    Process.Start(new ProcessStartInfo // Start opening process, using default application 
+                    {
+                        FileName = filePath,
+                        UseShellExecute = true
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error opening file: {ex.Message}");
+                    LoggerModel.LogException("Error opening log file.");
+                }
             }
         }
-        catch (Exception e)
+
+        /// <summary>
+        /// Method to open the selected backup file.
+        /// </summary>
+        private void OpenSelectedBackup()
         {
-            Console.WriteLine(e); // Testing purposes only
+            const string backupFolderPath = @"C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Copy\bin\\Debug\\net6.0-windows\\Backup";
+            if (!string.IsNullOrEmpty(SelectedBackupFile)) // Check if selected string is empty or not
+            {
+                var filePath = Path.Combine(backupFolderPath, SelectedBackupFile); // Construct filepath
+
+                try
+                {
+                    Process.Start(new ProcessStartInfo // Open file with default application
+                    {
+                        FileName = filePath,
+                        UseShellExecute = true
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error opening file: {ex.Message}");
+                    LoggerModel.LogException($"Error opening sql file.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Method to load log files.
+        /// </summary>
+        private void LoadLogFiles()
+        {
+            var directoryPath = "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Copy\\bin\\Debug\\net6.0-windows\\Logs";
+            LogFiles = new ObservableCollection<string>();
+            LoadFiles(directoryPath, LogFiles, ref _selectedLogFile);
+        }
+
+        /// <summary>
+        /// Method to load backup files.
+        /// </summary>
+        private void LoadBackupFiles()
+        {
+            const string backupFolderPath = "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Copy\\bin\\Debug\\net6.0-windows\\Backup";
+            BackupFiles = new ObservableCollection<string>();
+            LoadFiles(backupFolderPath, BackupFiles, ref _selectedBackupFile);
+        }
+
+        /// <summary>
+        /// Method to load files from the directory into the target collection.
+        /// </summary>
+        /// <param name="directoryPath">Where to load files from.</param>
+        /// <param name="targetCollection">Where loaded filenames will be stored.</param>
+        /// <param name="selectedFile">Reference to the string variable that will be updated with the first line in targetCollection.</param>
+        private void LoadFiles(string directoryPath, ObservableCollection<string> targetCollection, ref string selectedFile)
+        {
+            try
+            {
+                if (Directory.Exists(directoryPath))
+                {
+                    var fileNames = Directory.GetFiles(directoryPath);
+                    targetCollection.Clear();
+
+                    foreach (var filename in fileNames) targetCollection.Add(Path.GetFileName(filename));
+
+                    if (targetCollection.Count > 0) selectedFile = targetCollection[0];
+                }
+                else
+                {
+                    LoggerModel.LogError("Error retrieving filenames.");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                LoggerModel.LogException("Error loading files.");
+            }
+        }
+
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-    /// <summary>
-    /// Method to save changes make to db table
-    /// </summary>
-    private void SaveChanges()
-    {
-        _adminModel.SaveChanges(CarrierData.ToList()); // Call method to save changes
-        LoadTableData(); // Reload to see changes
-    }
-
-    /// <summary>
-    /// Method to call model and load Carrier table to property
-    /// </summary>
-    /// <exception cref="InvalidOperationException"></exception>
-    private void LoadTableData()
-    {
-        CarrierData = new ObservableCollection<Carrier>(_adminModel.LoadCarrierTable() ?? throw new InvalidOperationException());
-    }
-
-
-    /// <summary>
-    ///  Determines if the backup command can be executed
-    /// </summary>
-    /// <returns>True if the backup command can be executed</returns>
-    private bool CanBackUp()
-    {
-        return true;
-    }
-
-    /// <summary>
-    ///  Executes backup command to initiate database back up
-    /// </summary>
-    private void BackUp()
-    {
-        _adminModel.BackUpDatabase();
-    }
-
-    /// <summary>
-    ///     Invokes property Changed event when a property changes
-    /// </summary>
-    /// <param name="propertyName">Name of property that changed</param>
-    private void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 }

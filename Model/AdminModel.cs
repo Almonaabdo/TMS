@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows;
-using System.Windows.Documents;
 using Devart.Data.MySql;
-using Microsoft.Win32;
-using NLog.Fluent;
 using TMS_Project.DataLayer.Context;
 using TMS_Project.DataLayer.Model;
 
