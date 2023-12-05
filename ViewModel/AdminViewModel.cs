@@ -32,8 +32,8 @@ namespace TMS_Project.ViewModel
         private readonly AdminModel _adminModel;
         private readonly CarrierModel _carrierModel;
         private readonly TmsDbContext _dbContext;
-        private ObservableCollection<string> LogFiles { get; set; } = null!;
-        private ObservableCollection<string> BackupFiles { get; set; } = null!;
+        public ObservableCollection<string> LogFiles { get; set; } = null!;
+        public ObservableCollection<string> BackupFiles { get; set; } = null!;
         private string _selectedLogFile = null!;
         private string _selectedBackupFile = null!;
         private int _backUpProgress;
