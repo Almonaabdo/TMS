@@ -19,6 +19,7 @@ public class BuyerModel
 
     public Contract GetContracts()
     {
+
         Contract contract = new Contract();
         return contract;
     }

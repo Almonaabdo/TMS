@@ -7,7 +7,11 @@ namespace TMS_Project.Model;
 
 public class OrderModel
 {
+    const double FTLMARKUP = 0.08;
+    const double LTLMARKUP = 0.05;
     private readonly TmsDbContext _db;
+    private object _dbContext;
+
     public OrderModel(TmsDbContext context)
     { 
         _db = context;
@@ -100,6 +104,7 @@ public class OrderModel
     {
         // find specified trip.
         var trip = _db.Trips?.Find(tripId);
+        
 
         if (trip != null)
         {
@@ -128,79 +133,24 @@ public class OrderModel
   * 
   * RETURN: double[], [0] = totalKm, [1] = totalHrs
   */
-    public double[] GetKmAndHrs(string destination, string origin)
+    public decimal[] GetKmAndHrs(string destination, string origin)
     {
-        double[] totalKmAndHrs = new double[2];
-        int originIndex = 0;
-        int destinationIndex = 0;
-        string[] kmAndHrsSplit;
+        decimal[] totalKmAndHrs = new decimal[2];
 
-        string[] cities = new string[]
-        {
-            "Windsor",
-            "London",
-            "Hamilton",
-            "Toronto",
-            "Oshawa",
-            "Belleville",
-            "Kingston",
-            "Ottawa"
-        };
+        
+        var routeId = _db.Routes?.FirstOrDefault(e => e.SourceCity.CityName == origin && e.DestinationCity.CityName == destination);
 
-        string[] kmAndHrs = new string[]
+        if (routeId != null)
         {
-            "191|2.5",
-            "128|1.75",
-            "68|1.25",
-            "60|1.3",
-            "134|1.65",
-            "82|1.2",
-            "196|2.5"
-        };
-
-        for (int i = 0; i < cities.Length; i++)
-        {
-            if (cities[i] == origin)
-            {
-                originIndex = i;
-            }
-            if (cities[i] == destination)
-            {
-                destinationIndex = i;
-            }
+            totalKmAndHrs[0] = routeId.Distance;
+            totalKmAndHrs[0] = Decimal.Round(totalKmAndHrs[0], 3);
+            totalKmAndHrs[1] = routeId.Duration;
+            totalKmAndHrs[1] = Decimal.Round(totalKmAndHrs[1], 3);
 
         }
-
-        //If the route is going from west to east. Originindex is less than destination index
-        if (originIndex < destinationIndex)
-        {
-            while (originIndex < destinationIndex)
-            {
-                kmAndHrsSplit = kmAndHrs[originIndex].Split('|');
-                totalKmAndHrs[0] += double.Parse(kmAndHrsSplit[0]);
-                totalKmAndHrs[1] += double.Parse(kmAndHrsSplit[1]);
-                originIndex++;
-            }
-        }
-
-        //If the route is going from east to west. Originindex is greater than destination index
-        else if (originIndex > destinationIndex)
-        {
-            while (originIndex > destinationIndex)
-            {
-                originIndex--;
-                kmAndHrsSplit = kmAndHrs[originIndex].Split('|');
-                totalKmAndHrs[0] += double.Parse(kmAndHrsSplit[0]);
-                totalKmAndHrs[1] += double.Parse(kmAndHrsSplit[1]);
-
-            }
-        }
-
 
         return totalKmAndHrs;
     }
-
-
 
     /*
     * METHOD NAME: CalculateRate
@@ -208,12 +158,13 @@ public class OrderModel
     *
     * RETURN: double[] profit for TMS and carrier
     */
-    // We can change the arguements, we can just take in a Order and all the info needed is in the order
-    public double[] CalculateRate(double totalKm, int vanType, int quantity, int job_type)
+    public double[] CalculateRate(Carrier carrier, double totalKm, int vanType, int quantity, int job_type)
     {
+       
+        double ftlRate = carrier.FtlRate; 
+        double ltlRate = carrier.LtlRate;
+        double reeferCharge = carrier.ReefCharge;
 
-        double ftlRate = 0.2995; // sample rates
-        double ltlRate = 4.986;
         double[] totalAmount = new double[2];
 
         //ftl
@@ -222,17 +173,18 @@ public class OrderModel
             //reefer van
             if (vanType == 1)
             {
-                ftlRate += 0.13 * ftlRate;
+                ftlRate += (reeferCharge + FTLMARKUP) * ftlRate;
                 double amount = ftlRate * totalKm;
-                totalAmount[0] = amount * .08;             // Money gain for TMS
+                totalAmount[0] = amount * FTLMARKUP;
+                                                     // Money gain for TMS
                 totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
                 return totalAmount;
             }
             else if (vanType == 0)
             {
-                ftlRate += .08 * ftlRate;
+                ftlRate += FTLMARKUP * ftlRate;
                 double amount = ftlRate * totalKm;
-                totalAmount[0] = amount * .08;             // Money gain for TMS
+                totalAmount[0] = amount * FTLMARKUP;             // Money gain for TMS
                 totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
                 return totalAmount;
             }
@@ -243,19 +195,19 @@ public class OrderModel
             //reefer van
             if (vanType == 1)
             {
-                ltlRate += 0.10 * ltlRate;
-                double amount = ltlRate * totalKm * quantity;
+                ltlRate += (LTLMARKUP + reeferCharge) * ltlRate;
+                double amount = (ltlRate * totalKm) * quantity;
 
-                totalAmount[0] = amount * .05;             // Money gain for TMS
+                totalAmount[0] = amount * LTLMARKUP;             // Money gain for TMS
                 totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
                 return totalAmount;
 
             }
             else if (vanType == 0)
             {
-                ltlRate += .05 * ltlRate;
-                double amount = ltlRate * totalKm * quantity;
-                totalAmount[0] = amount * .05;             // Money gain for TMS
+                ltlRate += LTLMARKUP * ltlRate;
+                double amount = (ltlRate * totalKm) * quantity;
+                totalAmount[0] = amount * LTLMARKUP;             // Money gain for TMS
                 totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
                 return totalAmount;
             }
