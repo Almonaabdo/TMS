@@ -12,6 +12,7 @@
     <Window.DataContext>
         <viewModel1:LogInViewModel></viewModel1:LogInViewModel>
     </Window.DataContext>  
+    
     <Window.Resources>
         <Style TargetType="PasswordBox">
             <EventSetter Event="PasswordChanged" Handler="PasswordBox_PasswordChanged" />
@@ -26,16 +27,18 @@
 
             <!--USERNAME-->
             <TextBlock HorizontalAlignment="Left" Margin="250,161,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top"/>
-            <TextBox HorizontalAlignment="Center" Margin="0,182,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" x:Name="USER"/>
+            <TextBox HorizontalAlignment="Center" Margin="0,182,0,0" TextWrapping="Wrap" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" x:Name="USER"/>
 
             <!--PASSWORD-->
             <TextBlock HorizontalAlignment="Left" Margin="250,205,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top"/>
-            <PasswordBox HorizontalAlignment="Center" Margin="0,226,0,0" VerticalAlignment="Top" Width="120" x:Name="PasswordBox" Password=""/>
+            <PasswordBox HorizontalAlignment="Center"  Margin="0,226,0,0" VerticalAlignment="Top" Width="120" x:Name="PasswordBox" Password=""/>
 
             <TextBlock HorizontalAlignment="Center" Margin="0,282,0,0" TextWrapping="Wrap" Text="{Binding LoginMessage}" VerticalAlignment="Top" FontSize="9" Foreground="Red" FontWeight="Regular" />
             <Button Content="Log In" Command="{Binding LoginCommand}" HorizontalAlignment="Center" Margin="0,259,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="68" Height="23"/>
 
         </Grid>
     </Viewbox>
+
+
 
 </Window>
