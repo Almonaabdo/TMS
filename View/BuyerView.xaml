@@ -7,62 +7,67 @@
         mc:Ignorable="d"
         Title="BuyerView" Height="450" Width="800">
 
-    <Grid Background="#304674">
+    <Viewbox Stretch="Fill" StretchDirection="Both">
+        <Grid Background="#304674">
 
-        <TabControl>
-            <!--HOME TAB-->
-            <TabItem Header="Home" Background="#304674" FontWeight="Medium">
-                <Grid Background="#91BAD6">
-                    <Label Content="Welcome Buyer" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
+            <TabControl >
+                
+                <!--HOME TAB-->
+                <TabItem Header="Home" Background="#304674" FontWeight="Medium">
+                    <Grid Background="#91BAD6" Height="389">
 
-                    <!--logs out of teh user; may or may not go back to the login page-->
-                    <Button Content="Log Out" Command="{Binding LogOutBuyer}" HorizontalAlignment="Left" Margin="706,355,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
+                        <Label Content="Welcome Buyer" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
+                        <!--logs out of the user; may or may not go back to the login page-->
+                        <Button Content="Log Out" Command="{Binding LogOutBuyer}" HorizontalAlignment="Left" Margin="719,374,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
 
-                </Grid>
-            </TabItem>
-
-            <!--MARKETPLACE TAB-->
-            <TabItem Header="Marketplace" Background="#304674" FontWeight="Medium">
-                <Grid Background="#91BAD6">
-
-                    <!--titles-->
-                    <Label Content="Order Requests" HorizontalAlignment="Left" Margin="154,8,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
-                    <Label Content="Values" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
-
-                    <!--order requests data from the cmp database-->
-                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="154,45,5,108" Name="OrderRequests" Background="Azure" IsReadOnly="False"/>
-
-                    <!--legend for the cmp values-->
-                    <Grid Margin="10,45,645,108" Background="#304674">
-                        <Label Content="Job Type" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="15" Foreground="Azure"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="47" Width="132" FontWeight="Medium" Foreground="Azure" FontSize="13"><Run Language="en-ca" Text="0 - FTL"/><LineBreak/><Run Language="en-ca" Text="1 - LTL"/></TextBlock>
-                        <Label Content="Quantity" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="15" Foreground="Azure" Margin="1,73,0,0"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="60" Width="132" FontWeight="Medium" Foreground="Azure" FontSize="13"><Run Language="en-ca" Text="0 - FTL"/><LineBreak/><Run Language="en-ca" Text="INT - number of pallets of LTL cargo"/></TextBlock>
-                        <Label Content="Van Type" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="15" Foreground="Azure" Margin="1,173,0,0"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,203,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="58" Width="126" FontWeight="Medium" Foreground="Azure" FontSize="13"><Run Language="en-ca" Text="0 - Dry Van"/><LineBreak/><Run Language="en-ca" Text="1 - Reefer"/></TextBlock>
                     </Grid>
+                </TabItem>
+
+                <!--MARKETPLACE TAB-->
+                <TabItem Header="Marketplace" Background="#304674" FontWeight="Medium">
+                    <Grid Background="#91BAD6" Height="389">
+
+                        <!--titles-->
+                        <Label Content="Order Requests" HorizontalAlignment="Left" Margin="171,8,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
+                        <Label Content="Values" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
+
+                        <!--order requests data from the cmp database-->
+                        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="171,45,10,96" Name="OrderRequests" Background="Azure" IsReadOnly="False"/>
+
+                        <!--legend for the cmp values-->
+                        <Grid Margin="10,45,645,96" Background="#304674">
+                            <Label Content="Job Type" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="15" Foreground="Azure"/>
+                            <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="47" Width="132" FontWeight="Medium" Foreground="Azure" FontSize="13"><Run Language="en-ca" Text="0 - FTL"/><LineBreak/><Run Language="en-ca" Text="1 - LTL"/></TextBlock>
+                            <Label Content="Quantity" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="15" Foreground="Azure" Margin="1,73,0,0"/>
+                            <TextBlock HorizontalAlignment="Left" Margin="10,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="60" Width="132" FontWeight="Medium" Foreground="Azure" FontSize="13"><Run Language="en-ca" Text="0 - FTL"/><LineBreak/><Run Language="en-ca" Text="INT - number of pallets of LTL cargo"/></TextBlock>
+                            <Label Content="Van Type" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="15" Foreground="Azure" Margin="1,173,0,0"/>
+                            <TextBlock HorizontalAlignment="Left" Margin="10,203,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="58" Width="126" FontWeight="Medium" Foreground="Azure" FontSize="13"><Run Language="en-ca" Text="0 - Dry Van"/><LineBreak/><Run Language="en-ca" Text="1 - Reefer"/></TextBlock>
+                        </Grid>
+
+                        <!--accepts the order and sends it to the Planner-->
+                        <Button Content="Accept Order" Command="{Binding AcceptOrder}" HorizontalAlignment="Left" Margin="398,319,0,0" VerticalAlignment="Top" Height="34" Width="112" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15"/>
+                    </Grid>
+                </TabItem>
 
 
-                    <!--accepts the order and sends it to the Planner-->
-                    <Button Content="Accept Order" Command="{Binding AcceptOrder}" HorizontalAlignment="Left" Margin="397,310,0,0" VerticalAlignment="Top" Height="41" Width="111" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15"/>
-                </Grid>
-            </TabItem>
+                <!--COMPLETED ORDERS TAB-->
+                <TabItem Header="Completed Orders" Background="#304674" FontWeight="Medium">
+                    <Grid Background="#91BAD6" Height="389">
 
+                        <!--title-->
+                        <Label Content="Completed Orders from Planner" Margin="20,10,432,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66" Height="32"/>
 
-            <!--COMPLETED ORDERS TAB-->
-            <TabItem Header="Compeleted Orders" Background="#304674" FontWeight="Medium">
-                <Grid Background="#91BAD6">
-                    <Label Content="Completed Orders from Planner" HorizontalAlignment="Left" Margin="35,16,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
+                        <!--shows the values of completed orders from the planner-->
+                        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="20,47,20,85" Name="CompletedOrders" Background="Azure" IsReadOnly="False"/>
 
-                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="35,53,35,84"/>
+                        <!--processes the invoice if order is complete-->
+                        <Button Content="Process Invoice" Command="{Binding ProcessInvoice}" HorizontalAlignment="Center" Margin="0,325,0,0" VerticalAlignment="Top" Height="34" Width="140" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15"/>
 
+                    </Grid>
+                </TabItem>
 
-                    <!--processes the invoice if order is complete-->
-                    <Button Content="Process Invoice" Command="{Binding ProcessInvoice}" HorizontalAlignment="Left" Margin="630,339,0,0" VerticalAlignment="Top" Height="34" Width="129" FontWeight="Bold" Foreground="#001233" Background="Azure" FontSize="15"/>
-                </Grid>
-            </TabItem>
-
-
-        </TabControl>
-    </Grid>
+            </TabControl>
+            
+        </Grid>
+    </Viewbox>
 </Window>
