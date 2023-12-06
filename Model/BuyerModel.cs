@@ -8,14 +8,14 @@ using System;
 
 public class BuyerModel
 {
-    private  TmsDbContext _db;
+    private readonly TmsDbContext _db;
 
-    public BuyerModel()
+    public BuyerModel(TmsDbContext context)
     {
-       
+        _db = context;
     }
 
-    
+
 
     public Contract GetContracts()
     {
@@ -24,22 +24,48 @@ public class BuyerModel
         return contract;
     }
 
-    //public void DisplayContracts()
-    //{
-    //    Contract contract = new Contract();
-        
-      
-    //}
 
-
-    public void addCustomer(string name, string phoneNumer, string email)
+    public void AddCustomer(string name, string phoneNumber, string email)
     {
+
         var newCustomer = new Customer();
         newCustomer.Name = name;
-        newCustomer.PhoneNumber = phoneNumer;
+        newCustomer.PhoneNumber = phoneNumber;
         newCustomer.Email = email;
-        _db.Customers.Add(newCustomer);
-        _db.SaveChanges();
+        int i = newCustomer.CustomerId;
 
+        if (_db.Customers.Find(i) == null)
+        {
+            _db.Customers.Add(newCustomer);
+            _db.SaveChanges();
+        }
+        else
+        {
+            LoggerModel.LogError("Can't add Duplicates. Customer Already exists");
+            return;
+        }
+
+        if (_db.Customers.Find(i) == null)
+        {
+            LoggerModel.LogError("Couldn't Add Customer");
+        }
+    }
+
+
+    public void DeleteCustomer(int customerId)
+    {
+        // searching for the entered order
+        var customer = _db.Customers?.Find(customerId);
+
+        if (customer != null)
+        {
+            // remove order and save changes
+            _db.Customers?.Remove(customer);
+            _db.SaveChanges();
+        }
+        else
+        {
+            LoggerModel.LogError("Error Can't find specified Carrier");
+        }
     }
 }
