@@ -3,8 +3,7 @@ using DataLayer.Context;
 using DataLayer.Model;
 using Model;
 using System;
-
-
+using System.Linq;
 
 public class BuyerModel
 {
@@ -27,27 +26,24 @@ public class BuyerModel
 
     public void AddCustomer(string name, string phoneNumber, string email)
     {
+        var existingCustomer = _db.Customers?.FirstOrDefault(w => w.Email == email || w.PhoneNumber == phoneNumber);
 
-        var newCustomer = new Customer();
-        newCustomer.Name = name;
-        newCustomer.PhoneNumber = phoneNumber;
-        newCustomer.Email = email;
-        int i = newCustomer.CustomerId;
-
-        if (_db.Customers.Find(i) == null)
+        if (existingCustomer == null)
         {
-            _db.Customers.Add(newCustomer);
+            var newCustomer = new Customer();
+
+            newCustomer.Name = name;
+            newCustomer.PhoneNumber = phoneNumber;
+            newCustomer.Email = email;
+            int i = newCustomer.CustomerId;
+
+            _db.Customers?.Add(newCustomer);
             _db.SaveChanges();
+            LoggerModel.LogInfo($"Customer added successfully: {name}");
         }
         else
         {
-            LoggerModel.LogError("Can't add Duplicates. Customer Already exists");
-            return;
-        }
-
-        if (_db.Customers.Find(i) == null)
-        {
-            LoggerModel.LogError("Couldn't Add Customer");
+            LoggerModel.LogWarning("Couldn't Add Customer as it already exists");
         }
     }
 
@@ -65,7 +61,7 @@ public class BuyerModel
         }
         else
         {
-            LoggerModel.LogError("Error Can't find specified Carrier");
+            LoggerModel.LogWarning("Error Can't find specified Carrier");
         }
     }
 }
