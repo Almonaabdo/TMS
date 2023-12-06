@@ -3,104 +3,65 @@ using DataLayer.Context;
 using DataLayer.Model;
 using Model;
 using System;
-
-
+using System.Linq;
 
 public class BuyerModel
 {
-    private  TmsDbContext _db;
+    private readonly TmsDbContext _db;
 
-    public BuyerModel()
+    public BuyerModel(TmsDbContext context)
     {
-       
+        _db = context;
     }
 
-    /*
-    * METHOD NAME: CalculateRate
-    * DESCRIPTION: Calculates the cost of the rates for carriers
-    *
-    * RETURN: double[] profit for TMS and carrier
-    */
-    // We can change the arguements, we can just take in a Order and all the info needed is in the order
-    public double[] CalculateRate(double totalKm, int vanType, int quantity, int job_type)
-    {
 
-        double ftlRate = 0.2995; // sample rates
-        double ltlRate = 4.986;
-        double[] totalAmount = new double[2];
-
-        //ftl
-        if(job_type == 0)
-        {
-            //reefer van
-            if(vanType == 1) 
-            {
-                ftlRate += 0.13 * ftlRate;
-                double amount = ftlRate * totalKm;
-                totalAmount[0] = amount * .08;             // Money gain for TMS
-                totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
-                return totalAmount;
-            }
-            else if(vanType == 0) 
-            {
-                ftlRate += .08 * ftlRate;
-                double amount = ftlRate * totalKm;
-                totalAmount[0] = amount * .08;             // Money gain for TMS
-                totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
-                return totalAmount;
-            }
-        }
-        //ltl
-        else if(job_type == 1) 
-        {
-            //reefer van
-            if (vanType == 1)
-            {
-                ltlRate += 0.10 * ltlRate;
-                double amount = ltlRate * totalKm * quantity;
-               
-                totalAmount[0] = amount * .05;             // Money gain for TMS
-                totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
-                return totalAmount;
-
-            }
-            else if (vanType == 0)
-            {
-                ltlRate += .05 * ltlRate;
-                double amount = ltlRate * totalKm * quantity;
-                totalAmount[0] = amount * .05;             // Money gain for TMS
-                totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
-                return totalAmount;
-            }
-
-
-        }
-        return totalAmount;
-
-    }
 
     public Contract GetContracts()
     {
+
         Contract contract = new Contract();
         return contract;
     }
 
-    //public void DisplayContracts()
-    //{
-    //    Contract contract = new Contract();
-        
-      
-    //}
 
-
-    public void addCustomer(string name, string phoneNumer, string email)
+    public void AddCustomer(string name, string phoneNumber, string email)
     {
-        var newCustomer = new Customer();
-        newCustomer.Name = name;
-        newCustomer.PhoneNumber = phoneNumer;
-        newCustomer.Email = email;
-        _db.Customers.Add(newCustomer);
-        _db.SaveChanges();
+        var existingCustomer = _db.Customers?.FirstOrDefault(w => w.Email == email || w.PhoneNumber == phoneNumber);
 
+        if (existingCustomer == null)
+        {
+            var newCustomer = new Customer();
+
+            newCustomer.Name = name;
+            newCustomer.PhoneNumber = phoneNumber;
+            newCustomer.Email = email;
+            int i = newCustomer.CustomerId;
+
+            _db.Customers?.Add(newCustomer);
+            _db.SaveChanges();
+            LoggerModel.LogInfo($"Customer added successfully: {name}");
+        }
+        else
+        {
+            LoggerModel.LogWarning("Couldn't Add Customer as it already exists");
+        }
+    }
+
+
+    public void DeleteCustomer(int customerId)
+    {
+        // searching for the entered order
+        var customer = _db.Customers?.Find(customerId);
+
+        if (customer != null)
+        {
+            // remove order and save changes
+            _db.Customers?.Remove(customer);
+            _db.SaveChanges();
+        }
+        else
+        {
+            LoggerModel.LogWarning("Error Can't find specified Carrier");
+        }
     }
 }

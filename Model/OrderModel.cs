@@ -7,7 +7,11 @@ namespace TMS_Project.Model;
 
 public class OrderModel
 {
+    const double FTLMARKUP = 0.08;
+    const double LTLMARKUP = 0.05;
     private readonly TmsDbContext _db;
+    private object _dbContext;
+
     public OrderModel(TmsDbContext context)
     { 
         _db = context;
@@ -100,6 +104,7 @@ public class OrderModel
     {
         // find specified trip.
         var trip = _db.Trips?.Find(tripId);
+        
 
         if (trip != null)
         {
@@ -120,4 +125,98 @@ public class OrderModel
             LoggerModel.LogError("Info: Can't Change Trip Status! Specified trip Wasn't Found In Database.");
         }
     }
+
+
+    /*
+  * METHOD NAME: GetKmAndHrs
+  * DESCRIPTION: Gets the total Km and hours needed for the carrier to reach the destination from the origin
+  * 
+  * RETURN: double[], [0] = totalKm, [1] = totalHrs
+  */
+    public decimal[] GetKmAndHrs(string destination, string origin)
+    {
+        decimal[] totalKmAndHrs = new decimal[2];
+
+        
+        var routeId = _db.Routes?.FirstOrDefault(e => e.SourceCity.CityName == origin && e.DestinationCity.CityName == destination);
+
+        if (routeId != null)
+        {
+            totalKmAndHrs[0] = routeId.Distance;
+            totalKmAndHrs[0] = Decimal.Round(totalKmAndHrs[0], 3);
+            totalKmAndHrs[1] = routeId.Duration;
+            totalKmAndHrs[1] = Decimal.Round(totalKmAndHrs[1], 3);
+
+        }
+
+        return totalKmAndHrs;
+    }
+
+    /*
+    * METHOD NAME: CalculateRate
+    * DESCRIPTION: Calculates the cost of the rates for carriers
+    *
+    * RETURN: double[] profit for TMS and carrier
+    */
+    public double[] CalculateRate(Carrier carrier, double totalKm, int vanType, int quantity, int job_type)
+    {
+       
+        double ftlRate = carrier.FtlRate; 
+        double ltlRate = carrier.LtlRate;
+        double reeferCharge = carrier.ReefCharge;
+
+        double[] totalAmount = new double[2];
+
+        //ftl
+        if (job_type == 0)
+        {
+            //reefer van
+            if (vanType == 1)
+            {
+                ftlRate += (reeferCharge + FTLMARKUP) * ftlRate;
+                double amount = ftlRate * totalKm;
+                totalAmount[0] = amount * FTLMARKUP;
+                                                     // Money gain for TMS
+                totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
+                return totalAmount;
+            }
+            else if (vanType == 0)
+            {
+                ftlRate += FTLMARKUP * ftlRate;
+                double amount = ftlRate * totalKm;
+                totalAmount[0] = amount * FTLMARKUP;             // Money gain for TMS
+                totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
+                return totalAmount;
+            }
+        }
+        //ltl
+        else if (job_type == 1)
+        {
+            //reefer van
+            if (vanType == 1)
+            {
+                ltlRate += (LTLMARKUP + reeferCharge) * ltlRate;
+                double amount = (ltlRate * totalKm) * quantity;
+
+                totalAmount[0] = amount * LTLMARKUP;             // Money gain for TMS
+                totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
+                return totalAmount;
+
+            }
+            else if (vanType == 0)
+            {
+                ltlRate += LTLMARKUP * ltlRate;
+                double amount = (ltlRate * totalKm) * quantity;
+                totalAmount[0] = amount * LTLMARKUP;             // Money gain for TMS
+                totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
+                return totalAmount;
+            }
+
+
+        }
+        return totalAmount;
+
+    }
+
+
 }

@@ -8,6 +8,7 @@
         xmlns:viewModel1="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
         Title="LogInView" Height="450" Width="800">
+    
     <Window.DataContext>
         <viewModel1:LogInViewModel></viewModel1:LogInViewModel>
     </Window.DataContext>  
@@ -16,22 +17,25 @@
             <EventSetter Event="PasswordChanged" Handler="PasswordBox_PasswordChanged" />
         </Style>
     </Window.Resources>
-    <Grid Background="#304674">
 
-        <TextBlock HorizontalAlignment="Left" Margin="365,87,0,0" TextWrapping="Wrap" Text="TMS" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,120,0,0" TextWrapping="Wrap" Text="TRANSPORTATION MANAGEMENT SYSTEM" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
+    <Viewbox Stretch="Fill" StretchDirection="Both">
+        <Grid Background="#304674" Width="619" Height="335">
 
-        <!--USERNAME-->
-        <TextBlock HorizontalAlignment="Left" Margin="340,201,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Center" Margin="0,217,0,0" TextWrapping="Wrap" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" x:Name="USER"/>
+            <TextBlock HorizontalAlignment="Center" Margin="0,52,0,0" TextWrapping="Wrap" Text="TMS" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
+            <TextBlock HorizontalAlignment="Center" Margin="0,90,0,0" TextWrapping="Wrap" Text="TRANSPORTATION MANAGEMENT SYSTEM" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
 
-        <!--PASSWORD-->
-        <TextBlock HorizontalAlignment="Left" Margin="340,243,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top"/>
-        <PasswordBox HorizontalAlignment="Center" Margin="0,259,0,0" VerticalAlignment="Top" Width="120" x:Name="_PasswordBox" Password=""/>
+            <!--USERNAME-->
+            <TextBlock HorizontalAlignment="Left" Margin="250,161,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top"/>
+            <TextBox HorizontalAlignment="Center" Margin="0,182,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" x:Name="USER"/>
 
-        <TextBlock HorizontalAlignment="Center" Margin="0,282,0,0" TextWrapping="Wrap" Text="{Binding LoginMessage}" VerticalAlignment="Top" FontSize="9" Foreground="Red" FontWeight="Regular" />
-        <Button Content="Log In" Command="{Binding LoginCommand}" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top" FontWeight="Bold"  Width="44" Height="25"/>
-       
-    </Grid> 
-  
+            <!--PASSWORD-->
+            <TextBlock HorizontalAlignment="Left" Margin="250,205,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top"/>
+            <PasswordBox HorizontalAlignment="Center" Margin="0,226,0,0" VerticalAlignment="Top" Width="120" x:Name="PasswordBox" Password=""/>
+
+            <TextBlock HorizontalAlignment="Center" Margin="0,282,0,0" TextWrapping="Wrap" Text="{Binding LoginMessage}" VerticalAlignment="Top" FontSize="9" Foreground="Red" FontWeight="Regular" />
+            <Button Content="Log In" Command="{Binding LoginCommand}" HorizontalAlignment="Center" Margin="0,259,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="68" Height="23"/>
+
+        </Grid>
+    </Viewbox>
+
 </Window>
