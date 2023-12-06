@@ -1489,11 +1489,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS\\TMS-Project.csproj",
+      "projectUniqueName": "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS-GoodCopy\\TMS-Project.csproj",
       "projectName": "TMS-Project",
-      "projectPath": "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS\\TMS-Project.csproj",
+      "projectPath": "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS-GoodCopy\\TMS-Project.csproj",
       "packagesPath": "C:\\Users\\Yafet\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS\\obj\\",
+      "outputPath": "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS-GoodCopy\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
