@@ -6,8 +6,94 @@
         xmlns:local="clr-namespace:TMS_Project.View"
         mc:Ignorable="d"
         Title="PlannerView" Height="450" Width="800">
-    <Grid Background="#304674">
-        
-        
-    </Grid>
+
+    <Viewbox Stretch="Fill" StretchDirection="Both">
+        <Grid Background="#304674" Height="448">
+
+            <TabControl HorizontalAlignment="Left" Width="830">
+
+                <!--HOME TAB-->
+                <TabItem Header="Home" FontWeight="Medium" Background="#304674">
+                    <Grid Background="#91BAD6">
+
+                        <Label Content="Welcome Planner" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
+                        <!--logs out of the user; may or may not go back to the login page-->
+                        <Button Content="Log Out" HorizontalAlignment="Left" Margin="748,383,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium" />
+
+                    </Grid>
+                </TabItem>
+
+                <!--ORDERS TAB-->
+                <TabItem Header="Orders" Background="#304674" FontWeight="Medium">
+                    <Grid Background="#91BAD6">
+
+                        <Label Content="Follow-up Orders" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
+
+                        <!--orders from the buyer that needs to be completed-->
+                        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,47,412,94" Name="Orders" Background="Azure" IsReadOnly="False"/>
+                        <Button Content="Complete Order" Command="{Binding CompleteOrder}" HorizontalAlignment="Left" Margin="195,342,0,0" VerticalAlignment="Top" Height="34" Width="130" FontWeight="Bold" Foreground="#001233" Background="Azure" FontSize="15"/>
+
+                        <!--adds trip to the orders-->
+                        <Label Content="Add Trips" HorizontalAlignment="Left" Margin="417,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
+                        <Grid Background="#304674" Margin="417,47,203,94">
+
+                            <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" Text="Select an order first to add a Trip" VerticalAlignment="Top" Foreground="Azure" FontWeight="Bold" FontStyle="Italic"/>
+
+                            <TextBlock HorizontalAlignment="Left" Margin="16,43,0,0" Text="Choose Carrier" VerticalAlignment="Top" Foreground="AliceBlue"/>
+                            <ComboBox HorizontalAlignment="Left" Margin="16,64,0,0" VerticalAlignment="Top" Width="120" x:Name="CarrierName">
+                                <ComboBoxItem Content="Planet Express"></ComboBoxItem>
+                                <ComboBoxItem Content="Schooner's"></ComboBoxItem>
+                                <ComboBoxItem Content="TillmanTransport"></ComboBoxItem>
+                                <ComboBoxItem Content="We Haul"></ComboBoxItem>
+                            </ComboBox>
+
+                            <Button Content="Add Carrier" HorizontalAlignment="Left" Margin="33,249,0,0" VerticalAlignment="Top" Background="azure" Width="86" Click="Add_Trip"/>
+                            <RadioButton Content="Multiple Trip" HorizontalAlignment="Left" Margin="16,110,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
+
+                            <TextBlock HorizontalAlignment="Left" Margin="16,140,0,0" Text="Choose Carrier for Another Trip" VerticalAlignment="Top" Foreground="AliceBlue"/>
+                            <ComboBox HorizontalAlignment="Left" Margin="16,161,0,0" VerticalAlignment="Top" Width="120" x:Name="CarrierName2">
+                                <ComboBoxItem Content="Planet Express"></ComboBoxItem>
+                                <ComboBoxItem Content="Schooner's"></ComboBoxItem>
+                                <ComboBoxItem Content="TillmanTransport"></ComboBoxItem>
+                                <ComboBoxItem Content="We Haul"></ComboBoxItem>
+                            </ComboBox>
+
+                        </Grid>
+
+                        <!--carrier information-->
+                        <Grid Background="#304674" Margin="626,47,10,94">
+
+                        </Grid>
+
+                    </Grid>
+                </TabItem>
+
+                <!--ACTIVE ORDERS-->
+                <TabItem Header="Active Orders" FontWeight="Medium" Background="#304674">
+                    <Grid Background="#91BAD6">
+
+                        <!--datagrid for the current status of the completed orders being delivered-->
+                        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,10,10"/>
+
+                    </Grid>
+                </TabItem>
+
+                <!--SUMMARY REPORTS for INVOICE DATAS-->
+                <TabItem Header="Invoice" FontWeight="Medium" Background="#304674">
+                    <Grid Background="#91BAD6">
+                        <Label Content="Generate Invoice Summary Reports" HorizontalAlignment="Left" Margin="20,17,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
+                        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="20,54,20,99"/>
+
+                        <!--buttons for generating summary reports-->
+                        <TextBlock HorizontalAlignment="Left" Margin="194,381,0,0" Text="All Time Summary Report" VerticalAlignment="Top" Foreground="Azure" FontWeight="Medium"/>
+                        <Button Content="All Time" HorizontalAlignment="Left" Margin="200,337,0,0" VerticalAlignment="Top" Background="azure" FontSize="15" Height="39" Width="129" FontWeight="Bold"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="466,381,0,0" Text="Two Weeks Time Summary Report" VerticalAlignment="Top" Foreground="Azure" FontWeight="Medium"/>
+                        <Button Content="Two Weeks Time" HorizontalAlignment="Right" Margin="0,337,200,0" VerticalAlignment="Top" Background="azure" FontSize="15" Height="39" Width="129" FontWeight="Bold"/>
+
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
+        </Grid>
+    </Viewbox>
 </Window>

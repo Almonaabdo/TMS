@@ -15,12 +15,14 @@
         <Grid Background="#304674">
 
             <TabControl>
+
                 <!--HOME TAB-->
                 <TabItem Header="Home" FontWeight="Medium" Background="#304674">
-                    <Grid Background="#91BAD6">
+                    <Grid Background="#91BAD6" Height="468" Width="907">
+
                         <Label Content="Welcome Admin" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue" Grid.ColumnSpan="2"/>
                         <!--logs out of the user; may or may not go back to the login page-->
-                        <Button Content="Log Out" Command="{Binding LogOutAdmin}" HorizontalAlignment="Left" Margin="724,377,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
+                        <Button Content="Log Out" Command="{Binding LogOutAdmin}" HorizontalAlignment="Left" Margin="831,431,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
 
                     </Grid>
                 </TabItem>
@@ -110,6 +112,7 @@
                                     <Button Content="Connect" Command ="{Binding ConnectCMP}" HorizontalAlignment="Center" Margin="0,306,0,0" VerticalAlignment="Top" Height="42" Width="106" FontSize="15" Background="azure"/>
 
                                 </Grid>
+
                             </TabItem>
 
                         </TabControl>
