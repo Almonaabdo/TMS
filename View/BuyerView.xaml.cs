@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TMS.ViewModel;
 
 namespace TMS_Project.View
 {
@@ -22,6 +23,7 @@ namespace TMS_Project.View
         public BuyerView()
         {
             InitializeComponent();
+           
         }
     }
 }
