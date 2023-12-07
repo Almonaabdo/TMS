@@ -10,131 +10,115 @@
     <Window.DataContext>
         <viewModel:AdminViewModel />
     </Window.DataContext>
-    <Grid Background="#304674">
-        <TabControl>
-            <!--HOME TAB-->
-            <TabItem Header="Home" FontWeight="Medium" Background="#304674">
-                <Grid Background="#91BAD6">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="58*"/>
-                        <ColumnDefinition Width="339*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Content="Welcome Admin" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue" Grid.ColumnSpan="2"/>
-                    <!--logs out of the user; may or may not go back to the login page-->
-                    <Button Content="Log Out"  Command="{Binding LogOutAdmin}" HorizontalAlignment="Left" Margin="583,353,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium" Grid.Column="1"/>
 
-                </Grid>
-            </TabItem>
+    <Viewbox Stretch="Fill" StretchDirection="Both">
+        <Grid Background="#304674">
 
-            <!--CONFIGURATIONS TAB-->
-            <TabItem Header="Configurations" Background="#304674" FontWeight="Medium">
-                <Grid Background="#91BAD6">
+            <TabControl>
+                <!--HOME TAB-->
+                <TabItem Header="Home" FontWeight="Medium" Background="#304674">
+                    <Grid Background="#91BAD6">
+                        <Label Content="Welcome Admin" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue" Grid.ColumnSpan="2"/>
+                        <!--logs out of the user; may or may not go back to the login page-->
+                        <Button Content="Log Out" Command="{Binding LogOutAdmin}" HorizontalAlignment="Left" Margin="724,377,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
 
-                    <TabControl Margin="63,10,63,20">
+                    </Grid>
+                </TabItem>
 
-                        <!--LOG FILES TAB-->
-                        <TabItem Header="Log Files" Background="#304674">
-                            <Grid Background="#304674" Height="349">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="47*"/>
-                                    <ColumnDefinition Width="284*"/>
-                                </Grid.ColumnDefinitions>
-                                <!--log files-->
-                                <ListBox Name="LogFiles" ItemsSource="{Binding LogFiles}" SelectedItem="{Binding SelectedLogFile}" Margin="10,10,10,69" Grid.ColumnSpan="2"/>
-                                <Button Content="Open File" Command="{Binding OpenSelectedFileCommand}" HorizontalAlignment="Left" Margin="39,295,0,0" VerticalAlignment="Top" Height="38" Width="144" FontWeight="Bold" Foreground="#001233" Background="azure" Grid.ColumnSpan="2"/>
-                                <Label Content="Open selected file" HorizontalAlignment="Left" Margin="106,301,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde" Grid.Column="1"/>
+                <!--CONFIGURATIONS TAB-->
+                <TabItem Header="Configurations" Background="#304674" FontWeight="Medium">
+                    <Grid Background="#91BAD6" Height="468" Width="907">
 
-                            </Grid>
-                        </TabItem>
+                        <TabControl Margin="45,23,45,42">
+                            <!--LOG FILES TAB-->
+                            <TabItem Header="Log Files" Background="#304674">
+                                <Grid Background="#304674">
 
-                        <!--BACKUP TAB-->
-                        <TabItem Header="Backup Files" Background="#304674">
-                            <Grid Background="#304674" Height="349">
+                                    <!--log files-->
+                                    <ListBox Name="LogFiles" ItemsSource="{Binding LogFiles}" SelectedItem="{Binding SelectedLogFile}" Margin="10,10,10,85"/>
+                                    <Button Content="Open File" Command="{Binding OpenSelectedFileCommand}" HorizontalAlignment="Center" Margin="0,306,0,0" VerticalAlignment="Top" Height="28" Width="95" FontWeight="Bold" Foreground="#001233" Background="azure"/>
+                                    <Label Content="Open selected file" HorizontalAlignment="Center" Margin="0,339,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
 
-                                <!-- ProgressBar -->
-                                <ProgressBar x:Name="ProgressBar" Foreground="SeaGreen"
-                                     Visibility="{Binding ProgressBarVisibility, Mode=OneWay}"
-                                     Margin="0,10,0,10" Height="20"
-                                     Value="{Binding BackUpProgress, Mode=OneWay}" Width="150"
-                                     VerticalAlignment="Bottom" HorizontalAlignment="Center" />
+                                </Grid>
 
-                                <ListBox ItemsSource="{Binding BackupFiles}" Margin="10,10,10,69" SelectedItem="{Binding SelectedBackupFile}"/>
-                                <Button Content="Open" Command="{Binding OpenSelectedBackupCommand}" HorizontalAlignment="Left" Margin="91,284,0,0" VerticalAlignment="Top" Height="38" Width="144" FontWeight="Bold" Foreground="#001233" Background="azure"/>
-                                <Label Content="Perform backup operation" HorizontalAlignment="Left" Margin="411,322,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
-                                <Button Content="Backup" Command="{Binding BackUpDbCommand}" HorizontalAlignment="Left" Margin="411,284,0,0" VerticalAlignment="Top" Height="38" Width="144" FontWeight="Bold" Foreground="#001233" Background="azure" />
-                                <Label Content="Open selected file" HorizontalAlignment="Left" Margin="109,322,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
-                            </Grid>
-                        </TabItem>
+                            </TabItem>
 
-                        <!--CARRIER DATA TAB-->
-                        <TabItem Header="Carrier Data" Background="#304674">
-                            <Grid Background="#304674">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="187*"/>
-                                    <ColumnDefinition Width="475*"/>
-                                </Grid.ColumnDefinitions>
-                                <DataGrid ItemsSource="{Binding CarrierData}" Margin="10,10,10,50" Background="Azure" IsReadOnly="False" Grid.ColumnSpan="2" />
-                                <Button Content="Save" Command="{Binding SaveChangesCommand}" HorizontalAlignment="Left" Margin="367,303,0,0" VerticalAlignment="Top" Height="31" Width="98" x:Name="SaveCarrier" Background="azure" FontWeight="Bold" FontSize="15" Grid.Column="1"/>
-                            </Grid>
-                        </TabItem>
+                            <!--BACKUP TAB-->
+                            <TabItem Header="Backup" Background="#304674">
+                                <Grid Background="#304674">
 
-                        <!--ROUTE TABLE TAB-->
-                        <TabItem Header="Route Table" Background="#304674">
-                            <Grid Background="#304674">
-                                <DataGrid Name="RouteTable" Background="Azure" IsReadOnly="False" Margin="10,10,10,50"/>
-                                <Button Content="Save" HorizontalAlignment="Left" Margin="554,303,0,0" VerticalAlignment="Top" Height="31" Width="98" x:Name="SaveRoute" Background="azure" FontWeight="Bold" FontSize="15"/>
-                            </Grid>
-                        </TabItem>
+                                    <!--ProgressBar-->
+                                    <ProgressBar x:Name="ProgressBar" Foreground="SeaGreen"
+                                 Visibility="{Binding ProgressBarVisibility, Mode=OneWay}"
+                                 Margin="0,317,0,0" Height="20"
+                                 Value="{Binding BackUpProgress, Mode=OneWay}" Width="150"
+                                 VerticalAlignment="Top" HorizontalAlignment="Center" RenderTransformOrigin="0.426,0.606"/>
 
-                        <!--RATE/FEE TABLE TAB-->
-                        <TabItem Header="Rate/Fee Table" Background="#304674">
-                            <Grid Background="#304674">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="53*"/>
-                                    <ColumnDefinition Width="33*"/>
-                                    <ColumnDefinition Width="245*"/>
-                                </Grid.ColumnDefinitions>
-                                <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Name="RateFeeTable"  Background="Azure" IsReadOnly="False" Margin="10,10,10,50" Grid.ColumnSpan="3"/>
-                                <Button Content="Save" HorizontalAlignment="Left" Margin="382,303,0,0" VerticalAlignment="Top" Height="31" Width="98" x:Name="SaveRateFee" Background="azure" FontWeight="Bold" FontSize="15" Grid.Column="2"/>
-                            </Grid>
-                        </TabItem>
+                                    <!--listbox and buttons to do backups-->
+                                    <ListBox ItemsSource="{Binding BackupFiles}" Margin="10,10,10,69" SelectedItem="{Binding SelectedBackupFile}"/>
+                                    <Button Content="Open" Command="{Binding OpenSelectedBackupCommand}" HorizontalAlignment="Left" Margin="106,315,0,0" VerticalAlignment="Top" Height="22" Width="84" FontWeight="Bold" Foreground="#001233" Background="azure"/>
+                                    <Label Content="Perform backup operation" HorizontalAlignment="Left" Margin="561,339,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
+                                    <Button Content="Backup" Command="{Binding BackUpDbCommand}" HorizontalAlignment="Left" Margin="596,315,0,0" VerticalAlignment="Top" Height="22" Width="84" FontWeight="Bold" Foreground="#001233" Background="azure" />
+                                    <Label Content="Open selected file" HorizontalAlignment="Left" Margin="94,339,0,0" VerticalAlignment="Top"  FontWeight="Medium" Foreground="#b2cbde"/>
+
+                                </Grid>
+                            </TabItem>
+
+                            <!--CARRIER DATA TAB-->
+                            <TabItem Header="Carrier Data" Background="#304674">
+                                <Grid Background="#304674">
+                                    <DataGrid ItemsSource="{Binding CarrierData}" Margin="10,10,10,77" Background="Azure" IsReadOnly="False" />
+                                    <Button Content="Save" Command="{Binding SaveChangesCommand}" HorizontalAlignment="Center" Margin="0,320,0,0" VerticalAlignment="Top" Height="31" Width="98" x:Name="SaveCarrier" Background="azure" FontWeight="Bold" FontSize="15"/>
+                                </Grid>
+                            </TabItem>
+
+                            <!--ROUTE TABLE TAB-->
+                            <TabItem Header="Route Table" Background="#304674">
+                                <Grid Background="#304674">
+                                    <DataGrid Name="RouteTable" Background="Azure" IsReadOnly="False"  Margin="10,10,10,77"/>
+                                    <Button Content="Save" HorizontalAlignment="Center" Margin="0,320,0,0" VerticalAlignment="Top" Height="31" Width="98" x:Name="SaveRoute" Background="azure" FontWeight="Bold" FontSize="15"/>
+                                </Grid>
+                            </TabItem>
+
+                            <!--RATE/FEE TABLE TAB-->
+                            <TabItem Header="Rate/Fee Table" Background="#304674">
+                                <Grid Background="#304674">
+                                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Name="RateFeeTable" Background="Azure" IsReadOnly="False"  Margin="10,10,10,77"/>
+                                    <Button Content="Save" HorizontalAlignment="Center" Margin="0,320,0,0" VerticalAlignment="Top" Height="31" Width="98" x:Name="SaveRateFee" Background="azure" FontWeight="Bold" FontSize="15"/>
+                                </Grid>
+                            </TabItem>
 
 
-                        <!--CMP CONNECTION TAB-->
-                        <TabItem Header="CMP Connection" Background="#304674">
-                            <Grid Background="#304674">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="17*"/>
-                                    <ColumnDefinition Width="74*"/>
-                                    <ColumnDefinition Width="240*"/>
-                                </Grid.ColumnDefinitions>
-                                <Label Content="Contract Market Place Connection" HorizontalAlignment="Left" Margin="29,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="azure" Grid.ColumnSpan="3"/>
+                            <!--CMP CONNECTION TAB-->
+                            <TabItem Header="CMP Connection" Background="#304674">
+                                <Grid Background="#304674">
+                                    <Label Content="Contract Market Place Connection" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="azure"/>
 
-                                <!--USERNAME-->
-                                <Label Content="Username" HorizontalAlignment="Left" Margin="25,63,0,0" VerticalAlignment="Top" Foreground="#b2cbde" Grid.Column="2"/>
-                                <TextBox HorizontalAlignment="Left" Margin="29,61,0,0" TextWrapping="Wrap" Text="DevOSHT" VerticalAlignment="Top" Width="160" Height="30" FontSize="20" Grid.ColumnSpan="3"/>
-                                <!--PASSWORD-->
-                                <Label Content="Password" HorizontalAlignment="Left" Margin="25,121,0,0" VerticalAlignment="Top" Foreground="#b2cbde" Grid.Column="2"/>
-                                <TextBox HorizontalAlignment="Left" Margin="29,119,0,0" TextWrapping="Wrap" Text="Snodgr4ss!" VerticalAlignment="Top" Width="160" Height="30" FontSize="20" Grid.ColumnSpan="3"/>
-                                <!--IP-->
-                                <Label Content="IP Address" HorizontalAlignment="Left" Margin="25,184,0,0" VerticalAlignment="Top" Foreground="#b2cbde" Grid.Column="2"/>
-                                <TextBox HorizontalAlignment="Left" Margin="29,182,0,0" TextWrapping="Wrap" Text="159.89.117.198" VerticalAlignment="Top" Width="160" Height="30" FontSize="20" Grid.ColumnSpan="3"/>
-                                <!--PORT-->
-                                <Label Content="Port" HorizontalAlignment="Left" Margin="25,244,0,0" VerticalAlignment="Top" Foreground="#b2cbde" Grid.Column="2"/>
-                                <TextBox HorizontalAlignment="Left" Margin="29,242,0,0" TextWrapping="Wrap" Text="3306" VerticalAlignment="Top" Width="160" Height="30" FontSize="20" Grid.ColumnSpan="3"/>
+                                    <!--USERNAME-->
+                                    <Label Content="Username" HorizontalAlignment="Left" Margin="490,64,0,0" VerticalAlignment="Top" Foreground="#b2cbde"/>
+                                    <TextBox HorizontalAlignment="Center" Margin="0,62,0,0" TextWrapping="Wrap" Text="DevOSHT" VerticalAlignment="Top" Width="160" Height="30" FontSize="20"/>
+                                    <!--PASSWORD-->
+                                    <Label Content="Password" HorizontalAlignment="Left" Margin="490,122,0,0" VerticalAlignment="Top" Foreground="#b2cbde"/>
+                                    <TextBox HorizontalAlignment="Center" Margin="0,120,0,0" TextWrapping="Wrap" Text="Snodgr4ss!" VerticalAlignment="Top" Width="160" Height="30" FontSize="20"/>
+                                    <!--IP-->
+                                    <Label Content="IP Address" HorizontalAlignment="Left" Margin="490,179,0,0" VerticalAlignment="Top" Foreground="#b2cbde"/>
+                                    <TextBox HorizontalAlignment="Center" Margin="0,177,0,0" TextWrapping="Wrap" Text="159.89.117.198" VerticalAlignment="Top" Width="160" Height="30" FontSize="20"/>
+                                    <!--PORT-->
+                                    <Label Content="Port" HorizontalAlignment="Left" Margin="490,239,0,0" VerticalAlignment="Top" Foreground="#b2cbde"/>
+                                    <TextBox HorizontalAlignment="Center" Margin="0,237,0,0" TextWrapping="Wrap" Text="3306" VerticalAlignment="Top" Width="160" Height="30" FontSize="20"/>
 
-                                <Button Content="Connect" Command ="{Binding ConnectCMP}" HorizontalAlignment="Left" Margin="347,285,0,0" VerticalAlignment="Top" Height="42" Width="106" FontSize="15" Background="azure" Grid.Column="2"/>
+                                    <Button Content="Connect" Command ="{Binding ConnectCMP}" HorizontalAlignment="Center" Margin="0,306,0,0" VerticalAlignment="Top" Height="42" Width="106" FontSize="15" Background="azure"/>
 
-                            </Grid>
+                                </Grid>
+                            </TabItem>
 
-                        </TabItem>
+                        </TabControl>
 
-                    </TabControl>
+                    </Grid>
+                </TabItem>
 
-                </Grid>
-            </TabItem>
+            </TabControl>
 
-        </TabControl>
-
-    </Grid>
+        </Grid>
+    </Viewbox>
 </Window>
