@@ -3,39 +3,41 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TMS_Project.View"
+        xmlns:local="clr-namespace:TMS_Project.View" xmlns:ViewModel="clr-namespace:TMS.ViewModel"
         mc:Ignorable="d"
         Title="BuyerView" Height="450" Width="800">
 
+    <Window.DataContext>
+        <ViewModel:BuyerViewModel />
+    </Window.DataContext>
     <Viewbox Stretch="Fill" StretchDirection="Both">
         <Grid Background="#304674">
 
             <TabControl >
-                
                 <!--HOME TAB-->
                 <TabItem Header="Home" Background="#304674" FontWeight="Medium">
-                    <Grid Background="#91BAD6" Height="389">
-
+                    <Grid Background="#91BAD6" Height="389" Width="763">
                         <Label Content="Welcome Buyer" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
+
                         <!--logs out of the user; may or may not go back to the login page-->
-                        <Button Content="Log Out" Command="{Binding LogOutBuyer}" HorizontalAlignment="Left" Margin="719,374,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
+                        <Button Content="Log Out" Command="{Binding LogOutBuyer}" HorizontalAlignment="Left" Margin="687,352,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
 
                     </Grid>
                 </TabItem>
 
                 <!--MARKETPLACE TAB-->
                 <TabItem Header="Marketplace" Background="#304674" FontWeight="Medium">
-                    <Grid Background="#91BAD6" Height="389">
+                    <Grid Background="#91BAD6" Height="389" Width="763">
 
                         <!--titles-->
                         <Label Content="Order Requests" HorizontalAlignment="Left" Margin="171,8,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
                         <Label Content="Values" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
 
                         <!--order requests data from the cmp database-->
-                        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="171,45,10,96" Name="OrderRequests" Background="Azure" IsReadOnly="False"/>
-
+                        <DataGrid d:ItemsSource="{Binding ContractData}" Margin="158,45,10,96" Name="OrderRequests" Background="Azure" IsReadOnly="False"/>
+                        
                         <!--legend for the cmp values-->
-                        <Grid Margin="10,45,645,96" Background="#304674">
+                        <Grid Margin="10,45,610,96" Background="#304674">
                             <Label Content="Job Type" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="15" Foreground="Azure"/>
                             <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="47" Width="132" FontWeight="Medium" Foreground="Azure" FontSize="13"><Run Language="en-ca" Text="0 - FTL"/><LineBreak/><Run Language="en-ca" Text="1 - LTL"/></TextBlock>
                             <Label Content="Quantity" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="15" Foreground="Azure" Margin="1,73,0,0"/>
@@ -52,9 +54,8 @@
 
                 <!--COMPLETED ORDERS TAB-->
                 <TabItem Header="Completed Orders" Background="#304674" FontWeight="Medium">
-                    <Grid Background="#91BAD6" Height="389">
+                    <Grid Background="#91BAD6" Height="389" Width="763">
 
-                        <!--title-->
                         <Label Content="Completed Orders from Planner" Margin="20,10,432,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66" Height="32"/>
 
                         <!--shows the values of completed orders from the planner-->
@@ -67,7 +68,6 @@
                 </TabItem>
 
             </TabControl>
-            
         </Grid>
     </Viewbox>
 </Window>
