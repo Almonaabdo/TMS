@@ -3,16 +3,15 @@ using DataLayer.Context;
 using DataLayer.Model;
 using Model;
 using System;
-
-
+using System.Collections.Generic;
 
 public class BuyerModel
 {
-    private  TmsDbContext _db;
+    private readonly TmsDbContext _db;
 
-    public BuyerModel()
+    public BuyerModel(TmsDbContext context)
     {
-       
+        _db = context;
     }
 
     
@@ -24,11 +23,12 @@ public class BuyerModel
         return contract;
     }
 
+    
     //public void DisplayContracts()
     //{
     //    Contract contract = new Contract();
-        
-      
+
+
     //}
 
 

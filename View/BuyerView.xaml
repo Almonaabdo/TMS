@@ -7,16 +7,23 @@
         mc:Ignorable="d"
         Title="BuyerView" Height="450" Width="800">
 
+
     <Grid Background="#304674">
 
         <TabControl>
             <!--HOME TAB-->
             <TabItem Header="Home" Background="#304674" FontWeight="Medium">
                 <Grid Background="#91BAD6">
-                    <Label Content="Welcome Buyer" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="79*"/>
+                        <ColumnDefinition Width="11*"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="629*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Welcome Buyer" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue" Grid.ColumnSpan="4"/>
 
                     <!--logs out of teh user; may or may not go back to the login page-->
-                    <Button Content="Log Out" Command="{Binding LogOutBuyer}" HorizontalAlignment="Left" Margin="706,355,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
+                    <Button Content="Log Out" Command="{Binding LogOutBuyer}" HorizontalAlignment="Left" Margin="541,355,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium" Grid.Column="3"/>
 
                 </Grid>
             </TabItem>
@@ -24,16 +31,20 @@
             <!--MARKETPLACE TAB-->
             <TabItem Header="Marketplace" Background="#304674" FontWeight="Medium">
                 <Grid Background="#91BAD6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="203*"/>
+                        <ColumnDefinition Width="591*"/>
+                    </Grid.ColumnDefinitions>
 
                     <!--titles-->
-                    <Label Content="Order Requests" HorizontalAlignment="Left" Margin="154,8,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
+                    <Label Content="Order Requests" HorizontalAlignment="Left" Margin="154,8,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66" Grid.ColumnSpan="2"/>
                     <Label Content="Values" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
 
                     <!--order requests data from the cmp database-->
-                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="154,45,5,108" Name="OrderRequests" Background="Azure" IsReadOnly="False"/>
+                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="154,45,5,108" Name="OrderRequests" Background="Azure" IsReadOnly="False" Grid.ColumnSpan="2"/>
 
                     <!--legend for the cmp values-->
-                    <Grid Margin="10,45,645,108" Background="#304674">
+                    <Grid Margin="10,45,54,108" Background="#304674">
                         <Label Content="Job Type" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="15" Foreground="Azure"/>
                         <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="47" Width="132" FontWeight="Medium" Foreground="Azure" FontSize="13"><Run Language="en-ca" Text="0 - FTL"/><LineBreak/><Run Language="en-ca" Text="1 - LTL"/></TextBlock>
                         <Label Content="Quantity" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="15" Foreground="Azure" Margin="1,73,0,0"/>
@@ -44,7 +55,7 @@
 
 
                     <!--accepts the order and sends it to the Planner-->
-                    <Button Content="Accept Order" Command="{Binding AcceptOrder}" HorizontalAlignment="Left" Margin="397,310,0,0" VerticalAlignment="Top" Height="41" Width="111" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15"/>
+                    <Button Content="Accept Order" Command="{Binding AcceptOrder}" HorizontalAlignment="Left" Margin="194,310,0,0" VerticalAlignment="Top" Height="41" Width="111" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15" Grid.Column="1"/>
                 </Grid>
             </TabItem>
 
@@ -52,13 +63,18 @@
             <!--COMPLETED ORDERS TAB-->
             <TabItem Header="Compeleted Orders" Background="#304674" FontWeight="Medium">
                 <Grid Background="#91BAD6">
-                    <Label Content="Completed Orders from Planner" HorizontalAlignment="Left" Margin="35,16,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="72*"/>
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="707*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Completed Orders from Planner" HorizontalAlignment="Left" Margin="35,16,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66" Grid.ColumnSpan="3"/>
 
-                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="35,53,35,84"/>
+                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="35,53,35,84" Grid.ColumnSpan="3"/>
 
 
                     <!--processes the invoice if order is complete-->
-                    <Button Content="Process Invoice" Command="{Binding ProcessInvoice}" HorizontalAlignment="Left" Margin="630,339,0,0" VerticalAlignment="Top" Height="34" Width="129" FontWeight="Bold" Foreground="#001233" Background="Azure" FontSize="15"/>
+                    <Button Content="Process Invoice" Command="{Binding ProcessInvoice}" HorizontalAlignment="Left" Margin="543,339,0,0" VerticalAlignment="Top" Height="34" Width="129" FontWeight="Bold" Foreground="#001233" Background="Azure" FontSize="15" Grid.Column="2"/>
                 </Grid>
             </TabItem>
 
