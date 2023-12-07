@@ -12,7 +12,7 @@ public class BuyerViewModel
 
    public IEnumerable<Contract>? ContractData { get; private set; }
     
-    private readonly TmsDbContext _tmsDbContext;
+    private readonly TmsDbContext _tmsDbContext = new TmsDbContext();
    private readonly BuyerModel _buyerModel;
 
    public BuyerViewModel()
@@ -22,7 +22,16 @@ public class BuyerViewModel
     }
     public void LoadData()
     {
-        ContractData = new ObservableCollection<Contract>(_buyerModel.LoadContracts() ?? throw new InvalidOperationException());
+        var loadedContracts = _buyerModel.LoadContracts();
+        if (loadedContracts != null)
+        {
+            ContractData = new ObservableCollection<Contract>(loadedContracts);
+        }
+        else
+        {
+            ContractData = new ObservableCollection<Contract>();
+        }
+       
        
     }
 }

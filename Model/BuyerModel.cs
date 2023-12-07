@@ -8,10 +8,12 @@ using System.Linq;
 
 public class BuyerModel
 {
-    private readonly TmsDbContext _db;
-    private readonly ContractMarketPlaceDbContext _cdb;
+    private readonly TmsDbContext _db = new TmsDbContext();
+    private readonly ContractMarketPlaceDbContext _cdb = new ContractMarketPlaceDbContext();
+
     public BuyerModel(TmsDbContext context)
     {
+
         _db = context;
     }
 
@@ -26,15 +28,14 @@ public class BuyerModel
 
     public List<Contract> LoadContracts()
     {
-    #pragma warning disable CS8604 // Possible null reference argument.
 
         try
         {
-            if (_cdb != null)
+            if (_cdb.Contracts != null)
             {
 
                 List<Contract> contracts = _cdb.Contracts.ToList();
-                return contracts;
+                return contracts.Any() ? contracts : new List<Contract>();
 
             }
         }
@@ -42,7 +43,7 @@ public class BuyerModel
         catch (Exception e)
         {
             Console.WriteLine(e);
-            LoggerModel.LogException("Error loading contracts data.");
+            LoggerModel.LogException("Error loading contract data.");
         }
 
         return new List<Contract>();
