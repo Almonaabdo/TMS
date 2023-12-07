@@ -3,12 +3,13 @@ using DataLayer.Context;
 using DataLayer.Model;
 using Model;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class BuyerModel
 {
     private readonly TmsDbContext _db;
-
+    private readonly ContractMarketPlaceDbContext _cdb;
     public BuyerModel(TmsDbContext context)
     {
         _db = context;
@@ -21,6 +22,31 @@ public class BuyerModel
 
         Contract contract = new Contract();
         return contract;
+    }
+
+    public List<Contract> LoadContracts()
+    {
+    #pragma warning disable CS8604 // Possible null reference argument.
+
+        try
+        {
+            if (_cdb != null)
+            {
+
+                List<Contract> contracts = _cdb.Contracts.ToList();
+                return contracts;
+
+            }
+        }
+
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            LoggerModel.LogException("Error loading contracts data.");
+        }
+
+        return new List<Contract>();
+
     }
 
 
