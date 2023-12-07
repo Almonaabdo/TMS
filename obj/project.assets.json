@@ -1483,19 +1483,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\haboc\\.nuget\\packages\\": {}
+    "C:\\Users\\Erin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\SecondyearFirst\\SQ\\TMS_Group\\TMS\\TMS-Project.csproj",
+      "projectUniqueName": "C:\\erin\\college3\\softwarequa\\PGM\\TMS\\TMS-Project.csproj",
       "projectName": "TMS-Project",
-      "projectPath": "C:\\SecondyearFirst\\SQ\\TMS_Group\\TMS\\TMS-Project.csproj",
-      "packagesPath": "C:\\Users\\haboc\\.nuget\\packages\\",
-      "outputPath": "C:\\SecondyearFirst\\SQ\\TMS_Group\\TMS\\obj\\",
+      "projectPath": "C:\\erin\\college3\\softwarequa\\PGM\\TMS\\TMS-Project.csproj",
+      "packagesPath": "C:\\Users\\Erin\\.nuget\\packages\\",
+      "outputPath": "C:\\erin\\college3\\softwarequa\\PGM\\TMS\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\haboc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Erin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
