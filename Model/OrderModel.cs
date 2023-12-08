@@ -138,8 +138,7 @@ public class OrderModel
     {
         decimal[] totalKmAndHrs = new decimal[2];
 
-        
-        var routeId = _dbContext?.Routes?.FirstOrDefault(e => e.SourceCity.CityName == origin && e.DestinationCity.CityName == destination);
+        var routeId = _db?.Routes?.FirstOrDefault(e => e.SourceCity.CityName == origin && e.DestinationCity.CityName == destination);
 
         if (routeId != null)
         {
