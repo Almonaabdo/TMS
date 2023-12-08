@@ -11,93 +11,98 @@
         <viewModel:AdminViewModel />
     </Window.DataContext>
 
-    <Viewbox  Stretch="None" StretchDirection="Both">
-        <Grid Background="#304674">
+    <Viewbox Stretch="Fill" StretchDirection="Both">
+        <Grid Background="#304674" Width="887" Height="482">
+            <TabControl SelectionChanged="TabControl_SelectionChanged" >
 
-            <TabControl>
                 <!--HOME TAB-->
                 <TabItem Header="Home" FontWeight="Medium" Background="#304674">
-                    <Grid Background="#91BAD6">
+                    <Grid Background="#91BAD6" Height="457">
+
                         <Label Content="Welcome Admin" HorizontalAlignment="Left" Margin="20,23,0,0"
-                               VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"
-                               Grid.ColumnSpan="2" />
+                       VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"
+                      />
                         <!--logs out of the user; may or may not go back to the login page-->
                         <Button Content="Log Out" Command="{Binding LogOutAdmin}" HorizontalAlignment="Left"
-                                Margin="724,377,0,0" VerticalAlignment="Top" Height="27" Width="66"
-                                Background="DarkBlue" Foreground="white" FontWeight="Medium" />
+                        Margin="805,420,0,0" VerticalAlignment="Top" Height="27" Width="66"
+                        Background="DarkBlue" Foreground="white" FontWeight="Medium" />
 
                     </Grid>
                 </TabItem>
 
+                <!--CONFIGURATIONS TAB-->
                 <TabItem Header="Configurations" Background="#304674" FontWeight="Medium">
-                    <Grid Background="#91BAD6">
-                        <TabControl Margin="0">
+                    <Grid Background="#91BAD6" >
+                        <TabControl Margin="10,10,10,10">
+
                             <!-- Log Files Tab -->
                             <TabItem Header="Log Files" Background="#304674">
-                                <Grid Background="#304674" Height="349">
+                                <Grid Background="#304674">
+
                                     <!--log files-->
                                     <ListBox Name="LogFiles" ItemsSource="{Binding FileViewModel.LogFiles}"
-                                             SelectedItem="{Binding FileViewModel.SelectedLogFile}"
-                                             Margin="10,10,10,69" />
+                                     SelectedItem="{Binding FileViewModel.SelectedLogFile}"
+                                     Margin="10,10,10,80" />
                                     <Button Content="Open File"
-                                            Command="{Binding FileViewModel.OpenSelectedFileCommand}"
-                                            HorizontalAlignment="Left" VerticalAlignment="Top"
-                                            Height="38" Width="144" FontWeight="Bold" Foreground="#001233"
-                                            Background="Azure" Margin="272,285,0,0" />
-                                    <Label Content="Open selected file" HorizontalAlignment="Left"
-                                           VerticalAlignment="Top" FontWeight="Medium" Foreground="#b2cbde"
-                                           Margin="290,323,0,0" />
+                                    Command="{Binding FileViewModel.OpenSelectedFileCommand}"
+                                    HorizontalAlignment="Center" VerticalAlignment="Top"
+                                    Height="38" Width="144" FontWeight="Bold" Foreground="#001233"
+                                    Background="Azure" Margin="0,342,0,0" />
+
+                                    <Label Content="Open selected file" HorizontalAlignment="Center"
+                                   VerticalAlignment="Top" FontWeight="Medium" Foreground="#b2cbde"
+                                   Margin="0,380,0,0" />
                                 </Grid>
                             </TabItem>
 
                             <!-- Backup Files Tab -->
                             <TabItem Header="Backup Files" Background="#304674">
-                                <Grid Background="#304674" Height="349">
+                                <Grid Background="#304674">
                                     <!-- ProgressBar -->
 
-                                    <ListBox ItemsSource="{Binding FileViewModel.BackupFiles}" Margin="10,10,10,69"
-                                             SelectedItem="{Binding FileViewModel.SelectedBackupFile}" />
+                                    <ListBox ItemsSource="{Binding FileViewModel.BackupFiles}" Margin="10,10,10,80"
+                                     SelectedItem="{Binding FileViewModel.SelectedBackupFile}" />
                                     <Button Content="Open" Command="{Binding FileViewModel.OpenSelectedBackupCommand}"
-                                            HorizontalAlignment="Left" VerticalAlignment="Top"
-                                            Height="38" Width="144" FontWeight="Bold" Foreground="#001233"
-                                            Background="Azure" Margin="83,285,0,0" />
-                                    <Label Content="Perform backup operation" HorizontalAlignment="Left"
-                                           VerticalAlignment="Top" FontWeight="Medium"
-                                           Foreground="#b2cbde" Margin="419,323,0,0" />
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Height="38" Width="144" FontWeight="Bold" Foreground="#001233"
+                                    Background="Azure" Margin="82,345,0,0" />
+                                    <Label Content="Perform backup operation" HorizontalAlignment="Right"
+                                   VerticalAlignment="Top" FontWeight="Medium"
+                                   Foreground="#b2cbde" Margin="0,380,100,0" />
                                     <Button Content="Backup" Command="{Binding FileViewModel.BackUpDbCommand}"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Top" Height="38" Width="144"
-                                            FontWeight="Bold" Foreground="#001233" Background="Azure"
-                                            Margin="424,285,0,0" />
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top" Height="38" Width="144"
+                                    FontWeight="Bold" Foreground="#001233" Background="Azure"
+                                    Margin="606,345,0,0" />
                                     <Label Content="Open selected file" HorizontalAlignment="Left"
-                                           VerticalAlignment="Top" FontWeight="Medium" Foreground="#b2cbde"
-                                           Margin="92,323,0,0" />
+                                   VerticalAlignment="Top" FontWeight="Medium" Foreground="#b2cbde"
+                                   Margin="100,380,0,0" />
                                     <ProgressBar x:Name="ProgressBar" Foreground="SeaGreen"
-                                                 Visibility="{Binding FileViewModel.ProgressBarVisibility, Mode=OneWay}"
-                                                 Margin="424,0,0,85" Height="20"
-                                                 Value="{Binding FileViewModel.BackUpProgress, Mode=OneWay}"
-                                                 Width="150"
-                                                 VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+                                         Visibility="{Binding FileViewModel.ProgressBarVisibility, Mode=OneWay}"
+                                         Margin="0,354,0,0" Height="20"
+                                         Value="{Binding FileViewModel.BackUpProgress, Mode=OneWay}"
+                                         Width="150"
+                                         VerticalAlignment="Top" HorizontalAlignment="Center" />
                                 </Grid>
                             </TabItem>
                         </TabControl>
                     </Grid>
                 </TabItem>
+
+                <!--ALTER DATA TAB-->
                 <TabItem Header="Alter Data" Background="#304674" FontWeight="Medium">
-                    <Grid Background="#91BAD6">
-                        <TabControl Margin="0">
+                    <Grid Background="#91BAD6" Height="454">
+                        <TabControl Margin="10,10,10,10">
+
                             <!-- Route Tab -->
                             <TabItem Header="Route" Background="#304674">
                                 <Grid Background="#304674">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="69*" />
-                                        <ColumnDefinition Width="719*" />
-                                    </Grid.ColumnDefinitions>
+
                                     <DataGrid Name="RouteTable" ItemsSource="{Binding RouteData}" Background="Azure"
-                                              IsReadOnly="False" Margin="10,10,10,50" Grid.ColumnSpan="2" />
+                                      IsReadOnly="False" Margin="10,10,10,55" />
                                     <Button Content="Save" Command="{Binding SaveRoutesCommand}" Height="31" Width="98"
-                                            Background="Azure" FontWeight="Bold" FontSize="15" Margin="260,387,0,0"
-                                            Grid.Column="1" />
+                                    Background="Azure" FontWeight="Bold" FontSize="15" Margin="368,355,369,10"
+                                    />
                                 </Grid>
                             </TabItem>
 
@@ -105,9 +110,9 @@
                             <TabItem Header="Rate" Background="#304674">
                                 <Grid Background="#304674">
                                     <DataGrid ItemsSource="{Binding RatesData}" Name="RateFeeTable" Background="Azure"
-                                              IsReadOnly="False" Margin="10,10,10,50" />
+                                      IsReadOnly="False" Margin="10,10,10,55" />
                                     <Button Content="Save" Command="{Binding SaveRatesCommand}" Height="31" Width="98"
-                                            Background="Azure" FontWeight="Bold" FontSize="15" Margin="310,387,0,0" />
+                                    Background="Azure" FontWeight="Bold" FontSize="15" Margin="368,355,369,10" />
                                 </Grid>
                             </TabItem>
 
@@ -118,26 +123,29 @@
                                         <ColumnDefinition Width="109*" />
                                         <ColumnDefinition Width="679*" />
                                     </Grid.ColumnDefinitions>
-                                    <DataGrid ItemsSource="{Binding CarrierViewModel.CarrierData}" Margin="10,10,10,50"
-                                              Background="Azure" IsReadOnly="False" Grid.ColumnSpan="2" />
+                                    <DataGrid ItemsSource="{Binding CarrierViewModel.CarrierData}" Margin="10,10,10,55"
+                                      Background="Azure" IsReadOnly="False" Grid.ColumnSpan="2" />
+
                                     <Button Content="Save" Command="{Binding CarrierViewModel.SaveCarrierCommand}"
-                                            Height="35" Width="108" Background="Azure" FontWeight="Bold" FontSize="15"
-                                            Grid.Column="1" Margin="217,387,0,0" />
+                                    Height="31" Width="98" Background="Azure" FontWeight="Bold" FontSize="15"
+                                    Grid.Column="1" Margin="261,365,378,10" />
                                 </Grid>
                             </TabItem>
 
                             <!-- Delete Tab -->
                             <TabItem Header="Delete Data" Background="#304674">
-                                <StackPanel>
-                                    <Label Content="Select a table to delete from:" />
-                                    <ComboBox ItemsSource="{Binding DeleteViewModel.DeleteOptions}"
-                                              SelectedItem="{Binding DeleteViewModel.SelectedDeleteOption}" />
+                                <StackPanel Background="#304674">
 
+                                    <Label Content="Select a table to delete from:" Height="38" Width="687" FontWeight="Medium" Foreground="#b2cbde" HorizontalAlignment="Center"/>
+
+                                    <ComboBox ItemsSource="{Binding DeleteViewModel.DeleteOptions}"
+                                      SelectedItem="{Binding DeleteViewModel.SelectedDeleteOption}" Width="475" />
                                     <DataGrid ItemsSource="{Binding DeleteViewModel.SelectedTableData}"
-                                              AutoGenerateColumns="True" SelectionMode="Single" CanUserAddRows="False"
-                                              SelectedItem="{Binding DeleteViewModel.SelectedRows}" />
-                                    <Button Content="Delete Selected Rows"
-                                            Command="{Binding DeleteViewModel.DeleteCommand}" />
+                                      AutoGenerateColumns="True" SelectionMode="Single" CanUserAddRows="False"
+                                      SelectedItem="{Binding DeleteViewModel.SelectedRows}" Height="52" Width="664" />
+
+                                    <Button Content="Delete Selected Rows" Background="Azure" FontWeight="Bold" FontSize="15"  Height="35" Width="200"
+                                    Command="{Binding DeleteViewModel.DeleteCommand}" />
                                 </StackPanel>
                             </TabItem>
 
@@ -145,6 +153,7 @@
                             <TabItem Header="Add" Background="#304674">
                                 <Grid Background="#304674">
                                     <StackPanel Margin="10">
+
                                         <!-- Input Fields for Creating a New Carrier -->
                                         <Label Content="Company Name:" />
                                         <TextBox Text="{Binding CarrierViewModel.CompanyName}" />
@@ -161,21 +170,23 @@
                                         <Label Content="Reef Charge" />
                                         <TextBox Text="{Binding CarrierViewModel.ReefCharge}" />
                                     </StackPanel>
-                                    <Button Width="196" FontSize="29" Content="Add"
-                                            Command="{Binding CarrierViewModel.CreateCarrierCommand}" Height="39"
-                                            Margin="288,343,0,0" />
-                                    <Label Content="Add new carrier" Margin="333,382,275,21"
-                                           RenderTransformOrigin="0.639,0.571" />
+
+                                    <Button Content="Add"  Background="Azure" FontWeight="Bold" FontSize="15"  Height="35" Width="108"
+                                    Command="{Binding CarrierViewModel.CreateCarrierCommand}"
+                                    Margin="374,343,373,28" />
+                                    <Label Content="Add new carrier" Margin="304,392,304,10" FontWeight="Bold" Foreground="AliceBlue" 
+                                   RenderTransformOrigin="0.639,0.571" />
+
                                 </Grid>
                             </TabItem>
                         </TabControl>
                     </Grid>
                 </TabItem>
 
-                <!-- DB Connection Tab -->
+                <!-- DB CONNECTION TAB -->
                 <TabItem Header="DB Connection" Background="#304674" FontWeight="Medium">
                     <Grid Background="#91BAD6">
-                        <TabControl Margin="0">
+                        <TabControl Margin="10,10,10,10">
                             <!-- Local DB Tab -->
                             <TabItem Header="Local DB" Background="#304674">
                                 <!-- Local DB Tab Content -->
@@ -188,7 +199,6 @@
                         </TabControl>
                     </Grid>
                 </TabItem>
-
 
             </TabControl>
         </Grid>
