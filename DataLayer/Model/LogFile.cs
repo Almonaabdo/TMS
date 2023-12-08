@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DataLayer.Model;
+using TMS_Project.DataLayer.Model;
 
 namespace TMS_Project.DataLayer.Model;
 

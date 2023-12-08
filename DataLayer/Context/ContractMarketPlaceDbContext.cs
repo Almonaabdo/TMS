@@ -15,6 +15,7 @@ public class ContractMarketPlaceDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Configuration for the 'Contract' entity.
         modelBuilder.Entity<Contract>().HasNoKey();
     }
 }

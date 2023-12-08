@@ -13,6 +13,6 @@ public class Route
     public decimal Duration { get; set; }
 
     // Navigation properties
-    public virtual Cities SourceCity { get; set; } = new();
-    public virtual Cities DestinationCity { get; set; } = new();
+    public virtual City SourceCity { get; set; } = new();
+    public virtual City DestinationCity { get; set; } = new();
 }

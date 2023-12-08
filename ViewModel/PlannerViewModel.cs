@@ -40,11 +40,10 @@ public class PlannerViewModel : INotifyPropertyChanged
 
 
     public ICommand GetOrdersCommand { get; }
-    private CarrierModel CarrierModelObject { get; }
-    private readonly OrderModel OrderModelObject;
-
+    private DataService _dataService { get; }
+    
     private readonly TmsDbContext _TmsDbContext;
-
+    private OrderModel _orderModel { get;}
     public ObservableCollection<Order> OrderData { get; private set; } = null!;
 
 
@@ -52,8 +51,6 @@ public class PlannerViewModel : INotifyPropertyChanged
     {
         CompleteOrderCommand = new RelayCommand(CallCompleteOrder);
         _TmsDbContext = new TmsDbContext();
-        CarrierModelObject = new CarrierModel(_TmsDbContext);
-        OrderModelObject = new OrderModel();
         GetOrderTable();
     }
 
@@ -61,7 +58,7 @@ public class PlannerViewModel : INotifyPropertyChanged
 
     public void GetOrderTable()
     {
-        OrderData = new ObservableCollection<Order>(OrderModelObject.LoadTable<Order>() ?? throw new InvalidOperationException());
+        OrderData = new ObservableCollection<Order>(_dataService.RetrieveTable<Order>() ?? throw new InvalidOperationException());
 
         OnPropertyChanged(nameof(OrderData));
     }
@@ -72,7 +69,7 @@ public class PlannerViewModel : INotifyPropertyChanged
     {
         try
         {
-            OrderModelObject.CompleteOrder(SelectedOrder);
+           // _orderModel.CompleteOrder();
             MessageBox.Show("Sucessfully Completed Order");
             GetOrderTable();
         }

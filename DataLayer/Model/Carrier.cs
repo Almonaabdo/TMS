@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DataLayer.Model;
+using System.Reflection.Emit;
 
 namespace TMS_Project.DataLayer.Model;
 
@@ -10,11 +10,9 @@ public class Carrier
 {
     [Key] public int CarrierId { get; set; }
     public string? CompanyName { get; set; } = "";
-    //public int Capacity { get; set; }
-
-    // Number of available trucks for each.
-    public int FTLA { get; set; }
-    public int LTLA { get; set; }
+    public string? DepotCity { get; set; }
+    public int Ftla { get; set; }
+    public int Ltla { get; set; }
 
     // charges for Full Truck Load/ Less Truck Load
     public double FtlRate { get; set; }

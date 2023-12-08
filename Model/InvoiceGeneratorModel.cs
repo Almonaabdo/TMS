@@ -22,7 +22,7 @@ public class InvoiceGeneratorModel
     /// <param name="rates"></param>
     /// <param name="customer"></param>
     /// <returns></returns>
-    public Invoice GenerateInvoice(Order order, Rates rates, Customer customer)
+    public Invoice GenerateInvoice(Order order, Rate rates, Customer customer)
     {
         decimal Amount = 100; // Call method to get invoice amount here, just a place holder for now
 

@@ -8,17 +8,17 @@ namespace TMS_Project.DataLayer.Context
         public DbSet<User>? Users { get; set; }
         public DbSet<Order>? Orders { get; set; }
         public DbSet<Customer>? Customers { get; set; }
-        public DbSet<Cities>? Cities { get; set; }
+        public DbSet<City>? Cities { get; set; }
         public DbSet<Carrier>? Carriers { get; set; }
         public DbSet<Trip>? Trips { get; set; }
-        public DbSet<Rates>? Rates { get; set; }
+        public DbSet<Rate>? Rates { get; set; }
         public DbSet<Route>? Routes { get; set; }
         public DbSet<LogFile>? LogFiles { get; set; }
-        public DbSet<Invoice>? InvoiceDetails { get; set; }
+        public DbSet<Invoice>? InvoiceDetails { get;}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            const string connectionString = "server=127.0.0.1; port=3306; database=tms; user=root; password=root";
+            const string connectionString = "server=34.132.127.119; port=3306; database=tms; user=root; password=root";
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
 
@@ -57,8 +57,9 @@ namespace TMS_Project.DataLayer.Context
                 entity.HasKey(e => e.CarrierId);
                 entity.Property(e => e.CarrierId).ValueGeneratedOnAdd();
                 entity.Property(e => e.CompanyName).IsRequired();
-                entity.Property(e => e.FTLA).IsRequired();
-                entity.Property(e => e.LTLA).IsRequired();
+                entity.Property(e => e.DepotCity).IsRequired();
+                entity.Property(e => e.Ftla).IsRequired();
+                entity.Property(e => e.Ltla).IsRequired();
                 entity.Property(e => e.FtlRate).IsRequired();
                 entity.Property(e => e.LtlRate).IsRequired();
                 entity.Property(e => e.ReefCharge).IsRequired();
@@ -68,15 +69,15 @@ namespace TMS_Project.DataLayer.Context
 
             });
 
-            // Configuration for the 'Cities' entity.
-            modelBuilder.Entity<Cities>(entity =>
+            // Configuration for the 'City' entity.
+            modelBuilder.Entity<City>(entity =>
             {
-                entity.ToTable("Cities");
+                entity.ToTable("City");
                 entity.HasKey(e => e.CityId);
                 entity.Property(e => e.CityId).ValueGeneratedOnAdd();
                 entity.Property(e => e.CityName).IsRequired();
 
-                // Configuration for the 'Cities' entity.
+                // Configuration for the 'City' entity.
                 entity.HasMany(e => e.SourceOrders)
                     .WithOne(o => o.SourceCity)
                     .HasForeignKey(o => o.SourceCityId)
@@ -154,7 +155,6 @@ namespace TMS_Project.DataLayer.Context
                 entity.ToTable("Orders");
                 entity.HasKey(e => e.OrderId);
                 entity.Property(e => e.OrderId).ValueGeneratedOnAdd();
-                entity.Property(e => e.ContractId).IsRequired();
                 entity.Property(e => e.CustomerId).IsRequired();
                 entity.Property(e => e.OrderStatus).IsRequired();
                 entity.Property(e => e.DateInitiated).IsRequired();
@@ -183,9 +183,9 @@ namespace TMS_Project.DataLayer.Context
             });
 
 
-            modelBuilder.Entity<Rates>(entity =>
+            modelBuilder.Entity<Rate>(entity =>
             {
-                entity.ToTable("Rates");
+                entity.ToTable("Rate");
                 entity.HasKey(e => e.RateId);
                 entity.Property(e => e.RateId).ValueGeneratedOnAdd();
                 entity.Property(e => e.RateType).IsRequired();
@@ -205,20 +205,18 @@ namespace TMS_Project.DataLayer.Context
                 entity.Property(e => e.Distance).IsRequired();
                 entity.Property(e => e.Duration).IsRequired();
 
-                // Relationship with Cities: Each Route has one source city
+                // Relationship with City: Each Route has one source city
                 entity.HasOne(e => e.SourceCity)
                     .WithMany(c => c.SourceRoutes)
                     .HasForeignKey(e => e.SourceCityId)
                     .OnDelete(DeleteBehavior.Restrict);
 
-                // Relationship with Cities: Each Route has one destination city
+                // Relationship with City: Each Route has one destination city
                 entity.HasOne(e => e.DestinationCity)
                     .WithMany(c => c.DestinationRoutes)
                     .HasForeignKey(e => e.DestinationCityId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
-
-
 
             modelBuilder.Entity<Trip>(entity =>
             {
@@ -229,8 +227,7 @@ namespace TMS_Project.DataLayer.Context
                 entity.Property(e => e.CarrierId).IsRequired();
                 entity.Property(e => e.TripStatus).IsRequired();
 
-                // Relationship: Each trip belongs to one order
-               // entity.HasOne(e => e.Order).WithMany(o => o.Trip).HasForeignKey(e => e.OrderId);
+               
 
                // Relationship: Each trip has one carrier
                entity.HasOne(e => e.Carrier).WithMany(c => c.Trips).HasForeignKey(e => e.CarrierId);
