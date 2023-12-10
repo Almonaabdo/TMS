@@ -15,8 +15,6 @@ public sealed class Customer
     public string? PhoneNumber { get; set; }
     public string? Email { get; set; }
 
-    // Navigation property
-    public User? User { get; set; }
     public List<Order>? Orders { get; set; }
     public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 }
