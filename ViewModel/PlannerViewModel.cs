@@ -12,70 +12,76 @@ using TMS_Project.DataLayer.Context;
 using TMS_Project.DataLayer.Model;
 using TMS_Project.Helper;
 using TMS_Project.Model;
+using TMS_Project.ViewModel;
 
-
-
-
-namespace TMS.ViewModel;
-public class PlannerViewModel : INotifyPropertyChanged
+namespace TMS.ViewModel
 {
-    public ICommand CompleteOrderCommand { get; }
-
-    private Order _selectedOrder;
-    public Order SelectedOrder
+    public class PlannerViewModel : ViewModelBase
     {
-        get { return _selectedOrder; }
-        set
+        #region Properties
+
+        public LogInViewModel LogInViewModel { get; set; } = new();
+
+        public ICommand CompleteOrderCommand { get; }
+
+        private Order _selectedOrder;
+        public Order SelectedOrder
         {
-            _selectedOrder = value;
-            OnPropertyChanged(nameof(SelectedOrder));
+            get { return _selectedOrder; }
+            set
+            {
+                _selectedOrder = value;
+                OnPropertyChanged(nameof(SelectedOrder));
+            }
         }
-    }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+        public ICommand GetOrdersCommand { get; }
+        private DataService _dataService { get; }
 
+        private readonly TmsDbContext _TmsDbContext;
+        private OrderModel _orderModel { get; }
+        public ObservableCollection<Order> OrderData { get; private set; } = null!;
 
-    public ICommand GetOrdersCommand { get; }
-    private DataService _dataService { get; }
-    
-    private readonly TmsDbContext _TmsDbContext;
-    private OrderModel _orderModel { get;}
-    public ObservableCollection<Order> OrderData { get; private set; } = null!;
+        #endregion
 
+        #region Constructor
 
-    public PlannerViewModel()
-    {
-        CompleteOrderCommand = new RelayCommand(CallCompleteOrder);
-        _TmsDbContext = new TmsDbContext();
-        GetOrderTable();
-    }
-
-
-
-    public void GetOrderTable()
-    {
-        OrderData = new ObservableCollection<Order>(_dataService.RetrieveTable<Order>() ?? throw new InvalidOperationException());
-
-        OnPropertyChanged(nameof(OrderData));
-    }
-
-
-
-    public void CallCompleteOrder()
-    {
-        try
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public PlannerViewModel()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
-           // _orderModel.CompleteOrder();
-            MessageBox.Show("Sucessfully Completed Order");
+            CompleteOrderCommand = new RelayCommand(CallCompleteOrder);
+            _TmsDbContext = new TmsDbContext();
             GetOrderTable();
+            _dataService = new DataService();
+            _orderModel = new OrderModel(_TmsDbContext);
         }
-        catch (Exception ex)
+
+        #endregion
+
+        #region Methods
+
+        public void GetOrderTable()
         {
-            MessageBox.Show(ex.Message);
+            OrderData = new ObservableCollection<Order>(_dataService.RetrieveTable<Order>() ?? throw new InvalidOperationException());
+
+            OnPropertyChanged(nameof(OrderData));
         }
+
+        public void CallCompleteOrder()
+        {
+            try
+            {
+                // _orderModel.CompleteOrder();
+                MessageBox.Show("Sucessfully Completed Order");
+                GetOrderTable();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
     }
 }

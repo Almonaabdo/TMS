@@ -134,23 +134,22 @@ public class OrderModel
   * 
   * RETURN: double[], [0] = totalKm, [1] = totalHrs
   */
-    public decimal[] GetKmAndHrs(string destination, string origin)
+    public double[] GetKmAndHrs(string destination, string origin)
     {
-        decimal[] totalKmAndHrs = new decimal[2];
+        double[] totalKmAndHrs = new double[2];
 
-        var routeId = _db?.Routes?.FirstOrDefault(e => e.SourceCity.CityName == origin && e.DestinationCity.CityName == destination);
+        var route = _db?.Routes?.FirstOrDefault(e =>
+            e.SourceCity.CityName == origin && e.DestinationCity.CityName == destination);
 
-        if (routeId != null)
+        if (route != null)
         {
-            totalKmAndHrs[0] = routeId.Distance;
-            totalKmAndHrs[0] = Decimal.Round(totalKmAndHrs[0], 3);
-            totalKmAndHrs[1] = routeId.Duration;
-            totalKmAndHrs[1] = Decimal.Round(totalKmAndHrs[1], 3);
-
+            totalKmAndHrs[0] = Math.Round(route.Distance, 3);
+            totalKmAndHrs[1] = Math.Round(route.Duration, 3);
         }
 
         return totalKmAndHrs;
     }
+
 
     /*
     * METHOD NAME: CalculateRate

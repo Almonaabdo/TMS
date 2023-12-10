@@ -24,13 +24,13 @@ public class InvoiceGeneratorModel
     /// <returns></returns>
     public Invoice GenerateInvoice(Order order, Rate rates, Customer customer)
     {
-        decimal Amount = 100; // Call method to get invoice amount here, just a place holder for now
+        double amount = 100; // Call method to get invoice amount here, just a place holder for now
 
         var invoice = new Invoice  // Create a new invoice
         {
             OrderId = order.OrderId,
             RateId = rates.RateId,
-            Amount = Amount,
+            Amount = amount,
             InvoiceDate = DateTime.Today,
             CustomerId = customer.CustomerId
         };
