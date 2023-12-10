@@ -8,7 +8,7 @@ using System.Linq;
 
 public class BuyerModel
 {
-    private readonly TmsDbContext _db = new TmsDbContext();
+    private readonly TmsDbContext _db;
     private readonly ContractMarketPlaceDbContext _cdb = new ContractMarketPlaceDbContext();
 
     public BuyerModel(TmsDbContext context)

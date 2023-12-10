@@ -20,7 +20,7 @@
                         <Label Content="Welcome Buyer" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
 
                         <!--logs out of the user; may or may not go back to the login page-->
-                        <Button Content="Log Out" Command="{Binding LogOutBuyer}" HorizontalAlignment="Left" Margin="687,352,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
+                        <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}" HorizontalAlignment="Left" Margin="687,352,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
 
                     </Grid>
                 </TabItem>
