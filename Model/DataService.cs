@@ -25,7 +25,7 @@ namespace TMS_Project.Model
         public void CreateCarrier(string name, string depotCity, int newFtla, int newLtla, double newFtlaRate, double newLtlaRate, double newReefCharge)
         {
             // Check if a carrier with the same name already exists
-            var existingCarrier = _dbContext?.Carriers?.FirstOrDefault(c => c.CompanyName == name);
+            var existingCarrier = _dbContext.Carriers?.FirstOrDefault(c => c.CompanyName == name);
 
             if (existingCarrier != null)
             {
@@ -44,8 +44,8 @@ namespace TMS_Project.Model
                 ReefCharge = newReefCharge
             };
 
-            _dbContext?.Carriers?.Add(newCarrier);
-            _dbContext?.SaveChanges();
+            _dbContext.Carriers?.Add(newCarrier);
+            _dbContext.SaveChanges();
         }
 
         #endregion
@@ -64,7 +64,7 @@ namespace TMS_Project.Model
                 _dbContext.Set<T>().Remove(entityToDelete);
                 _dbContext.SaveChanges();
             }
-            catch (DbUpdateException e)
+            catch (DbUpdateException)
             {
                 LoggerModel.LogException("Exception while deleting data from entity.");
             }
@@ -113,7 +113,7 @@ namespace TMS_Project.Model
 
                 return true;
             }
-            catch (MySqlException e)
+            catch (MySqlException)
             {
                 LoggerModel.LogException($"Exception thrown while backing up database");
                 return false;
@@ -133,7 +133,8 @@ namespace TMS_Project.Model
         {
             try
             {
-                if (_dbContext?.Set<T>() != null) return _dbContext.Set<T>().ToList();
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+                if (_dbContext.Set<T>() != null) return _dbContext.Set<T>().ToList();
             }
             catch (Exception e)
             {
@@ -173,6 +174,27 @@ namespace TMS_Project.Model
             {
                 LoggerModel.LogException($"Exception saving changes to database. {ex.Message}");
             }
+        }
+
+        #endregion
+
+        #region Query
+        // Join query
+        public IQueryable<JoinedRouteData> GetJoinedRouteDatas()
+        {
+            var joinedData = from route in _dbContext.Routes
+                join sourceCity in _dbContext.Cities on route.SourceCityId equals sourceCity.CityId
+                join destCity in _dbContext.Cities on route.DestinationCityId equals destCity.CityId
+                select new JoinedRouteData
+                {
+                    RouteId = route.RouteId,
+                    Distance = route.Distance,
+                    Duration = route.Duration,
+                    Origin = sourceCity.CityName,
+                    Destination = destCity.CityName
+                };
+
+            return joinedData;
         }
 
         #endregion
