@@ -113,7 +113,6 @@ namespace TMS.ViewModel
         public void GetDistinctCarrierNames()
         {
 
-            // Assuming YourDbContext is your Entity Framework DbContext
             CarrierNames = _TmsDbContext.Carriers.Select(c => c.CompanyName).Distinct().ToList();
 
         }
@@ -130,7 +129,7 @@ namespace TMS.ViewModel
             {
                 if (AnotherSelectedCarrier != null)
                 {
-                    Carrier carrier = _plannerModel.GetCarrier(AnotherSelectedCarrier, SelectedOrder.DestinationCity.ToString());
+                    Carrier carrier = _plannerModel.GetCarrier(AnotherSelectedCarrier, SelectedOrder.SourceCity.ToString());
                     if (carrier == null)
                     {
                         MessageBox.Show("Can't assign this carrier for the order because it doesn't offer the destination that the order wants");
@@ -148,7 +147,7 @@ namespace TMS.ViewModel
 
                         GetOrderTable();
                         LoggerModel.LogInfo("Succesfully added a carrier to a trip for the selected order");
-                        AnotherSelectedCarrier = null;
+                        AnotherSelectedCarrier = "";
                     }
 
 
@@ -158,7 +157,7 @@ namespace TMS.ViewModel
 
                 if (SelectedCarrier != null)
                 {
-                    Carrier carrier = _plannerModel.GetCarrier(SelectedCarrier, SelectedOrder.DestinationCity.ToString());
+                    Carrier carrier = _plannerModel.GetCarrier(SelectedCarrier, SelectedOrder.SourceCity.ToString());
                     if (carrier == null)
                     {
                         MessageBox.Show("Can't assign this carrier for the order because it doesn't offer the destination that the order wants");
@@ -175,7 +174,7 @@ namespace TMS.ViewModel
 
                         GetOrderTable();
                         LoggerModel.LogInfo("Succesfully added a carrier to a trip for the selected order");
-                        SelectedCarrier = null;
+                        SelectedCarrier = "";
                     }
 
 
@@ -189,8 +188,8 @@ namespace TMS.ViewModel
             catch
             {
                 MessageBox.Show("Adding a carrier to a trip to attach to the order failed");
-                SelectedCarrier = null;
-                AnotherSelectedCarrier = null;
+                SelectedCarrier = "";
+                AnotherSelectedCarrier = "";
                 LoggerModel.LogInfo("Adding carrier to a trip for the selected order failed");
 
             }

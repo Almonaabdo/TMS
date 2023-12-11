@@ -12,10 +12,10 @@ public class PlannerModel
         _db = new TmsDbContext();
     }
 
-    public Carrier? GetCarrier(string companyName, string destinationCity)
+    public Carrier? GetCarrier(string companyName, string originCityy)
     {
-        var carrier = _db.Carriers?.FirstOrDefault(e => e.CompanyName == companyName && e.DepotCity == destinationCity);
-        if (carrier == null)
+        var carrier = _db.Carriers?.FirstOrDefault(e => e.CompanyName == companyName && e.DepotCity == originCityy);
+        if (carrier != null)
         {
             return carrier;
         }
