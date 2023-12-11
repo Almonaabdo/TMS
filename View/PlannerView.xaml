@@ -40,7 +40,7 @@
                         <Label Content="Carrier Information" HorizontalAlignment="Left" Margin="539,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
 
                         <!--orders from the buyer that needs to be completed-->
-                        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,47,499,94" Name="Orders" Background="Azure" IsReadOnly="False"/>
+                        <DataGrid  Margin="10,47,499,94" Name="Orders" Background="Azure" IsReadOnly="False"/>
                         <Button Content="Complete Order" Command="{Binding CompleteOrder}" HorizontalAlignment="Left" Margin="102,341,0,0" VerticalAlignment="Top" Height="34" Width="130" FontWeight="Bold" Foreground="#001233" Background="Azure" FontSize="15"/>
 
                         <!--adds trip to the orders-->
@@ -50,23 +50,16 @@
 
                             <!--combo box for carrier-->
                             <TextBlock HorizontalAlignment="Center" Margin="0,43,0,0" Text="Choose Carrier" VerticalAlignment="Top" Foreground="AliceBlue"/>
-                            <ComboBox HorizontalAlignment="Center" SelectedItem ="{Binding SelectedCarrier}" Margin="0,64,0,0" VerticalAlignment="Top" Width="120" x:Name="CarrierName">
-                                <ComboBoxItem Content="Planet Express"></ComboBoxItem>
-                                <ComboBoxItem Content="Schooner's"></ComboBoxItem>
-                                <ComboBoxItem Content="TillmanTransport"></ComboBoxItem>
-                                <ComboBoxItem Content="We Haul"></ComboBoxItem>
+                            <ComboBox HorizontalAlignment="Center" ItemsSource="{Binding CarrierNames}"  SelectedItem ="{Binding SelectedCarrier}" Margin="0,64,0,0" VerticalAlignment="Top" Width="120" x:Name="CarrierName">
                             </ComboBox>
 
-                            <Button Content="Add Carrier" Command="{Binding AddCarrier}" HorizontalAlignment="Center" Margin="0,249,0,0" VerticalAlignment="Top" Background="azure" Width="86"/>
+                            <Button Content="Add Carrier" Command="{Binding AddCarrierCommand}" HorizontalAlignment="Center" Margin="0,249,0,0" VerticalAlignment="Top" Background="azure" Width="86"/>
                             <RadioButton Content="Multiple Trip" HorizontalAlignment="Left" Margin="62,128,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
 
                             <!--combo box for carrier - multiple trip-->
                             <TextBlock HorizontalAlignment="Center" Margin="0,163,0,0" Text="Choose Carrier for Another Trip" VerticalAlignment="Top" Foreground="AliceBlue"/>
-                            <ComboBox HorizontalAlignment="Center"  SelectedItem ="{Binding AnotherSelectedCarrier}" Margin="0,184,0,0" VerticalAlignment="Top" Width="120" x:Name="CarrierName2">
-                                <ComboBoxItem Content="Planet Express"></ComboBoxItem>
-                                <ComboBoxItem Content="Schooner's"></ComboBoxItem>
-                                <ComboBoxItem Content="TillmanTransport"></ComboBoxItem>
-                                <ComboBoxItem Content="We Haul"></ComboBoxItem>
+                            <ComboBox HorizontalAlignment="Center" ItemsSource="{Binding CarrierNames}" SelectedItem ="{Binding AnotherSelectedCarrier}" Margin="0,184,0,0" VerticalAlignment="Top" Width="120" x:Name="CarrierName2">
+
                             </ComboBox>
 
                         </Grid>
@@ -74,7 +67,7 @@
 
                         <!--carrier information-->
                         <Grid Background="#304674" Margin="539,47,10,94">
-                            <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}"  Margin="10,10,10,10"/>
+                            <DataGrid ItemsSource="{Binding CarrierData}"  Margin="10,10,10,10"/>
 
                         </Grid>
 
