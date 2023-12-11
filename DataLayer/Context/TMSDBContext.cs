@@ -56,15 +56,17 @@ namespace TMS_Project.DataLayer.Context
 
             });
 
-            modelBuilder.Entity<JoinedRouteData>(entity =>
+            modelBuilder.Entity<JoinedRouteTable>(entity =>
             {
                 entity.ToTable("JoinedRouteTable");
-                entity.HasNoKey();
+                entity.HasKey(e => e.JoinedRouteId);
+                entity.Property(e => e.JoinedRouteId).ValueGeneratedOnAdd();
                 entity.Property(e => e.RouteId);
                 entity.Property(e => e.Origin);
                 entity.Property(e => e.Destination);
                 entity.Property(e => e.Distance);
                 entity.Property(e => e.Duration);
+
             });
 
             // Configuration for the 'Carrier' entity.
