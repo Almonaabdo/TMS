@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using TMS_Project.DataLayer.Model;
 
 namespace TMS_Project.DataLayer.Context
@@ -18,7 +20,12 @@ namespace TMS_Project.DataLayer.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            const string connectionString = "server=34.132.127.119; port=3306; database=tms; user=root; password=root";
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var connectionString = configuration.GetConnectionString("RemoteDB");
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
 
@@ -47,6 +54,17 @@ namespace TMS_Project.DataLayer.Context
                     .IsRequired()
                     .OnDelete(DeleteBehavior.Restrict);
 
+            });
+
+            modelBuilder.Entity<JoinedRouteData>(entity =>
+            {
+                entity.ToTable("JoinedRouteTable");
+                entity.HasNoKey();
+                entity.Property(e => e.RouteId);
+                entity.Property(e => e.Origin);
+                entity.Property(e => e.Destination);
+                entity.Property(e => e.Distance);
+                entity.Property(e => e.Duration);
             });
 
             // Configuration for the 'Carrier' entity.
