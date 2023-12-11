@@ -46,9 +46,7 @@ namespace TMS.ViewModel
 
         #region Constructor
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public PlannerViewModel()
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             CompleteOrderCommand = new RelayCommand(CallCompleteOrder);
             _TmsDbContext = new TmsDbContext();
@@ -63,8 +61,6 @@ namespace TMS.ViewModel
 
         public void GetOrderTable()
         {
-            OrderData = new ObservableCollection<Order>(_dataService.RetrieveTable<Order>() ?? throw new InvalidOperationException());
-
             OnPropertyChanged(nameof(OrderData));
         }
 
@@ -73,7 +69,7 @@ namespace TMS.ViewModel
             try
             {
                 // _orderModel.CompleteOrder();
-                MessageBox.Show("Sucessfully Completed Order");
+                MessageBox.Show("Successfully Completed Order");
                 GetOrderTable();
             }
             catch (Exception ex)
