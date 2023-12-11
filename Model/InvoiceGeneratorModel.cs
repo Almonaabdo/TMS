@@ -8,11 +8,11 @@ namespace TMS_Project.Model;
 
 public class InvoiceGeneratorModel
 {
-    private readonly TmsDbContext _dbContext;
+    private readonly TmsDbContext _dbContext = DbContextSingleton.Instance;
 
     public InvoiceGeneratorModel()
     {
-        _dbContext = new TmsDbContext();
+        
     }
 
     /// <summary>
