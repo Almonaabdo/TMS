@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -35,6 +36,28 @@ namespace TMS.ViewModel
             }
         }
 
+        private Carrier _selectedCarrier;
+        public Carrier SelectedCarrier
+        {
+            get { return _selectedCarrier; }
+            set
+            {
+                _selectedCarrier = value;
+                OnPropertyChanged(nameof(SelectedCarrier));
+            }
+        }
+
+        private Carrier _anotherselectedCarrier;
+        public Carrier AnotherSelectedCarrier
+        {
+            get { return _anotherselectedCarrier; }
+            set
+            {
+                _anotherselectedCarrier = value;
+                OnPropertyChanged(nameof(AnotherSelectedCarrier));
+            }
+        }
+
         public ICommand GetOrdersCommand { get; }
         private DataService _dataService { get; }
 
@@ -53,6 +76,7 @@ namespace TMS.ViewModel
             GetOrderTable();
             _dataService = new DataService();
             _orderModel = new OrderModel(_TmsDbContext);
+
         }
 
         #endregion
@@ -62,6 +86,52 @@ namespace TMS.ViewModel
         public void GetOrderTable()
         {
             OnPropertyChanged(nameof(OrderData));
+        }
+
+        public void AddCarrier()
+        {
+
+            try
+            {
+                if (AnotherSelectedCarrier != null)
+                {
+                    Trip trip = new Trip();
+
+                    trip.Carrier = AnotherSelectedCarrier;
+                    trip.OrderId = SelectedOrder.OrderId;
+                    trip.Order = SelectedOrder;
+                    trip.TripStatus = TripStatus.Scheduled;
+                    SelectedOrder.Trips.Add(trip);
+
+                    GetOrderTable();
+                    LoggerModel.LogInfo("Succesfully added a carrier to a trip for the selected order");
+
+                }
+
+                if (SelectedCarrier != null)
+                {
+                    Trip trip = new Trip();
+
+                    trip.OrderId = SelectedOrder.OrderId;
+                    trip.Order = SelectedOrder;
+                    trip.Carrier = SelectedCarrier;
+                    trip.TripStatus = TripStatus.Scheduled;
+                    SelectedOrder.Trips.Add(trip);
+
+                    GetOrderTable();
+                    LoggerModel.LogInfo("Succesfully added a carrier to a trip for the selected order");
+                }
+
+
+
+            }
+
+            catch
+            {
+                LoggerModel.LogInfo("Adding carrier to a trip for the selected order failed");
+            }
+
+
         }
 
         public void CallCompleteOrder()
