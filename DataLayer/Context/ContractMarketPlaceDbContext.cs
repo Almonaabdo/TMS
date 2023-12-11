@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using TMS_Project.DataLayer.Model;
 
 namespace TMS_Project.DataLayer.Context;
@@ -9,7 +11,11 @@ public class ContractMarketPlaceDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        const string connectionString = "server=159.89.117.198; port=3306; database=cmp; user=DevOSHT; password=Snodgr4ss!";
+        IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
+        var connectionString = configuration.GetConnectionString("TMSDB");
         optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
     }
 

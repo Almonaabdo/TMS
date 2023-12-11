@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Configuration;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -28,21 +29,32 @@ public class LoggerModel
     /// <summary>
     ///     Method to handle Nlog settings, logs all log levels to specified file
     /// </summary>
-    private static void ConfigLog()
+    public static void ConfigLog()
     {
-        // Generate dynamic filename based on the current date
-        var dynamicFileName = $"C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Copy\\bin\\Debug\\net6.0-windows\\Logs\\Logs_{DateTime.Now:yyyy-MM-dd}.log";
+        IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
 
-        var config = new LoggingConfiguration();
-        var logToFile = new FileTarget("filelog")
+        var logFilePath = configuration["Logging:LogFilePath"];
+        var dynamicFileName = $"{logFilePath}\\Logs_{DateTime.Now:yyyy-MM-dd}.log";
+        var config = new NLog.Config.LoggingConfiguration();
+
+#pragma warning disable CA2000
+        var logToFile = new NLog.Targets.FileTarget("filelog")
         {
             FileName = dynamicFileName,
-            KeepFileOpen = false // Ensure the log file is closed after each write
+            KeepFileOpen = false, // Ensure the log file is closed after each write
+            Layout = "${longdate}|${level:uppercase=true}|${message}" // Configure layout without class name
+
         };
+#pragma warning restore CA2000
+
         config.AddRuleForAllLevels(logToFile);
         // Apply config to NLog
         LogManager.Configuration = config;
     }
+
 
     /// <summary>
     ///     Method to log all levels to file
