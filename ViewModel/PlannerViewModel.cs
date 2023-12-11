@@ -36,8 +36,8 @@ namespace TMS.ViewModel
             }
         }
 
-        private Carrier _selectedCarrier;
-        public Carrier SelectedCarrier
+        private string _selectedCarrier;
+        public string SelectedCarrier
         {
             get { return _selectedCarrier; }
             set
@@ -47,8 +47,8 @@ namespace TMS.ViewModel
             }
         }
 
-        private Carrier _anotherselectedCarrier;
-        public Carrier AnotherSelectedCarrier
+        private string _anotherselectedCarrier;
+        public string AnotherSelectedCarrier
         {
             get { return _anotherselectedCarrier; }
             set
@@ -58,13 +58,32 @@ namespace TMS.ViewModel
             }
         }
 
+
+        private List<string> _carrierNames;
+        public List<string> CarrierNames
+        {
+            get { return _carrierNames; }
+            set
+            {
+                _carrierNames = value;
+                OnPropertyChanged(nameof(CarrierNames));
+            }
+        }
         public ICommand GetOrdersCommand { get; }
         public ICommand AddCarrierCommand { get; }
+
+
         private DataService _dataService { get; }
 
         private readonly TmsDbContext _TmsDbContext;
         private OrderModel _orderModel { get; }
+
+        private CarrierViewModel _carrierViewModel { get; }
         public ObservableCollection<Order> OrderData { get; private set; } = null!;
+
+        public ObservableCollection<Carrier> CarrierData { get; private set; } = null!;
+
+        private PlannerModel _plannerModel { get; }
 
         #endregion
 
@@ -78,12 +97,26 @@ namespace TMS.ViewModel
             GetOrderTable();
             _dataService = new DataService();
             _orderModel = new OrderModel(_TmsDbContext);
+            _carrierViewModel = new CarrierViewModel();
+            CarrierData = _carrierViewModel.CarrierData;
+            _plannerModel = new PlannerModel();
+            GetDistinctCarrierNames();
+
+
 
         }
 
         #endregion
 
         #region Methods
+
+        public void GetDistinctCarrierNames()
+        {
+
+            // Assuming YourDbContext is your Entity Framework DbContext
+            CarrierNames = _TmsDbContext.Carriers.Select(c => c.CompanyName).Distinct().ToList();
+
+        }
 
         public void GetOrderTable()
         {
@@ -97,16 +130,27 @@ namespace TMS.ViewModel
             {
                 if (AnotherSelectedCarrier != null)
                 {
-                    Trip trip = new Trip();
+                    Carrier carrier = _plannerModel.GetCarrier(AnotherSelectedCarrier, SelectedOrder.DestinationCity.ToString());
+                    if (carrier == null)
+                    {
+                        MessageBox.Show("Can't assign this carrier for the order because it doesn't offer the destination that the order wants");
+                    }
 
-                    trip.Carrier = AnotherSelectedCarrier;
-                    trip.OrderId = SelectedOrder.OrderId;
-                    trip.Order = SelectedOrder;
-                    trip.TripStatus = TripStatus.Scheduled;
-                    SelectedOrder.Trips.Add(trip);
+                    else
+                    {
+                        Trip trip = new Trip();
 
-                    GetOrderTable();
-                    LoggerModel.LogInfo("Succesfully added a carrier to a trip for the selected order");
+                        trip.Carrier = carrier;
+                        trip.OrderId = SelectedOrder.OrderId;
+                        trip.Order = SelectedOrder;
+                        trip.TripStatus = TripStatus.Scheduled;
+                        SelectedOrder.Trips.Add(trip);
+
+                        GetOrderTable();
+                        LoggerModel.LogInfo("Succesfully added a carrier to a trip for the selected order");
+                        AnotherSelectedCarrier = null;
+                    }
+
 
 
 
@@ -114,16 +158,27 @@ namespace TMS.ViewModel
 
                 if (SelectedCarrier != null)
                 {
-                    Trip trip = new Trip();
+                    Carrier carrier = _plannerModel.GetCarrier(SelectedCarrier, SelectedOrder.DestinationCity.ToString());
+                    if (carrier == null)
+                    {
+                        MessageBox.Show("Can't assign this carrier for the order because it doesn't offer the destination that the order wants");
+                    }
 
-                    trip.OrderId = SelectedOrder.OrderId;
-                    trip.Order = SelectedOrder;
-                    trip.Carrier = SelectedCarrier;
-                    trip.TripStatus = TripStatus.Scheduled;
-                    SelectedOrder.Trips.Add(trip);
+                    else
+                    {
+                        Trip trip = new Trip();
+                        trip.OrderId = SelectedOrder.OrderId;
+                        trip.Order = SelectedOrder;
+                        trip.Carrier = carrier;
+                        trip.TripStatus = TripStatus.Scheduled;
+                        SelectedOrder.Trips.Add(trip);
 
-                    GetOrderTable();
-                    LoggerModel.LogInfo("Succesfully added a carrier to a trip for the selected order");
+                        GetOrderTable();
+                        LoggerModel.LogInfo("Succesfully added a carrier to a trip for the selected order");
+                        SelectedCarrier = null;
+                    }
+
+
 
                 }
 
@@ -133,6 +188,9 @@ namespace TMS.ViewModel
 
             catch
             {
+                MessageBox.Show("Adding a carrier to a trip to attach to the order failed");
+                SelectedCarrier = null;
+                AnotherSelectedCarrier = null;
                 LoggerModel.LogInfo("Adding carrier to a trip for the selected order failed");
 
             }
