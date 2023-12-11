@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TMS_Project.View" xmlns:ViewModel="clr-namespace:TMS.ViewModel"
         xmlns:viewModel="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
-        Title="BuyerView" Height="450" Width="800">
+        Title="BuyerView" Height="450" Width="800" WindowState="Maximized">
 
     <Window.DataContext>
         <viewModel:BuyerViewModel />

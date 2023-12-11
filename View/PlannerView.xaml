@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMS_Project.View" xmlns:ViewModel="clr-namespace:TMS.ViewModel"
         mc:Ignorable="d"
-        Title="PlannerView" Height="450" Width="800">
+        Title="PlannerView" Height="450" Width="800" WindowState="Maximized">
     <Window.DataContext>
         <ViewModel:PlannerViewModel/>
     </Window.DataContext>
