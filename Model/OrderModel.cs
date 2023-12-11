@@ -8,16 +8,45 @@ namespace TMS_Project.Model;
 
 public class OrderModel
 {
-    const double FTLMARKUP = 0.08;
-    const double LTLMARKUP = 0.05;
+    const double Ftlmarkup = 0.08;
+    const double Ltlmarkup = 0.05;
     private readonly TmsDbContext _db;
-    private object _dbContext;
 
     public OrderModel(TmsDbContext context)
     { 
         _db = context;
     }
 
+    public Customer? FindCustomerByName(string customerName)
+    {
+        return _db.Customers?.SingleOrDefault(c => c.Name == customerName);
+    }
+
+
+    public Customer CreateCustomer(string name)
+    {
+        var newCustomer = new Customer
+        {
+            Name = name
+        };
+
+        _db.Customers?.Add(newCustomer);
+        _db.SaveChanges();
+
+        return newCustomer;
+    }
+
+
+    public City? GetCity(string? cityName)
+    {
+        if (_db.Cities != null)
+        {
+            var city =_db.Cities.FirstOrDefault(c => c.CityName == cityName);
+            return city;
+        }
+
+        return null;
+    }
 
 
     /*
@@ -26,19 +55,28 @@ public class OrderModel
     * 
     * RETURN: void
     */
-    public void CreateOrder(Order order)
+    public void CreateOrder(City destCity, City? originCity, int customerId)
     {
-        try 
-        { 
-            _db.Orders?.Add(order);
+        try
+        {
+            var newOrder = new Order
+            {
+                OrderStatus = OrderStatus.Pending,
+                DateInitiated = DateTime.Today,
+                DestinationCity = destCity,
+                SourceCity = originCity,
+                CustomerId = customerId
+            };
+
+
+            _db.Orders?.Add(newOrder);
             _db.SaveChanges();
         }
         catch (Exception ex)
         {
-            LoggerModel.LogError($"Order creating erro: {ex.Message}");
+            LoggerModel.LogError($"Order creating error: {ex.Message}");
         }
     }
-
 
 
     /*
@@ -134,23 +172,22 @@ public class OrderModel
   * 
   * RETURN: double[], [0] = totalKm, [1] = totalHrs
   */
-    public decimal[] GetKmAndHrs(string destination, string origin)
+    public double[] GetKmAndHrs(string destination, string origin)
     {
-        decimal[] totalKmAndHrs = new decimal[2];
+        double[] totalKmAndHrs = new double[2];
 
-        var routeId = _db?.Routes?.FirstOrDefault(e => e.SourceCity.CityName == origin && e.DestinationCity.CityName == destination);
+        var route = _db?.Routes?.FirstOrDefault(e =>
+            e.SourceCity.CityName == origin && e.DestinationCity.CityName == destination);
 
-        if (routeId != null)
+        if (route != null)
         {
-            totalKmAndHrs[0] = routeId.Distance;
-            totalKmAndHrs[0] = Decimal.Round(totalKmAndHrs[0], 3);
-            totalKmAndHrs[1] = routeId.Duration;
-            totalKmAndHrs[1] = Decimal.Round(totalKmAndHrs[1], 3);
-
+            totalKmAndHrs[0] = Math.Round(route.Distance, 3);
+            totalKmAndHrs[1] = Math.Round(route.Duration, 3);
         }
 
         return totalKmAndHrs;
     }
+
 
     /*
     * METHOD NAME: CalculateRate
@@ -173,18 +210,18 @@ public class OrderModel
             //reefer van
             if (vanType == 1)
             {
-                ftlRate += (reeferCharge + FTLMARKUP) * ftlRate;
+                ftlRate += (reeferCharge + Ftlmarkup) * ftlRate;
                 double amount = ftlRate * totalKm;
-                totalAmount[0] = amount * FTLMARKUP;
+                totalAmount[0] = amount * Ftlmarkup;
                                                      // Money gain for TMS
                 totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
                 return totalAmount;
             }
             else if (vanType == 0)
             {
-                ftlRate += FTLMARKUP * ftlRate;
+                ftlRate += Ftlmarkup * ftlRate;
                 double amount = ftlRate * totalKm;
-                totalAmount[0] = amount * FTLMARKUP;             // Money gain for TMS
+                totalAmount[0] = amount * Ftlmarkup;             // Money gain for TMS
                 totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
                 return totalAmount;
             }
@@ -195,19 +232,19 @@ public class OrderModel
             //reefer van
             if (vanType == 1)
             {
-                ltlRate += (LTLMARKUP + reeferCharge) * ltlRate;
+                ltlRate += (Ltlmarkup + reeferCharge) * ltlRate;
                 double amount = (ltlRate * totalKm) * quantity;
 
-                totalAmount[0] = amount * LTLMARKUP;             // Money gain for TMS
+                totalAmount[0] = amount * Ltlmarkup;             // Money gain for TMS
                 totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
                 return totalAmount;
 
             }
             else if (vanType == 0)
             {
-                ltlRate += LTLMARKUP * ltlRate;
+                ltlRate += Ltlmarkup * ltlRate;
                 double amount = (ltlRate * totalKm) * quantity;
-                totalAmount[0] = amount * LTLMARKUP;             // Money gain for TMS
+                totalAmount[0] = amount * Ltlmarkup;             // Money gain for TMS
                 totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
                 return totalAmount;
             }

@@ -3,10 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TMS_Project.View"
+        xmlns:local="clr-namespace:TMS_Project.View" xmlns:ViewModel="clr-namespace:TMS.ViewModel"
         mc:Ignorable="d"
         Title="PlannerView" Height="450" Width="800">
-
+    <Window.DataContext>
+        <ViewModel:PlannerViewModel/>
+    </Window.DataContext>
+    
     <Viewbox Stretch="Fill" StretchDirection="Both">
         <Grid Background="#304674" Height="448">
 
@@ -18,7 +21,7 @@
 
                         <Label Content="Welcome Planner" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
                         <!--logs out of the user; may or may not go back to the login page-->
-                        <Button Content="Log Out" HorizontalAlignment="Left" Margin="748,383,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium" />
+                        <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}" HorizontalAlignment="Left" Margin="748,383,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium" />
 
                     </Grid>
                 </TabItem>
