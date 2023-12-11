@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMS_Project.View" xmlns:ViewModel="clr-namespace:TMS.ViewModel"
+        xmlns:viewModel="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
         Title="BuyerView" Height="450" Width="800">
 
     <Window.DataContext>
-        <ViewModel:BuyerViewModel />
+        <viewModel:BuyerViewModel />
     </Window.DataContext>
     <Viewbox Stretch="Fill" StretchDirection="Both">
         <Grid Background="#304674">
@@ -20,7 +21,7 @@
                         <Label Content="Welcome Buyer" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
 
                         <!--logs out of the user; may or may not go back to the login page-->
-                        <Button Content="Log Out" Command="{Binding LogOutBuyer}" HorizontalAlignment="Left" Margin="687,352,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
+                        <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}" HorizontalAlignment="Left" Margin="687,352,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
 
                     </Grid>
                 </TabItem>
@@ -34,7 +35,7 @@
                         <Label Content="Values" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
 
                         <!--order requests data from the cmp database-->
-                        <DataGrid ItemsSource="{Binding ContractData}" Margin="158,45,10,96" Name="OrderRequests" Background="Azure" IsReadOnly="False"/>
+                        <DataGrid ItemsSource="{Binding ContractData}" SelectedItem="{Binding SelectedContract}" Margin="158,45,10,96" Name="OrderRequests" Background="Azure" IsReadOnly="False"/>
 
                         <!--legend for the cmp values-->
                         <Grid Margin="10,45,610,96" Background="#304674">
@@ -47,7 +48,7 @@
                         </Grid>
 
                         <!--accepts the order and sends it to the Planner-->
-                        <Button Content="Accept Order" Command="{Binding AcceptOrder}" HorizontalAlignment="Left" Margin="398,319,0,0" VerticalAlignment="Top" Height="34" Width="112" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15"/>
+                        <Button Content="Accept Order" Command="{Binding CreateOrderCommand}" HorizontalAlignment="Left" Margin="398,319,0,0" VerticalAlignment="Top" Height="34" Width="112" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15"/>
                     </Grid>
                 </TabItem>
 
@@ -59,7 +60,7 @@
                         <Label Content="Completed Orders from Planner" Margin="20,10,432,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66" Height="32"/>
 
                         <!--shows the values of completed orders from the planner-->
-                        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="20,47,20,85" Name="CompletedOrders" Background="Azure" IsReadOnly="False"/>
+                        <DataGrid ItemsSource="{Binding CompletedOrders}" Margin="20,47,20,85" Name="CompletedOrders" Background="Azure" IsReadOnly="False"/>
 
                         <!--processes the invoice if order is complete-->
                         <Button Content="Process Invoice" Command="{Binding ProcessInvoice}" HorizontalAlignment="Center" Margin="0,325,0,0" VerticalAlignment="Top" Height="34" Width="140" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15"/>

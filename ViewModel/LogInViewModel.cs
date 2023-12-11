@@ -7,22 +7,33 @@ using TMS_Project.Model;
 
 namespace TMS_Project.ViewModel
 {
-    public sealed class LogInViewModel : INotifyPropertyChanged
+    public sealed class LogInViewModel : ViewModelBase
     {
+        #region Fields
+
         private readonly LogInModel _logInModel;
         private readonly TmsDbContext _dbContext;
         private readonly NavigationService _navigation;
-        
+
+        #endregion
+
+        #region Constructor
+
         public LogInViewModel()
         {
             _navigation = new NavigationService();
             _dbContext = new TmsDbContext(); // Initialize _dbContext with a valid instance
             _logInModel = new LogInModel(_dbContext);
             LoginCommand = new RelayCommand(Login, CanLogin);
+            LogoutCommand = new RelayCommand(Logout);
 
             // Initialize the message property
             _loginMessage = "";
         }
+
+        #endregion
+
+        #region Properties
 
         // Properties bound to the UI
         private string _username;
@@ -55,6 +66,7 @@ namespace TMS_Project.ViewModel
 
         // Command to trigger the login process
         public ICommand LoginCommand { get; }
+        public ICommand LogoutCommand { get; }
 
         // Message property to display success message
         private string _loginMessage;
@@ -71,8 +83,19 @@ namespace TMS_Project.ViewModel
             }
         }
 
+        #endregion
+
+        #region Methods
+
+        private void Logout()
+        {
+            _navigation.NavigateToLogin();
+        }
+
+        #region Login methods
+
         /// <summary>
-        ///  Sets Execute method to true
+        /// Sets Execute method to true
         /// </summary>
         /// <returns>True if text boxes are not empty</returns>
         private bool CanLogin()
@@ -95,7 +118,7 @@ namespace TMS_Project.ViewModel
                     // Authentication successful, set the success message
                     LoginMessage = "Login successful! Welcome!";
                     LoggerModel.LogInfo("Successful login");
-                   
+
                     // Based on the user, show the appropriate window
                     if (Username.Equals("Admin", StringComparison.OrdinalIgnoreCase))
                     {
@@ -104,7 +127,7 @@ namespace TMS_Project.ViewModel
                     else if (Username.Equals("Buyer", StringComparison.OrdinalIgnoreCase))
                     {
                         _navigation.NavigateToBuyer();
-                    }                              
+                    }
                     else if (Username.Equals("Planner", StringComparison.OrdinalIgnoreCase))
                     {
                         _navigation.NavigateToPlanner();
@@ -125,11 +148,8 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        #endregion
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        #endregion
     }
 }

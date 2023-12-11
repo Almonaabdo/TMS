@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TMS_Project.DataLayer.Model;
@@ -9,8 +10,8 @@ public class Route
     [Key] public int RouteId { get; set; }
     public int SourceCityId { get; set; }
     public int DestinationCityId { get; set; }
-    public decimal Distance { get; set; }
-    public decimal Duration { get; set; }
+    public double Distance { get; set; }
+    public double Duration { get; set; }
 
     // Navigation properties
     public virtual City SourceCity { get; set; } = new();
