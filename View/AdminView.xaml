@@ -13,7 +13,7 @@
 
     <Viewbox Stretch="Fill" StretchDirection="Both">
         <Grid Background="#304674" Width="887" Height="482">
-            <TabControl SelectionChanged="TabControl_SelectionChanged" >
+            <TabControl >
 
                 <!--HOME TAB-->
                 <TabItem Header="Home" FontWeight="Medium" Background="#304674">
