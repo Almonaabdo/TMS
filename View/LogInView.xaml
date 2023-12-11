@@ -7,7 +7,7 @@
         xmlns:viewModel="clr-namespace:TMS.ViewModel"
         xmlns:viewModel1="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
-        Title="LogInView" Height="450" Width="800">
+        Title="LogInView" Height="450" Width="800" WindowState="Maximized">
     
     <Window.DataContext>
         <viewModel1:LogInViewModel></viewModel1:LogInViewModel>
