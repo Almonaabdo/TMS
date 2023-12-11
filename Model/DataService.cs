@@ -180,12 +180,12 @@ namespace TMS_Project.Model
 
         #region Query
         // Join query
-        public IQueryable<JoinedRouteData> GetJoinedRouteDatas()
+        public IQueryable<JoinedRouteTable> GetJoinedRouteDatas()
         {
             var joinedData = from route in _dbContext.Routes
                 join sourceCity in _dbContext.Cities on route.SourceCityId equals sourceCity.CityId
                 join destCity in _dbContext.Cities on route.DestinationCityId equals destCity.CityId
-                select new JoinedRouteData
+                select new JoinedRouteTable
                 {
                     RouteId = route.RouteId,
                     Distance = route.Distance,

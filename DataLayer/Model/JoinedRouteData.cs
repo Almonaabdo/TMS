@@ -1,11 +1,15 @@
-﻿namespace TMS_Project.DataLayer.Model;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class JoinedRouteData
+namespace TMS_Project.DataLayer.Model;
+
+[Table("JoinedRouteTable")]
+public class JoinedRouteTable
 {
+    [Key] public int JoinedRouteId { get; set; }
     public int RouteId { get; set; }
-    public string? Origin { get; set; } 
+    public string? Origin { get; set; }
     public string? Destination { get; set; }
     public double Distance { get; set; }
     public double Duration { get; set; }
-    
 }

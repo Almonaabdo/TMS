@@ -18,7 +18,7 @@ public sealed class AdminViewModel : ViewModelBase
     public CarrierViewModel CarrierViewModel { get; } = new();
     public FileViewModel FileViewModel { get; } = new();
     public DeleteViewModel DeleteViewModel { get; } = new();
-    public ObservableCollection<JoinedRouteData> RouteData { get; private set; }
+    public ObservableCollection<JoinedRouteTable> RouteData { get; private set; }
     public ObservableCollection<Rate> RatesData { get; private set; }
     public LogInViewModel LogInViewModel { get; private set; } = new();
 
@@ -44,7 +44,7 @@ public sealed class AdminViewModel : ViewModelBase
     /// </summary>
     private void LoadData()
     {
-        RouteData = new ObservableCollection<JoinedRouteData>(_dataService.GetJoinedRouteDatas());
+        RouteData = new ObservableCollection<JoinedRouteTable>(_dataService.GetJoinedRouteDatas());
 
         RatesData = new ObservableCollection<Rate>(_dataService.RetrieveTable<Rate>() ??
                                                    throw new InvalidOperationException());
