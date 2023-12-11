@@ -1,4 +1,6 @@
-﻿namespace TMS_Project.Model;
+﻿using System.Windows.Documents;
+
+namespace TMS_Project.Model;
 using DataLayer.Context;
 using DataLayer.Model;
 using Model;
@@ -8,7 +10,7 @@ using System.Linq;
 
 public class BuyerModel
 {
-    private readonly TmsDbContext _db = new TmsDbContext();
+    private readonly TmsDbContext _db;
     private readonly ContractMarketPlaceDbContext _cdb = new ContractMarketPlaceDbContext();
 
     public BuyerModel(TmsDbContext context)
@@ -90,5 +92,32 @@ public class BuyerModel
         {
             LoggerModel.LogWarning("Error Can't find specified Carrier");
         }
+    }
+
+    public City? GetCity(string cityName)
+    {
+        var city = _db.Cities?.FirstOrDefault(c => c.CityName == cityName);
+        return city;
+    }
+
+    public Customer? FindCustomerByName(string customerName)
+    {
+        return _db.Customers?.SingleOrDefault(c => c.Name == customerName);
+    }
+
+    public void CreateCustomer(string name)
+    {
+        var newCustomer = new Customer
+        {
+            Name = name
+        };
+
+        _db.Customers?.Add(newCustomer);
+        _db.SaveChanges();
+    }
+
+    public List<Order> GetCompletedOrders()
+    {
+        return _db.Orders?.Where(order => order.OrderStatus == OrderStatus.Completed).ToList() ?? throw new InvalidOperationException();
     }
 }

@@ -23,7 +23,7 @@ namespace TMS_Project
         protected override void OnStartup(StartupEventArgs e)
         {
             var loginViewModel = new LogInViewModel();
-            var loginWindow = new LogInView
+            var loginWindow = new LogInView()
             {
                 DataContext = loginViewModel
             };

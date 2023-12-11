@@ -31,7 +31,6 @@ namespace TMS_Project.DataLayer.Context
             {
                 entity.ToTable("Customer");
                 entity.HasKey(e => e.CustomerId);
-                entity.Property(e => e.UserId);
                 entity.Property(e => e.CustomerId).ValueGeneratedOnAdd();
                 entity.Property(e => e.Name).HasMaxLength(100).IsRequired();
                 entity.Property(e => e.PhoneNumber);
@@ -200,23 +199,21 @@ namespace TMS_Project.DataLayer.Context
                 entity.ToTable("Route");
                 entity.HasKey(e => e.RouteId);
                 entity.Property(e => e.RouteId).ValueGeneratedOnAdd();
-                entity.Property(e => e.SourceCityId).IsRequired();
-                entity.Property(e => e.DestinationCityId).IsRequired();
                 entity.Property(e => e.Distance).IsRequired();
                 entity.Property(e => e.Duration).IsRequired();
+
 
                 // Relationship with City: Each Route has one source city
                 entity.HasOne(e => e.SourceCity)
                     .WithMany(c => c.SourceRoutes)
-                    .HasForeignKey(e => e.SourceCityId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .HasForeignKey(e => e.SourceCityId);
 
                 // Relationship with City: Each Route has one destination city
                 entity.HasOne(e => e.DestinationCity)
                     .WithMany(c => c.DestinationRoutes)
-                    .HasForeignKey(e => e.DestinationCityId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .HasForeignKey(e => e.DestinationCityId);
             });
+
 
             modelBuilder.Entity<Trip>(entity =>
             {

@@ -15,7 +15,7 @@ public sealed class Invoice
     [Required]
     public int Quantity { get; set; }
     [Required]
-    public decimal Amount { get; set; }
+    public double Amount { get; set; }
     [Required]
     public DateTime InvoiceDate { get; set; }
 

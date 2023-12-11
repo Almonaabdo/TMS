@@ -23,6 +23,22 @@ public class NavigationService
         
     }
 
+    public void NavigateToLogin()
+    {
+        var loginWindow = new LogInView();
+        loginWindow.Show();
+
+        // Close the previous window (assuming it's not the main window)
+        foreach (var window in Application.Current.Windows)
+        {
+            if (window != loginWindow)
+            {
+                ((Window)window).Close();
+            }
+        }
+    }
+
+
     /// <summary>
     /// Method to navigate to planner view
     /// </summary>
