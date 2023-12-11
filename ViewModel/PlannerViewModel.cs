@@ -59,6 +59,7 @@ namespace TMS.ViewModel
         }
 
         public ICommand GetOrdersCommand { get; }
+        public ICommand AddCarrierCommand { get; }
         private DataService _dataService { get; }
 
         private readonly TmsDbContext _TmsDbContext;
@@ -72,6 +73,7 @@ namespace TMS.ViewModel
         public PlannerViewModel()
         {
             CompleteOrderCommand = new RelayCommand(CallCompleteOrder);
+            AddCarrierCommand = new RelayCommand(AddCarrier);
             _TmsDbContext = new TmsDbContext();
             GetOrderTable();
             _dataService = new DataService();
@@ -106,6 +108,8 @@ namespace TMS.ViewModel
                     GetOrderTable();
                     LoggerModel.LogInfo("Succesfully added a carrier to a trip for the selected order");
 
+
+
                 }
 
                 if (SelectedCarrier != null)
@@ -120,6 +124,7 @@ namespace TMS.ViewModel
 
                     GetOrderTable();
                     LoggerModel.LogInfo("Succesfully added a carrier to a trip for the selected order");
+
                 }
 
 
@@ -129,6 +134,7 @@ namespace TMS.ViewModel
             catch
             {
                 LoggerModel.LogInfo("Adding carrier to a trip for the selected order failed");
+
             }
 
 
