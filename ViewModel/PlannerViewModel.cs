@@ -124,15 +124,14 @@ namespace TMS.ViewModel
 
         public void AddCarrier()
         {
-
             try
             {
                 if (AnotherSelectedCarrier != null)
                 {
-                    Carrier carrier = _plannerModel.GetCarrier(AnotherSelectedCarrier, SelectedOrder.SourceCity.ToString());
+                    var carrier = _plannerModel.GetCarrier(AnotherSelectedCarrier, SelectedOrder.SourceCity.ToString());
                     if (carrier == null)
                     {
-                        MessageBox.Show("Can't assign this carrier for the order because it doesn't offer the origin that the order wants");
+                        MessageBox.Show("Can't assign this carrier for the order because it doesn't offer the destination that the order wants");
                     }
 
                     else
@@ -143,59 +142,51 @@ namespace TMS.ViewModel
                         trip.OrderId = SelectedOrder.OrderId;
                         trip.Order = SelectedOrder;
                         trip.TripStatus = TripStatus.Scheduled;
-                        SelectedOrder.Trips.Add(trip);
+
+                        _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
 
                         GetOrderTable();
-                        LoggerModel.LogInfo("Succesfully added a carrier to a trip for the selected order");
                         AnotherSelectedCarrier = "";
                     }
-
-
-
-
                 }
 
                 if (SelectedCarrier != null)
                 {
-                    Carrier carrier = _plannerModel.GetCarrier(SelectedCarrier, SelectedOrder.SourceCity.ToString());
+                    var carrier = _plannerModel.GetCarrier(SelectedCarrier, SelectedOrder.DestinationCity.ToString());
                     if (carrier == null)
                     {
-                        MessageBox.Show("Can't assign this carrier for the order because it doesn't offer the origin that the order wants");
+                        MessageBox.Show("Can't assign this carrier for the order because it doesn't offer the destination that the order wants");
                     }
 
                     else
                     {
                         Trip trip = new Trip();
+
                         trip.OrderId = SelectedOrder.OrderId;
                         trip.Order = SelectedOrder;
                         trip.Carrier = carrier;
-                        trip.TripStatus = TripStatus.Scheduled;
-                        SelectedOrder.Trips.Add(trip);
+
+                        _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
 
                         GetOrderTable();
-                        LoggerModel.LogInfo("Succesfully added a carrier to a trip for the selected order");
                         SelectedCarrier = "";
                     }
 
-
-
                 }
-
-
-
             }
 
             catch
             {
                 MessageBox.Show("Adding a carrier to a trip to attach to the order failed");
+                LoggerModel.LogError("Adding carrier to a trip for the selected order failed");
                 SelectedCarrier = "";
                 AnotherSelectedCarrier = "";
-                LoggerModel.LogInfo("Adding carrier to a trip for the selected order failed");
 
             }
 
 
         }
+
 
         public void CallCompleteOrder()
         {
