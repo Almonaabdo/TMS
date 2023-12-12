@@ -20,6 +20,7 @@
                     <Grid Background="#91BAD6" Height="389" Width="763">
                         <Label Content="Welcome Buyer" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
 
+                        <TextBlock HorizontalAlignment="Left" Margin="20,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding BuyerNotification}" />
                         <!--logs out of the user; may or may not go back to the login page-->
                         <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}" HorizontalAlignment="Left" Margin="687,352,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using TMS_Project.DataLayer.Context;
@@ -35,6 +36,17 @@ public class BuyerViewModel: ViewModelBase
         }
     }
 
+
+    private string _buyerNotification;
+    public string BuyerNotification
+    {
+        get => _buyerNotification;
+        set
+        {
+            _buyerNotification = value;
+            OnPropertyChanged(nameof(BuyerNotification));
+        }
+    }
     #endregion
 
     #region Constructor
@@ -47,6 +59,12 @@ public class BuyerViewModel: ViewModelBase
         OrderModelObject = new OrderModel(_tmsDbContext);
 
         LoadCompleteOrder();
+
+        // Calculate the counts
+        int completedOrdersCount = CompletedOrders.Count;
+        int contractsCount = ContractData?.Count() ?? 0;
+        // Set BuyerNotification based on the counts
+        BuyerNotification = $"You have {completedOrdersCount} completed orders and {contractsCount} contracts.";
     }
 
     #endregion
