@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Extensions.Configuration;
 using TMS_Project.Helper;
 using TMS_Project.Model;
 
@@ -17,20 +18,23 @@ namespace TMS_Project.ViewModel
         #region Fields
 
         private readonly DataService _dataService;
-        private string _selectedLogFile;
-        private string _selectedBackupFile;
+        private string? _selectedLogFile;
+        private string? _selectedBackupFile;
         private int _backUpProgress;
         private Visibility _progressBarVisibility = Visibility.Collapsed;
         private string _logFilesPath;
-
+        private string? _fileContent;
+ public ObservableCollection<string?> LogFiles { get; private set; }
+        public ObservableCollection<string?> BackupFiles { get; private set; }
+        
         #endregion
 
-        #region Properties
+        #region MyRegion
 
-        public ObservableCollection<string> LogFiles { get; private set; }
-        public ObservableCollection<string> BackupFiles { get; private set; }
+        
 
-        public string SelectedLogFile
+        
+        public string? SelectedLogFile
         {
             get => _selectedLogFile;
             set
@@ -60,7 +64,7 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        public string SelectedBackupFile
+        public string? SelectedBackupFile
         {
             get => _selectedBackupFile;
             set
@@ -80,7 +84,17 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        #endregion
+        public string? FileContent
+        {
+            get => _fileContent;
+            set
+            {
+                _fileContent = value;
+                OnPropertyChanged(nameof(FileContent));
+            }
+        }
+        
+        #endregion 
 
         #region Commands
 
@@ -101,10 +115,15 @@ namespace TMS_Project.ViewModel
             _dataService = new DataService();
             BackUpDbCommand = new RelayCommand(BackUp);
             OpenSelectedBackupCommand = new RelayCommand(OpenSelectedBackup);
-            OpenSelectedFileCommand = new RelayCommand(OpenSelectedLog);
+            OpenSelectedFileCommand = new RelayCommand(OpenSelectedLog, CanOpenLog);
             OpenFileBrowserCommand = new RelayCommand(OpenFileBrowser);
             LoadLogFiles();
             LoadBackupFiles();
+        }
+
+        private bool CanOpenLog()
+        {
+            return !string.IsNullOrEmpty(SelectedLogFile);
         }
 
         #endregion
@@ -135,7 +154,7 @@ namespace TMS_Project.ViewModel
             {
                 try
                 {
-                    _dataService.BackUpDatabase("Server=localhost;Database=tms;User=root;Password=root;");
+                    _dataService.BackUpDatabase();
                     Application.Current.Dispatcher.Invoke(() => { BackUpProgress = 100; });
                 }
                 catch (Exception e)
@@ -156,21 +175,21 @@ namespace TMS_Project.ViewModel
         /// </summary>
         private void OpenSelectedLog()
         {
-            if (!string.IsNullOrEmpty(SelectedLogFile))
+            try
             {
-                try
+                if (CanOpenLog())
                 {
-                    Process.Start(new ProcessStartInfo
+                    if (SelectedLogFile != null)
                     {
-                        FileName = SelectedLogFile,
-                        UseShellExecute = true
-                    });
+                        string allFileContent = File.ReadAllText(SelectedLogFile);
+                        FileContent = allFileContent;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error opening file: {ex.Message}");
-                    LoggerModel.LogException("Error opening log file.");
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error opening file: {ex.Message}");
+                LoggerModel.LogException("Error opening log file.");
             }
         }
 
@@ -181,25 +200,31 @@ namespace TMS_Project.ViewModel
         /// </summary>
         private void OpenSelectedBackup()
         {
-            const string backupFolderPath =
-                @"C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Copy\bin\\Debug\\net6.0-windows\\Backup";
-            if (!string.IsNullOrEmpty(SelectedBackupFile))
-            {
-                var filePath = Path.Combine(backupFolderPath, SelectedBackupFile);
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json")
+                .Build();
 
-                try
+            var backupFolderPath = configuration["Backups:BackupFolder"];
+            
+            if (string.IsNullOrEmpty(SelectedBackupFile)) return;
+            
+            if (backupFolderPath == null) return;
+            
+            var filePath = Path.Combine(backupFolderPath, SelectedBackupFile);
+
+            try
+            {
+                Process.Start(new ProcessStartInfo
                 {
-                    Process.Start(new ProcessStartInfo
-                    {
-                        FileName = filePath,
-                        UseShellExecute = true
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error opening file: {ex.Message}");
-                    LoggerModel.LogException($"Error opening SQL file.");
-                }
+                    FileName = filePath,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error opening file: {ex.Message}");
+                LoggerModel.LogException($"Error opening SQL file.");
             }
         }
 
@@ -209,7 +234,7 @@ namespace TMS_Project.ViewModel
         private void LoadBackupFiles()
         {
             const string backupFolderPath = "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Copy\\bin\\Debug\\net6.0-windows\\Backup";
-            BackupFiles = new ObservableCollection<string>();
+            BackupFiles = new ObservableCollection<string?>();
             LoadFiles(backupFolderPath, BackupFiles, ref _selectedBackupFile);
         }
 
@@ -220,7 +245,7 @@ namespace TMS_Project.ViewModel
         /// </summary>
         private void LoadLogFiles()
         {
-            LogFiles = new ObservableCollection<string>();
+            LogFiles = new ObservableCollection<string?>();
             LoadFiles(LogFilesPath, LogFiles, ref _selectedLogFile);
         }
 
@@ -230,7 +255,7 @@ namespace TMS_Project.ViewModel
         /// <param name="directoryPath">Where to load files from.</param>
         /// <param name="targetCollection">Where loaded filenames will be stored.</param>
         /// <param name="selectedFile">Reference to the string variable that will be updated with the first line in targetCollection.</param>
-        private static void LoadFiles(string directoryPath, ObservableCollection<string> targetCollection, ref string selectedFile)
+        private static void LoadFiles(string directoryPath, ObservableCollection<string?> targetCollection, ref string? selectedFile)
         {
             try
             {
@@ -270,9 +295,7 @@ namespace TMS_Project.ViewModel
             if (openFileDialog.ShowDialog() == true)
             {
                 foreach (var selectedFilePath in openFileDialog.FileNames)
-                {
                     LogFiles.Add(selectedFilePath);
-                }
 
                 SelectedLogFile = LogFiles.FirstOrDefault();  // Set the first item as selected
             }
