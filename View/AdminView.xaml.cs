@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using TMS_Project.ViewModel;
 
 namespace TMS_Project.View
 {
@@ -22,6 +24,16 @@ namespace TMS_Project.View
         public AdminView()
         {
             InitializeComponent();
+         //   DispatcherTimer LiveTime = new DispatcherTimer();
+
+         //   LiveTime.Interval = TimeSpan.FromSeconds(1);
+//LiveTime.Tick += timer_tick;
+          //  LiveTime.Start();
         }
+
+       // void timer_tick(object sender, EventArgs e)
+       // {
+         //   LiveTimeLabel.Content = DateTime.Now.ToString("MM-dd-yyyy hh:mm:ss tt");
+      //  }
     }
 }
