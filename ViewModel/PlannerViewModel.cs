@@ -113,10 +113,10 @@ namespace TMS.ViewModel
 
         public List<Order> GetNotCompletedOrders()
         {
-            var pendingOrders = new List<Order>();
+            var notCompletedOrders = new List<Order>();
             OrderData = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus != OrderStatus.Completed).ToList() ?? throw new InvalidOperationException());
-            pendingOrders = _TmsDbContext.Orders?.Where(order => order.OrderStatus != OrderStatus.Completed).ToList() ?? throw new InvalidOperationException();
-            return pendingOrders;
+            notCompletedOrders = _TmsDbContext.Orders?.Where(order => order.OrderStatus != OrderStatus.Completed).ToList() ?? throw new InvalidOperationException();
+            return notCompletedOrders;
 
         }
         public void GetDistinctCarrierNames()
