@@ -101,6 +101,7 @@ namespace TMS.ViewModel
             CarrierData = _carrierViewModel.CarrierData;
             _plannerModel = new PlannerModel();
             GetDistinctCarrierNames();
+            GetNotCompletedOrders();
 
 
 
@@ -110,6 +111,14 @@ namespace TMS.ViewModel
 
         #region Methods
 
+        public List<Order> GetNotCompletedOrders()
+        {
+            var pendingOrders = new List<Order>();
+            OrderData = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus != OrderStatus.Completed).ToList() ?? throw new InvalidOperationException());
+            pendingOrders = _TmsDbContext.Orders?.Where(order => order.OrderStatus != OrderStatus.Completed).ToList() ?? throw new InvalidOperationException();
+            return pendingOrders;
+
+        }
         public void GetDistinctCarrierNames()
         {
 
