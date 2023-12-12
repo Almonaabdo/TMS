@@ -24,16 +24,13 @@ namespace TMS_Project.ViewModel
         private Visibility _progressBarVisibility = Visibility.Collapsed;
         private string _logFilesPath;
         private string? _fileContent;
- public ObservableCollection<string?> LogFiles { get; private set; }
+         public ObservableCollection<string?> LogFiles { get; private set; }
         public ObservableCollection<string?> BackupFiles { get; private set; }
         
         #endregion
 
-        #region MyRegion
+        #region Log File Properties
 
-        
-
-        
         public string? SelectedLogFile
         {
             get => _selectedLogFile;
@@ -43,6 +40,20 @@ namespace TMS_Project.ViewModel
                 OnPropertyChanged(nameof(SelectedLogFile));
             }
         }
+
+        public string LogFilesPath
+        {
+            get => _logFilesPath;
+            set
+            {
+                _logFilesPath = value;
+                OnPropertyChanged(nameof(LogFilesPath));
+            }
+        }
+
+        #endregion
+
+        #region Backup Properties
 
         public Visibility ProgressBarVisibility
         {
@@ -74,15 +85,9 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        public string LogFilesPath
-        {
-            get => _logFilesPath;
-            set
-            {
-                _logFilesPath = value;
-                OnPropertyChanged(nameof(LogFilesPath));
-            }
-        }
+        #endregion
+
+        #region File Content Properties
 
         public string? FileContent
         {
@@ -93,8 +98,9 @@ namespace TMS_Project.ViewModel
                 OnPropertyChanged(nameof(FileContent));
             }
         }
-        
-        #endregion 
+
+        #endregion
+
 
         #region Commands
 
@@ -128,8 +134,9 @@ namespace TMS_Project.ViewModel
 
         #endregion
 
-        #region Methods
-
+     
+        #region Backup
+        
         /// <summary>
         /// Initiates the backup process.
         /// </summary>
@@ -169,31 +176,6 @@ namespace TMS_Project.ViewModel
                 }
             });
         }
-
-        /// <summary>
-        /// Opens the selected log file using the default application.
-        /// </summary>
-        private void OpenSelectedLog()
-        {
-            try
-            {
-                if (CanOpenLog())
-                {
-                    if (SelectedLogFile != null)
-                    {
-                        string allFileContent = File.ReadAllText(SelectedLogFile);
-                        FileContent = allFileContent;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error opening file: {ex.Message}");
-                LoggerModel.LogException("Error opening log file.");
-            }
-        }
-
-        #region Backup
 
         /// <summary>
         /// Opens the selected backup file using the default application.
@@ -239,6 +221,30 @@ namespace TMS_Project.ViewModel
         }
 
         #endregion
+
+        #region  Log files
+        /// <summary>
+        /// Opens the selected log file using the default application.
+        /// </summary>
+        private void OpenSelectedLog()
+        {
+            try
+            {
+                if (CanOpenLog())
+                {
+                    if (SelectedLogFile != null)
+                    {
+                        string allFileContent = File.ReadAllText(SelectedLogFile);
+                        FileContent = allFileContent;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error opening file: {ex.Message}");
+                LoggerModel.LogException("Error opening log file.");
+            }
+        }
 
         /// <summary>
         /// Loads the log files.
@@ -300,7 +306,8 @@ namespace TMS_Project.ViewModel
                 SelectedLogFile = LogFiles.FirstOrDefault();  // Set the first item as selected
             }
         }
-
         #endregion
+       
+        
     }
 }

@@ -12,6 +12,7 @@
           "Microsoft.EntityFrameworkCore.Design": "7.0.7",
           "Microsoft.EntityFrameworkCore.Tools": "7.0.7",
           "Microsoft.Extensions.Configuration": "8.0.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
           "Microsoft.Extensions.Configuration.Json": "8.0.0",
           "MySqlBackup.Net.DevartExpress": "2.3.8",
           "NLog": "5.2.5",
