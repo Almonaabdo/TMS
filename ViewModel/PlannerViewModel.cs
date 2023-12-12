@@ -102,9 +102,6 @@ namespace TMS.ViewModel
             _plannerModel = new PlannerModel();
             GetDistinctCarrierNames();
             GetNotCompletedOrders();
-
-
-
         }
 
         #endregion
