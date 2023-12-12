@@ -132,7 +132,7 @@ namespace TMS.ViewModel
                     Carrier carrier = _plannerModel.GetCarrier(AnotherSelectedCarrier, SelectedOrder.SourceCity.ToString());
                     if (carrier == null)
                     {
-                        MessageBox.Show("Can't assign this carrier for the order because it doesn't offer the destination that the order wants");
+                        MessageBox.Show("Can't assign this carrier for the order because it doesn't offer the origin that the order wants");
                     }
 
                     else
@@ -160,7 +160,7 @@ namespace TMS.ViewModel
                     Carrier carrier = _plannerModel.GetCarrier(SelectedCarrier, SelectedOrder.SourceCity.ToString());
                     if (carrier == null)
                     {
-                        MessageBox.Show("Can't assign this carrier for the order because it doesn't offer the destination that the order wants");
+                        MessageBox.Show("Can't assign this carrier for the order because it doesn't offer the origin that the order wants");
                     }
 
                     else

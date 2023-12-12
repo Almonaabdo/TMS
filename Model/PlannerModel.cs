@@ -21,4 +21,25 @@ public class PlannerModel
         }
         return null;
     }
+
+    public void AddTripToOrder(int orderId, Trip newTrip)
+    {
+        // find specified order.
+        var order = _db.Orders?.Find(orderId);
+
+        if (order != null)
+        {
+
+            order.OrderStatus = OrderStatus.InProgress;
+            order.Trips.Add(newTrip);
+            _db.SaveChanges();
+            LoggerModel.LogInfo("Succesfully attached a trip to the order");
+        }
+
+        else
+        {
+            LoggerModel.LogError("Info: Can't Add Trip to Order! Specified Order Wasn't Found In Database.");
+        }
+    }
+
 }
