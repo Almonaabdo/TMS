@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Devart.Data.MySql;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using TMS_Project.DataLayer.Context;
 using TMS_Project.DataLayer.Model;
 
@@ -73,12 +74,12 @@ namespace TMS_Project.Model
         #endregion
 
         #region Backup
+
         /// <summary>
         /// Performs a backup of the database.
         /// </summary>
-        /// <param name="connectionString">Connection string to the database.</param>
         /// <returns>True if the backup operation is successful, otherwise false.</returns>
-        public bool BackUpDatabase(string connectionString)
+        public void BackUpDatabase()
         {
             try
             {
@@ -90,8 +91,12 @@ namespace TMS_Project.Model
                 var fileName = $"backup_{currentDate}.sql";
                 var filePath = Path.Combine(backUpFolder, fileName);
 
-                // Hardcoded connection string for now
-                //connectionString = "Server=localhost;Database=tms;User=root;Password=root;";
+                var configuration = new ConfigurationBuilder()
+                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
+                var connectionString = configuration.GetConnectionString("RemoteDB");
 
                 // Create backup folder if it doesnt exist
                 Directory.CreateDirectory(backUpFolder);
@@ -110,13 +115,10 @@ namespace TMS_Project.Model
                 connection.Close();    // Close connecting
 
                 LoggerModel.LogInfo("Backup operation was completed successfully by Admin.");  // Log successfully operation
-
-                return true;
             }
             catch (MySqlException)
             {
                 LoggerModel.LogException($"Exception thrown while backing up database");
-                return false;
             }
         }
 
@@ -180,7 +182,7 @@ namespace TMS_Project.Model
 
         #region Query
         // Join query
-        public IQueryable<JoinedRouteTable> GetJoinedRouteDatas()
+        public IQueryable<JoinedRouteTable> GetJoinedRouteData()
         {
             var joinedData = from route in _dbContext.Routes
                 join sourceCity in _dbContext.Cities on route.SourceCityId equals sourceCity.CityId

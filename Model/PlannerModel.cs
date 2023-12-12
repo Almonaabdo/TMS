@@ -12,13 +12,34 @@ public class PlannerModel
         _db = new TmsDbContext();
     }
 
-    public Carrier? GetCarrier(string companyName, string destinationCity)
+    public Carrier? GetCarrier(string companyName, string originCityy)
     {
-        var carrier = _db.Carriers?.FirstOrDefault(e => e.CompanyName == companyName && e.DepotCity == destinationCity);
-        if (carrier == null)
+        var carrier = _db.Carriers?.FirstOrDefault(e => e.CompanyName == companyName && e.DepotCity == originCityy);
+        if (carrier != null)
         {
             return carrier;
         }
         return null;
     }
+
+    public void AddTripToOrder(int orderId, Trip newTrip)
+    {
+        // find specified order.
+        var order = _db.Orders?.Find(orderId);
+
+        if (order != null)
+        {
+
+            order.OrderStatus = OrderStatus.InProgress;
+            order.Trips.Add(newTrip);
+            _db.SaveChanges();
+            LoggerModel.LogInfo("Succesfully attached a trip to the order");
+        }
+
+        else
+        {
+            LoggerModel.LogError("Info: Can't Add Trip to Order! Specified Order Wasn't Found In Database.");
+        }
+    }
+
 }
