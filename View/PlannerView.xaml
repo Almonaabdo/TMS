@@ -79,7 +79,7 @@
                         </Grid>
 
                         <!--carrier information-->
-                        <DataGrid ItemsSource="{Binding CarrierData}"  Margin="385,32,5,94" Grid.RowSpan="2"/>
+                        <DataGrid ItemsSource="{Binding CarrierData}"  Margin="385,32,5,94" Grid.RowSpan="2" IsReadOnly="True"/>
 
                     </Grid>
                 </TabItem>
