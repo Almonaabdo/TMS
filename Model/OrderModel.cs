@@ -36,7 +36,18 @@ public class OrderModel
         return newCustomer;
     }
 
+    public string? GetCityById(int cityId)
+    {
+        string city = "";
+        if (_db.Cities != null)
+        {
+            var cityFound = _db.Cities.FirstOrDefault(c => c.CityId == cityId);
+            city = cityFound.CityName.ToString();
+            return city;
+        }
 
+        return city;
+    }
     public City? GetCity(string? cityName)
     {
         if (_db.Cities != null)
