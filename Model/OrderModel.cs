@@ -36,7 +36,18 @@ public class OrderModel
         return newCustomer;
     }
 
+    public string? GetCityById(int cityId)
+    {
+        string city = "";
+        if (_db.Cities != null)
+        {
+            var cityFound = _db.Cities.FirstOrDefault(c => c.CityId == cityId);
+            city = cityFound.CityName.ToString();
+            return city;
+        }
 
+        return city;
+    }
     public City? GetCity(string? cityName)
     {
         if (_db.Cities != null)
@@ -105,11 +116,11 @@ public class OrderModel
 
 
     /*
-    * METHOD NAME: CompleteOrder
-    * DESCRIPTION: Changes status of specified order, and completed order data as todays date.
-    *
-    * RETURN: void
-    */
+  * METHOD NAME: CompleteOrder
+  * DESCRIPTION: Changes status of specified order, and completed order data as todays date.
+  *
+  * RETURN: void
+  */
     public void CompleteOrder(int orderId)
     {
         // searching for the entered order
@@ -119,7 +130,7 @@ public class OrderModel
         {
             // updating the status of the found order by changing status and dateCompleted.
             UpdateTripStatus(orderId, TripStatus.Completed);
-
+            order.OrderStatus = OrderStatus.Completed;
             // changing dataCopleted to the current date of today.
             order.DateCompleted = DateTime.Now;
 

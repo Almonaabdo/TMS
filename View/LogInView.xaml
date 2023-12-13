@@ -8,11 +8,11 @@
         xmlns:viewModel1="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
         Title="LogInView" Height="450" Width="800" WindowState="Maximized">
-    
+
     <Window.DataContext>
         <viewModel1:LogInViewModel></viewModel1:LogInViewModel>
-    </Window.DataContext>  
-    
+    </Window.DataContext>
+
     <Window.Resources>
         <Style TargetType="PasswordBox">
             <EventSetter Event="PasswordChanged" Handler="PasswordBox_PasswordChanged" />
@@ -22,7 +22,13 @@
     <Viewbox Stretch="Fill" StretchDirection="Both">
         <Grid Background="#304674" Width="619" Height="335">
 
-            <TextBlock HorizontalAlignment="Center" Margin="0,52,0,0" TextWrapping="Wrap" Text="TMS" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
+            <!--logo-->
+            <Ellipse HorizontalAlignment="Center" Height="50" Margin="0,35,0,0" VerticalAlignment="Top" Width="100"
+            Fill="DarkBlue"/>
+            <TextBlock HorizontalAlignment="Center" Margin="0,46,0,0" TextWrapping="Wrap" Text="TMS" VerticalAlignment="Top" Foreground="Azure" 
+            FontFamily="Times New Roman" FontSize="25" FontWeight="bold"/>
+
+            <!--<TextBlock HorizontalAlignment="Center" Margin="0,52,0,0" TextWrapping="Wrap" Text="TMS" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>-->
             <TextBlock HorizontalAlignment="Center" Margin="0,90,0,0" TextWrapping="Wrap" Text="TRANSPORTATION MANAGEMENT SYSTEM" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
 
             <!--USERNAME-->

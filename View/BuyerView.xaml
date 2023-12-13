@@ -18,7 +18,23 @@
                 <!--HOME TAB-->
                 <TabItem Header="Home" Background="#304674" FontWeight="Medium">
                     <Grid Background="#91BAD6" Height="389" Width="763">
-                        <Label Content="Welcome Buyer" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
+
+                        <!--design-->
+                        <Rectangle HorizontalAlignment="Left" Height="231" Margin="20,123,0,0" VerticalAlignment="Top" Width="417" Fill="#304674"/>
+                        <Rectangle HorizontalAlignment="Left" Height="100" Margin="435,254,0,0" VerticalAlignment="Top" Width="134" Fill="#304674"/>
+                        <Rectangle HorizontalAlignment="Left" Height="95" Margin="435,179,0,0" VerticalAlignment="Top" Width="122" Fill="#304674" RadiusX="28.161" RadiusY="28.161"/>
+                        <Rectangle HorizontalAlignment="Left" Height="56" Margin="448,198,0,0" VerticalAlignment="Top" Width="96" Fill="WHite" RadiusX="5.238" RadiusY="5.238"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="35,329,678,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="507,329,206,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="325,329,388,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="380,329,333,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="90,329,623,10"/>
+
+                        <!--logo-->
+                        <Ellipse HorizontalAlignment="Left" Height="150" Margin="45,144,0,0" VerticalAlignment="Top" Width="200" Fill="DarkBlue"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="69,179,0,0" TextWrapping="Wrap" Text="TMS" VerticalAlignment="Top" Foreground="Azure" FontFamily="Times New Roman" FontSize="70" FontWeight="bold"/>
+
+                        <Label Content="Welcome Buyer" HorizontalAlignment="Left" Margin="216,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
 
                         <TextBlock HorizontalAlignment="Left" Margin="20,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding BuyerNotification}" />
                         <!--logs out of the user; may or may not go back to the login page-->
