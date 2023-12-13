@@ -43,20 +43,19 @@
                 <!--ORDERS TAB-->
                 <TabItem Header="Orders" Background="#304674" FontWeight="Medium">
                     <Grid Background="#91BAD6">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="73*"/>
-                            <RowDefinition Height="348*"/>
-                        </Grid.RowDefinitions>
 
                         <!--titles-->
                         <Label Content="Follow-up Orders" HorizontalAlignment="Left" Margin="108,-5,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
                         <Label Content="Carrier Information" HorizontalAlignment="Left" Margin="503,-5,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
 
+                        <!--refresh button-->
+                        <Button Content="Refresh" HorizontalAlignment="Left" Margin="5,7,0,0" VerticalAlignment="Top" Background="azure"/>
+
                         <!--orders from the buyer that needs to be completed-->
                         <DataGrid  Margin="5,32,444,94" ItemsSource="{Binding OrderData}" SelectedItem="{Binding SelectedOrder}" Name="Orders" Background="Azure" IsReadOnly="False" Grid.RowSpan="2"/>
 
                         <!--ADD TRIP SECTION-->
-                        <Grid Background="#304674" Margin="126,259,126,10" Grid.Row="1">
+                        <Grid Background="#304674" Margin="126,331,126,10">
                             <Label Content="Add &#xD;&#xA;Trips" Margin="10,5,0,0" FontSize="20" FontWeight="bold" Foreground="AliceBlue" Width="86" HorizontalAlignment="Left"/>
 
                             <TextBlock HorizontalAlignment="Left" Margin="107,8,0,0" Text="Select an order first to add a Trip" VerticalAlignment="Top" Foreground="Azure" FontWeight="Bold" FontStyle="Italic" FontSize="10"/>
@@ -77,25 +76,24 @@
                             <!--add the trip-->
                             <Button Content="Add Trip" Command="{Binding AddCarrierCommand}" HorizontalAlignment="Left" Margin="471,0,0,0" VerticalAlignment="Center" Background="azure" Width="86"/>
 
-
-
                         </Grid>
 
-
                         <!--carrier information-->
-
                         <DataGrid ItemsSource="{Binding CarrierData}"  Margin="385,32,5,94" Grid.RowSpan="2"/>
-
 
                     </Grid>
                 </TabItem>
+
 
                 <!--ACTIVE ORDERS-->
                 <TabItem Header="Active Orders" FontWeight="Medium" Background="#304674">
                     <Grid Background="#91BAD6">
 
+                        <!--refresh button-->
+                        <Button Content="Refresh" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" Background="azure"/>
+
                         <!--datagrid for the current status of the completed orders being delivered-->
-                        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,10,65" Grid.ColumnSpan="2"/>
+                        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,47,10,65"/>
 
                         <!--complete the order-->
                         <Button Content="Complete Order" Command="{Binding CompleteOrderCommand}" HorizontalAlignment="Center" Margin="0,376,0,0" VerticalAlignment="Top" Height="34" Width="130" FontWeight="Bold" Foreground="#001233" Background="Azure" FontSize="15"/>
@@ -104,14 +102,16 @@
                     </Grid>
                 </TabItem>
 
+
                 <!--SUMMARY REPORTS for INVOICE DATAS-->
                 <TabItem Header="Invoice" FontWeight="Medium" Background="#304674">
                     <Grid Background="#91BAD6">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="8*"/>
-                            <ColumnDefinition Width="95*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Content="Generate Invoice Summary Reports" HorizontalAlignment="Left" Margin="20,17,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66" Grid.ColumnSpan="2"/>
+
+                        <!--refresh button-->
+                        <Button Content="Refresh" HorizontalAlignment="Left" Margin="20,29,0,0" VerticalAlignment="Top" Background="azure"/>
+
+
+                        <Label Content="Generate Invoice Summary Reports" HorizontalAlignment="Center" Margin="0,12,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
                         <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="20,54,20,99" Grid.ColumnSpan="2"/>
 
                         <!--buttons for generating summary reports-->
