@@ -135,9 +135,58 @@ namespace TMS.ViewModel
         {
             try
             {
+                if (SelectedOrder == null)
+                {
+                    MessageBox.Show($"Can't procede please pick an order");
+                    return;
+                }
+
+                if (SelectedOrder.OrderStatus == OrderStatus.InProgress)
+                {
+                    MessageBoxButton addTrip = MessageBoxButton.OKCancel;
+                    var choice = MessageBox.Show($"Order# {SelectedOrder.OrderId} is already in progress are you sure you want to add another trip", "Planner", addTrip);
+
+
+                    if (choice == MessageBoxResult.Cancel)
+                    {
+                        return;
+                    }
+                }
+
+                if (SelectedCarrier != null)
+                {
+                    MessageBox.Show("firstCarrier not empty");
+                    string? sourceCity = _orderModel.GetCityById(SelectedOrder.SourceCityId);
+                    MessageBox.Show($" Order source city{sourceCity}");
+                    var carrier = _plannerModel.GetCarrier(SelectedCarrier, sourceCity);
+                    if (carrier == null)
+                    {
+                        MessageBox.Show("Can't assign this carrier because Carrier doesn't have the order's origin as a depot city");
+                    }
+
+                    else
+                    {
+                        Trip trip = new Trip();
+
+                        trip.OrderId = SelectedOrder.OrderId;
+                        trip.Order = SelectedOrder;
+                        trip.Carrier = carrier;
+
+                        _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
+                        MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
+
+
+                    }
+
+                }
+
+
                 if (AnotherSelectedCarrier != null)
                 {
-                    var carrier = _plannerModel.GetCarrier(AnotherSelectedCarrier, SelectedOrder.SourceCity.ToString());
+                    MessageBox.Show("second Carrier not empty");
+                    string? sourceCity = _orderModel.GetCityById(SelectedOrder.SourceCityId);
+                    MessageBox.Show($" Order source city{sourceCity}");
+                    var carrier = _plannerModel.GetCarrier(AnotherSelectedCarrier, sourceCity);
                     if (carrier == null)
                     {
                         MessageBox.Show("Can't assign this carrier because Carrier doesn't have the order's origin as a depot city");
@@ -153,36 +202,16 @@ namespace TMS.ViewModel
                         trip.TripStatus = TripStatus.Scheduled;
 
                         _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
+                        MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
 
-                        GetOrderTable();
-                        AnotherSelectedCarrier = "";
-                    }
-                }
 
-                if (SelectedCarrier != null)
-                {
-                    var carrier = _plannerModel.GetCarrier(SelectedCarrier, SelectedOrder.DestinationCity.ToString());
-                    if (carrier == null)
-                    {
-                        MessageBox.Show("Can't assign this carrier because Carrier doesn't have the order's origin as a depot city");
-                    }
 
-                    else
-                    {
-                        Trip trip = new Trip();
-
-                        trip.OrderId = SelectedOrder.OrderId;
-                        trip.Order = SelectedOrder;
-                        trip.Carrier = carrier;
-
-                        _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
-
-                        GetOrderTable();
-                        SelectedCarrier = "";
                     }
 
                 }
             }
+
+
 
             catch
             {
@@ -195,7 +224,6 @@ namespace TMS.ViewModel
 
 
         }
-
 
         public void CallCompleteOrder()
         {
