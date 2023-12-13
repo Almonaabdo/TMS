@@ -15,6 +15,7 @@ namespace TMS_Project.Model
         #region Fields
 
         private readonly TmsDbContext _dbContext = DbContextSingleton.Instance;
+        private int _backupId = 1;
 
         #endregion
 
@@ -84,35 +85,45 @@ namespace TMS_Project.Model
             try
             {
                 // Specify path for storing backups
-                var backUpFolder = Path.Combine(Environment.CurrentDirectory, "Backup");
-
-                // Get current date for creating backup files
-                var currentDate = DateTime.Now.ToString("yyyy MMMM dd");
-                var fileName = $"backup_{currentDate}.sql";
-                var filePath = Path.Combine(backUpFolder, fileName);
-
-                var configuration = new ConfigurationBuilder()
+                IConfigurationRoot backUpFolder = new ConfigurationBuilder()
                     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                     .AddJsonFile("appsettings.json")
                     .Build();
+                var path = backUpFolder["Backups:BackupFolder"];
+                // Get current date for creating backup files
+                
+                _backupId++;
+                var currentDate = DateTime.Now.ToString("yyyy MMMM dd");
+                var fileName = $"backup {currentDate} ID {_backupId}.sql";
 
-                var connectionString = configuration.GetConnectionString("RemoteDB");
+                
+                if (path != null)
+                {
+                    var filePath = Path.Combine(path, fileName);
 
-                // Create backup folder if it doesnt exist
-                Directory.CreateDirectory(backUpFolder);
+                    var configuration = new ConfigurationBuilder()
+                        .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                        .AddJsonFile("appsettings.json")
+                        .Build();
 
-                // Set up db connection and backup command
-                using var connection = new MySqlConnection(connectionString);
-                using var cmd = connection.CreateCommand();
-                using var backup = new MySqlBackup(cmd);
+                    var connectionString = configuration.GetConnectionString("RemoteDB");
 
-                connection.Open(); // Open connection to db
+                    // Create backup folder if it doesnt exist
+                    Directory.CreateDirectory(Path.GetDirectoryName(filePath) ?? throw new InvalidOperationException());
 
-                cmd.Connection = connection; // Assign connection to command
+                    // Set up db connection and backup command
+                    using var connection = new MySqlConnection(connectionString);
+                    using var cmd = connection.CreateCommand();
+                    using var backup = new MySqlBackup(cmd);
 
-                backup.ExportToFile(filePath); // Export contents of db to filepath
+                    connection.Open(); // Open connection to db
 
-                connection.Close();    // Close connecting
+                    cmd.Connection = connection; // Assign connection to command
+
+                    backup.ExportToFile(filePath); // Export contents of db to filepath
+
+                    connection.Close();    // Close connecting
+                }
 
                 LoggerModel.LogInfo("Backup operation was completed successfully by Admin.");  // Log successfully operation
             }
