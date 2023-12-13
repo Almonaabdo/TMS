@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
-        Title="AdminView" Height="450" Width="800">
+        Title="AdminView" Height="450" Width="800" WindowState="Maximized">
 
     <Window.DataContext>
         <viewModel:AdminViewModel />
@@ -13,7 +13,6 @@
 
     <Viewbox Stretch="Fill" StretchDirection="Both">
         <Grid Background="#304674" Width="887" Height="482">
-
 
             <TabControl>
                 <!--HOME TAB-->
@@ -25,21 +24,26 @@
                         </Grid.ColumnDefinitions>-->
 
                         <!--design-->
-                        <Rectangle HorizontalAlignment="Left" Height="264" Margin="20,121,0,0" VerticalAlignment="Top" Width="468" Fill="#304674"/>
-                        <Rectangle HorizontalAlignment="Left" Height="100" Margin="474,285,0,0" VerticalAlignment="Top" Width="148" Fill="#304674"/>
-                        <Rectangle HorizontalAlignment="Left" Height="110" Margin="474,198,0,0" VerticalAlignment="Top" Width="134" Fill="#304674" RadiusX="28.161" RadiusY="28.161"/>
-                        <Rectangle HorizontalAlignment="Left" Height="61" Margin="500,224,0,0" VerticalAlignment="Top" Width="96" Fill="WHite" RadiusX="5.238" RadiusY="5.238"/>
-                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="45,360,729,10"/>
-                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="555,360,219,10"/>
-                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="362,360,412,10"/>
-                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="417,360,357,10"/>
-                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="100,360,674,10"/>
+                        <Rectangle HorizontalAlignment="Left" Height="256" Margin="20,166,0,0" VerticalAlignment="Top" Width="468" Fill="#304674"/>
+                        <Rectangle HorizontalAlignment="Left" Height="100" Margin="474,322,0,0" VerticalAlignment="Top" Width="148" Fill="#304674"/>
+                        <Rectangle HorizontalAlignment="Left" Height="110" Margin="474,235,0,0" VerticalAlignment="Top" Width="134" Fill="#304674" RadiusX="28.161" RadiusY="28.161"/>
+                        <Rectangle HorizontalAlignment="Left" Height="60" Margin="500,262,0,0" VerticalAlignment="Top" Width="96" Fill="WHite" RadiusX="5.238" RadiusY="5.238"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="45,397,786,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="558,397,273,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="349,397,482,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="404,397,427,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="100,397,731,10"/>
+
+                        <!--logo-->
+                        <Ellipse HorizontalAlignment="Left" Height="150" Margin="45,200,0,0" VerticalAlignment="Top" Width="200" Fill="DarkBlue"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="69,235,0,0" TextWrapping="Wrap" Text="TMS" VerticalAlignment="Top" Foreground="Azure" FontFamily="Times New Roman" FontSize="70" FontWeight="bold"/>
+
 
 
                         <Label Content="{Binding CurrentDate}" Foreground="#304674" FontSize="25" Background="#91BAD6" Margin="737,10,10,399"/>
                         <Button Content="Increment time" Command="{Binding IncrementTimeCommand}" Margin="741,58,14,373" Background="AliceBlue"/>
-                        <Label Content="Welcome Admin" HorizontalAlignment="Left" Margin="20,23,0,0"
-                               VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue" Grid.ColumnSpan="2" />
+                        <Label Content="Welcome Admin" HorizontalAlignment="Left" Margin="55,84,0,0"
+                               VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue" />
 
                         <!--logs out of the user; may or may not go back to the login page-->
                         <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}"
@@ -129,12 +133,12 @@
                                     <DataGrid Name="RouteTable" ItemsSource="{Binding RateRouteViewModel.RouteData}" Background="Azure"
                                               IsReadOnly="False"
                                               HorizontalAlignment="Center" VerticalAlignment="Top"
-                                              Width="580" Height="366" Margin="0,16,0,0" />
+                                              Width="580" Height="350" Margin="0,16,0,0" />
                                     <Button Content="Save Changes" Command="{Binding RateRouteViewModel.SaveRouteCommand}" Height="30"
                                             Width="109"
                                             Background="Azure" FontWeight="Bold" FontSize="15"
-                                            VerticalAlignment="Bottom" HorizontalAlignment="Left"
-                                            Margin="350,0,0,23" />
+                                            VerticalAlignment="Top" HorizontalAlignment="Center"
+                                            Margin="0,371,0,0" />
                                 </Grid>
                             </TabItem>
 
@@ -167,7 +171,7 @@
 
                             <!-- Delete Tab -->
                             <TabItem Header="Delete Data" Background="#304674">
-                                <Grid Background="#304674" Margin="10,0,10,0" Height="427">
+                                <Grid Background="#304674" Height="427">
                                     <StackPanel>
                                         <Label Content="Select a table to delete from:" FontWeight="Medium"
                                                Foreground="#b2cbde"
@@ -180,13 +184,13 @@
                                     <DataGrid ItemsSource="{Binding DeleteViewModel.SelectedTableData}"
                                               AutoGenerateColumns="True" SelectionMode="Single"
                                               SelectedItem="{Binding DeleteViewModel.SelectedRows}"
-                                              MaxHeight="310" HorizontalAlignment="Center" VerticalAlignment="Top"
-                                              Height="320" Width="614" Margin="0,57,0,0" />
+                                              MaxHeight="310" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Height="305" Width="614"/>
 
                                     <Button Content="Delete Selected Rows" Background="Azure" FontWeight="Bold"
                                             FontSize="15" Height="35" Width="200"
                                             Command="{Binding DeleteViewModel.DeleteCommand}"
-                                            HorizontalAlignment="Center" Margin="0,372,0,10" />
+                                            HorizontalAlignment="Center" Margin="0,371,0,21" />
                                 </Grid>
                             </TabItem>
 

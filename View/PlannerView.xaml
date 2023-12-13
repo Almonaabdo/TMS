@@ -20,7 +20,7 @@
                     <Grid Background="#91BAD6">
 
                         <!--design-->
-                        <Rectangle HorizontalAlignment="Left" Height="264" Margin="20,121,0,0" VerticalAlignment="Top" Width="468" Fill="#304674"/>
+                        <Rectangle HorizontalAlignment="Left" Height="247" Margin="20,138,0,0" VerticalAlignment="Top" Width="468" Fill="#304674"/>
                         <Rectangle HorizontalAlignment="Left" Height="100" Margin="474,285,0,0" VerticalAlignment="Top" Width="148" Fill="#304674"/>
                         <Rectangle HorizontalAlignment="Left" Height="110" Margin="474,198,0,0" VerticalAlignment="Top" Width="134" Fill="#304674" RadiusX="28.161" RadiusY="28.161"/>
                         <Rectangle HorizontalAlignment="Left" Height="61" Margin="500,224,0,0" VerticalAlignment="Top" Width="96" Fill="WHite" RadiusX="5.238" RadiusY="5.238"/>
@@ -31,10 +31,10 @@
                         <Ellipse Fill="#304674" Height="50" Width="50" Margin="100,360,674,10"/>
 
                         <!--logo-->
-                        <Ellipse HorizontalAlignment="Left" Height="150" Margin="45,158,0,0" VerticalAlignment="Top" Width="200" Fill="DarkBlue"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="69,193,0,0" TextWrapping="Wrap" Text="TMS" VerticalAlignment="Top" Foreground="Azure" FontFamily="Times New Roman" FontSize="70" FontWeight="bold"/>
+                        <Ellipse HorizontalAlignment="Left" Height="150" Margin="45,178,0,0" VerticalAlignment="Top" Width="200" Fill="DarkBlue"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="69,214,0,0" TextWrapping="Wrap" Text="TMS" VerticalAlignment="Top" Foreground="Azure" FontFamily="Times New Roman" FontSize="70" FontWeight="bold"/>
 
-                        <Label Content="Welcome Planner" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
+                        <Label Content="Welcome Planner" HorizontalAlignment="Left" Margin="44,56,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
                         <!--logs out of the user; may or may not go back to the login page-->
                         <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}" HorizontalAlignment="Left" Margin="748,383,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium" />
 
