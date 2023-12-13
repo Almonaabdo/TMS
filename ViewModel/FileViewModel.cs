@@ -22,12 +22,13 @@ namespace TMS_Project.ViewModel
         private string? _selectedBackupFile;
         private int _backUpProgress;
         private Visibility _progressBarVisibility = Visibility.Collapsed;
-        private string _logFilesPath;
+        private string _logFilesPath = null!;
         private string? _fileContent;
-         public ObservableCollection<string?> LogFiles { get; private set; }
-        public ObservableCollection<string?> BackupFiles { get; private set; }
-        
-        #endregion
+         public ObservableCollection<string?> LogFiles { get; private set; } = null!;
+         public ObservableCollection<string?> BackupFiles { get; private set; } = null!;
+
+         #endregion
+
 
         #region Log File Properties
 
@@ -52,7 +53,8 @@ namespace TMS_Project.ViewModel
         }
 
         #endregion
-
+        
+        
         #region Backup Properties
 
         public Visibility ProgressBarVisibility
@@ -86,7 +88,8 @@ namespace TMS_Project.ViewModel
         }
 
         #endregion
-
+        
+        
         #region File Content Properties
 
         public string? FileContent
@@ -100,8 +103,8 @@ namespace TMS_Project.ViewModel
         }
 
         #endregion
-
-
+        
+        
         #region Commands
 
         public RelayCommand OpenSelectedFileCommand { get; }
@@ -110,7 +113,8 @@ namespace TMS_Project.ViewModel
         public RelayCommand OpenFileBrowserCommand { get; set; }
 
         #endregion
-
+        
+        
         #region Constructor
 
         /// <summary>
@@ -133,8 +137,8 @@ namespace TMS_Project.ViewModel
         }
 
         #endregion
-
-     
+        
+        
         #region Backup
         
         /// <summary>
@@ -150,7 +154,7 @@ namespace TMS_Project.ViewModel
             {
                 for (int i = 0; i <= numOfIterations; i++)
                 {
-                    Thread.Sleep(50);
+                    Thread.Sleep(10);
                     var currentIteration = i;
                     Application.Current.Dispatcher.Invoke(() =>
                     {
@@ -163,6 +167,7 @@ namespace TMS_Project.ViewModel
                 {
                     _dataService.BackUpDatabase();
                     Application.Current.Dispatcher.Invoke(() => { BackUpProgress = 100; });
+                    
                 }
                 catch (Exception e)
                 {
@@ -171,6 +176,7 @@ namespace TMS_Project.ViewModel
                 }
                 finally
                 {
+                    LoadBackupFiles();
                     Application.Current.Dispatcher.Invoke(() => { ProgressBarVisibility = Visibility.Hidden; });
                     MessageBox.Show("Backup completed successfully!", "Backup operation", MessageBoxButton.OK);
                 }
@@ -215,13 +221,20 @@ namespace TMS_Project.ViewModel
         /// </summary>
         private void LoadBackupFiles()
         {
-            const string backupFolderPath = "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Copy\\bin\\Debug\\net6.0-windows\\Backup";
+            // Specify path for storing backups
+            IConfigurationRoot backUpFolder = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var path = backUpFolder["Backups:BackupFolder"];
             BackupFiles = new ObservableCollection<string?>();
-            LoadFiles(backupFolderPath, BackupFiles, ref _selectedBackupFile);
+            if (path != null) LoadFiles(path, BackupFiles, ref _selectedBackupFile);
         }
 
         #endregion
-
+        
+        
         #region  Log files
         /// <summary>
         /// Opens the selected log file using the default application.
@@ -307,7 +320,5 @@ namespace TMS_Project.ViewModel
             }
         }
         #endregion
-       
-        
     }
 }
