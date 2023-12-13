@@ -93,7 +93,7 @@ public class DeleteViewModel : ViewModelBase
         {
             case "Route":
                 SelectedTableData = new ObservableCollection<object>(
-                    _dataService.GetJoinedRouteDatas()?.Cast<object>() ?? throw new InvalidOperationException());
+                    _dataService.GetJoinedRouteData()?.Cast<object>() ?? throw new InvalidOperationException());
                 break;
             case "Rate":
                 SelectedTableData = new ObservableCollection<object>(

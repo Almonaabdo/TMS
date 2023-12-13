@@ -18,14 +18,24 @@
                 <!--HOME TAB-->
                 <TabItem Header="Home" FontWeight="Medium" Background="#304674">
                     <Grid Background="#91BAD6">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="129*"/>
-                            <ColumnDefinition Width="695*"/>
-                        </Grid.ColumnDefinitions>
 
-                        <Label Content="Welcome Planner" HorizontalAlignment="Left" Margin="20,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue" Grid.ColumnSpan="2"/>
+                        <Rectangle HorizontalAlignment="Left" Height="264" Margin="20,121,0,0" VerticalAlignment="Top" Width="468" Fill="#304674"/>
+                        <Rectangle HorizontalAlignment="Left" Height="100" Margin="474,285,0,0" VerticalAlignment="Top" Width="148" Fill="#304674"/>
+                        <Rectangle HorizontalAlignment="Left" Height="110" Margin="474,198,0,0" VerticalAlignment="Top" Width="134" Fill="#304674" RadiusX="28.161" RadiusY="28.161"/>
+                        <Rectangle HorizontalAlignment="Left" Height="61" Margin="500,224,0,0" VerticalAlignment="Top" Width="96" Fill="WHite" RadiusX="5.238" RadiusY="5.238"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="45,360,729,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="555,360,219,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="362,360,412,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="417,360,357,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="100,360,674,10"/>
+
+                        <!--logo-->
+                        <Ellipse HorizontalAlignment="Left" Height="150" Margin="45,158,0,0" VerticalAlignment="Top" Width="200" Fill="DarkBlue"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="69,193,0,0" TextWrapping="Wrap" Text="TMS" VerticalAlignment="Top" Foreground="Azure" FontFamily="Times New Roman" FontSize="70" FontWeight="bold"/>
+
+                        <Label Content="Welcome Planner" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
                         <!--logs out of the user; may or may not go back to the login page-->
-                        <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}" HorizontalAlignment="Left" Margin="619,383,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium" Grid.Column="1" />
+                        <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}" HorizontalAlignment="Left" Margin="748,383,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium" />
 
                     </Grid>
                 </TabItem>
@@ -53,7 +63,7 @@
                             <ComboBox HorizontalAlignment="Center" ItemsSource="{Binding CarrierNames}"  SelectedItem ="{Binding SelectedCarrier}" Margin="0,64,0,0" VerticalAlignment="Top" Width="120" x:Name="CarrierName">
                             </ComboBox>
 
-                            <Button Content="Add Carrier" Command="{Binding AddCarrierCommand}" HorizontalAlignment="Center" Margin="0,249,0,0" VerticalAlignment="Top" Background="azure" Width="86"/>
+                            <Button Content="Add Carrier" Command="{Binding AddCarrierCommand}" HorizontalAlignment="Center" Margin="0,242,0,0" VerticalAlignment="Top" Background="azure" Width="86"/>
                             <RadioButton Content="Multiple Trip" HorizontalAlignment="Left" Margin="62,128,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
 
                             <!--combo box for carrier - multiple trip-->
