@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\erin\\college3\\softwarequa\\PGM\\TMS\\TMS-Project.csproj": {}
+    "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Final Copy\\TMS-Project.csproj": {}
   },
   "projects": {
-    "C:\\erin\\college3\\softwarequa\\PGM\\TMS\\TMS-Project.csproj": {
+    "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Final Copy\\TMS-Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\erin\\college3\\softwarequa\\PGM\\TMS\\TMS-Project.csproj",
+        "projectUniqueName": "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Final Copy\\TMS-Project.csproj",
         "projectName": "TMS-Project",
-        "projectPath": "C:\\erin\\college3\\softwarequa\\PGM\\TMS\\TMS-Project.csproj",
-        "packagesPath": "C:\\Users\\Erin\\.nuget\\packages\\",
-        "outputPath": "C:\\erin\\college3\\softwarequa\\PGM\\TMS\\obj\\",
+        "projectPath": "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Final Copy\\TMS-Project.csproj",
+        "packagesPath": "C:\\Users\\Yafet\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS - Final Copy\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Erin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Yafet\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Users\\Public\\Documents\\Infragistics\\NuGet\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -101,7 +104,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }
