@@ -229,8 +229,13 @@ namespace TMS.ViewModel
         {
             try
             {
-                // _orderModel.CompleteOrder();
-                MessageBox.Show("Successfully Completed Order");
+                if (SelectedOrder.OrderStatus == OrderStatus.Pending)
+                {
+                    MessageBox.Show($"Order# {SelectedOrder.OrderId} is still pending. Attach a trip to complete it");
+                    return;
+                }
+                _orderModel.CompleteOrder(SelectedOrder.OrderId);
+                MessageBox.Show($"Successfully Completed Order# {SelectedOrder.OrderId}");
                 GetOrderTable();
             }
             catch (Exception ex)
@@ -238,6 +243,7 @@ namespace TMS.ViewModel
                 MessageBox.Show(ex.Message);
             }
         }
+
 
         #endregion
     }
