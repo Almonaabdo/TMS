@@ -49,6 +49,17 @@ namespace TMS_Project.ViewModel
             }
         }
 
+
+                private string _adminNotification;
+        public string AdminNotification
+        {
+            get => _adminNotification;
+            set
+            {
+                _adminNotification = value;
+                OnPropertyChanged(nameof(AdminNotification));
+            }
+        }
         #endregion
 
         #region Date
@@ -70,6 +81,15 @@ namespace TMS_Project.ViewModel
         {
             _currentDate = DateTime.Now;
             IncrementTimeCommand = new RelayCommand(IncrementDate);
+
+
+            // Calculate the counts
+            CarrierViewModel carrierobj = new CarrierViewModel();
+            RateRouteViewModel routesobj = new RateRouteViewModel();
+            int carriersNumber = carrierobj.CarrierData?.Count / 3 ?? 0;
+            int routesNumber = routesobj.RouteData?.Count ?? 0;
+            // Set BuyerNotification based on the counts
+            AdminNotification = $"You're currently partnering with {carriersNumber} carriers that handle {routesNumber} different routes.";
         }
 
         private void IncrementDate()

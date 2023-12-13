@@ -81,7 +81,7 @@
                         <Label Content="Completed Orders from Planner" Margin="20,10,432,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66" Height="32"/>
 
                         <!--shows the values of completed orders from the planner-->
-                        <DataGrid ItemsSource="{Binding CompletedOrders}" Margin="20,47,20,85" Name="CompletedOrders" Background="Azure" IsReadOnly="False"/>
+                        <DataGrid ItemsSource="{Binding CompletedOrders}" Margin="20,47,20,85" Name="CompletedOrders" Background="Azure" IsReadOnly="True"/>
 
                         <!--processes the invoice if order is complete-->
                         <Button Content="Process Invoice" Command="{Binding ProcessInvoice}" HorizontalAlignment="Center" Margin="0,325,0,0" VerticalAlignment="Top" Height="34" Width="140" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15"/>
