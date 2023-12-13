@@ -19,6 +19,7 @@
                 <TabItem Header="Home" FontWeight="Medium" Background="#304674">
                     <Grid Background="#91BAD6">
 
+                        <!--design-->
                         <Rectangle HorizontalAlignment="Left" Height="264" Margin="20,121,0,0" VerticalAlignment="Top" Width="468" Fill="#304674"/>
                         <Rectangle HorizontalAlignment="Left" Height="100" Margin="474,285,0,0" VerticalAlignment="Top" Width="148" Fill="#304674"/>
                         <Rectangle HorizontalAlignment="Left" Height="110" Margin="474,198,0,0" VerticalAlignment="Top" Width="134" Fill="#304674" RadiusX="28.161" RadiusY="28.161"/>

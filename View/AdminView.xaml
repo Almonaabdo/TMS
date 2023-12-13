@@ -19,22 +19,34 @@
                 <!--HOME TAB-->
                 <TabItem Header="Home" FontWeight="Medium" Background="#304674">
                     <Grid Background="#91BAD6" Height="457">
-                        <Grid.ColumnDefinitions>
+                        <!--<Grid.ColumnDefinitions>
                             <ColumnDefinition Width="106*"/>
                             <ColumnDefinition Width="775*"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <Label Content="{Binding CurrentDate}" Foreground="#304674" FontSize="25" Background="#91BAD6" Margin="638,0,0,409" Grid.Column="1"/>
-                        <Button Content="Increment time" Command="{Binding IncrementTimeCommand}" Grid.Column="1" Margin="560,58,96,361"/>
+                        </Grid.ColumnDefinitions>-->
+
+                        <!--design-->
+                        <Rectangle HorizontalAlignment="Left" Height="264" Margin="20,121,0,0" VerticalAlignment="Top" Width="468" Fill="#304674"/>
+                        <Rectangle HorizontalAlignment="Left" Height="100" Margin="474,285,0,0" VerticalAlignment="Top" Width="148" Fill="#304674"/>
+                        <Rectangle HorizontalAlignment="Left" Height="110" Margin="474,198,0,0" VerticalAlignment="Top" Width="134" Fill="#304674" RadiusX="28.161" RadiusY="28.161"/>
+                        <Rectangle HorizontalAlignment="Left" Height="61" Margin="500,224,0,0" VerticalAlignment="Top" Width="96" Fill="WHite" RadiusX="5.238" RadiusY="5.238"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="45,360,729,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="555,360,219,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="362,360,412,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="417,360,357,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="100,360,674,10"/>
+
+
+                        <Label Content="{Binding CurrentDate}" Foreground="#304674" FontSize="25" Background="#91BAD6" Margin="737,10,10,399"/>
+                        <Button Content="Increment time" Command="{Binding IncrementTimeCommand}" Margin="741,58,14,373" Background="AliceBlue"/>
                         <Label Content="Welcome Admin" HorizontalAlignment="Left" Margin="20,23,0,0"
                                VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue" Grid.ColumnSpan="2" />
+
                         <!--logs out of the user; may or may not go back to the login page-->
                         <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}"
                                 HorizontalAlignment="Left"
-                                Margin="699,420,0,0" VerticalAlignment="Top" Height="27" Width="66"
-                                Background="DarkBlue" Foreground="white" FontWeight="Medium" Grid.Column="1" />
+                                Margin="805,420,0,0" VerticalAlignment="Top" Height="27" Width="66"
+                                Background="DarkBlue" Foreground="white" FontWeight="Medium" />
                     </Grid>
-
                 </TabItem>
 
                 <!--CONFIGURATIONS TAB-->
@@ -55,17 +67,17 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Button Command="{Binding FileViewModel.OpenFileBrowserCommand}"
-                                            Content="Load files" Margin="20,10,754,80" Grid.ColumnSpan="2" />
+                                            Content="Load files" Margin="10,10,758,80" Grid.ColumnSpan="2" Background="AliceBlue" FontWeight="Bold"/>
                                     <ComboBox x:Name="Folder" ItemsSource="{Binding FileViewModel.LogFiles}"
                                               SelectedItem="{Binding FileViewModel.SelectedLogFile}"
-                                              Margin="110,10,104,80" Grid.Row="0" Grid.Column="1" />
+                                              Margin="102,10,133,80" Grid.Row="0" Grid.Column="1" />
                                     <TextBox VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                                              Text="{Binding FileViewModel.FileContent}" IsReadOnly="True"
                                              Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="0"
-                                             Margin="16,51,10,10" />
+                                             Margin="10,51,10,10" />
                                     <Button Command="{Binding FileViewModel.OpenSelectedFileCommand}"
-                                            Content="Open selected file" Margin="765,10,9,80" Grid.Row="0"
-                                            Grid.ColumnSpan="2" Grid.Column="0" />
+                                            Content="Open selected file" Margin="727,10,10,80" Grid.Row="0"
+                                            Grid.ColumnSpan="2" Grid.Column="0" Background="AliceBlue" FontWeight="Bold"/>
                                 </Grid>
                             </TabItem>
 
