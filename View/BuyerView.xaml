@@ -84,10 +84,10 @@
                         <DataGrid ItemsSource="{Binding CompletedOrders}"
                                   AutoGenerateColumns="True" SelectionMode="Single"
                                   MaxHeight="310" HorizontalAlignment="Center" VerticalAlignment="Top"
-                                  Height="320" Width="614" Margin="0,57,0,0"/>
+                                  Height="320" Width="614" Margin="0,57,0,0" IsReadOnly="True" SelectedItem="{Binding SelectedOrder}"/>
 
                         <!--processes the invoice if order is complete-->
-                        <Button Content="Process Invoice" Command="{Binding ProcessInvoice}" HorizontalAlignment="Center" Margin="0,325,0,0" VerticalAlignment="Top" Height="34" Width="140" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15"/>
+                        <Button Content="Process Invoice" Command="{Binding ProcessInvoiceCommand}" HorizontalAlignment="Center" Margin="0,300,0,0" VerticalAlignment="Top" Height="34" Width="140" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15"/>
 
                     </Grid>
                 </TabItem>
