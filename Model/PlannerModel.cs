@@ -34,15 +34,11 @@ public class PlannerModel
             try
             {
 
-
-                MessageBox.Show("order not null");
                 order.OrderStatus = OrderStatus.InProgress;
-                MessageBox.Show("orderstatus assigned in progress");
-                //order.Trips.Add(newTrip);
-                MessageBox.Show("add a trip on order");
+                order.Trips.Add(newTrip);
+                
                 _db.SaveChanges();
-                MessageBox.Show("saved changes");
-                // LoggerModel.LogInfo("Succesfully attached a trip to the order");
+                LoggerModel.LogInfo("Succesfully attached a trip to the order");
             }
 
             catch(Exception e)
@@ -54,7 +50,7 @@ public class PlannerModel
         else
         {
             MessageBox.Show("order null");
-            //LoggerModel.LogError("Info: Can't Add Trip to Order! Specified Order Wasn't Found In Database.");
+            LoggerModel.LogError("Info: Can't Add Trip to Order! Specified Order Wasn't Found In Database.");
         }
     }
 
