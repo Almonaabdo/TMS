@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
-        Title="AdminView" Height="450" Width="800">
+        Title="AdminView" Height="450" Width="800" WindowState="Maximized">
 
-   
+
     <Window.DataContext>
         <viewModel:AdminViewModel />
     </Window.DataContext>
-   
+
     <Viewbox Stretch="Fill" StretchDirection="Both">
         <Grid Background="#304674" Width="887" Height="482">
 
@@ -19,22 +19,36 @@
             <TabControl>
                 <!--HOME TAB-->
                 <TabItem Header="Home" FontWeight="Medium" Background="#304674">
-                    <Grid Background="#91BAD6" Height="457">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="106*"/>
-                            <ColumnDefinition Width="775*"/>
-                        </Grid.ColumnDefinitions>
+                    <Grid Background="#91BAD6" >
 
-                        <Label Content="{Binding CurrentDate}" Foreground="#304674" FontSize="25" Background="#91BAD6" Margin="638,0,0,409" Grid.Column="1"/>
-                        <Button Content="Increment time" Command="{Binding IncrementTimeCommand}" Grid.Column="1" Margin="560,58,96,361"/>
-                        <Label Content="Welcome Admin" HorizontalAlignment="Left" Margin="20,23,0,0"
-                               VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue" Grid.ColumnSpan="2" />
-                        <TextBlock HorizontalAlignment="Left" Margin="10,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="159" Text="{Binding AdminNotification}" Grid.ColumnSpan="2" Height="78" />
+                        <!--design-->
+                        <Rectangle HorizontalAlignment="Left" Height="248" Margin="20,171,0,0" VerticalAlignment="Top" Width="476" Fill="#304674"/>
+                        <Rectangle HorizontalAlignment="Left" Height="100" Margin="494,319,0,0" VerticalAlignment="Top" Width="134" Fill="#304674"/>
+                        <Rectangle HorizontalAlignment="Left" Height="95" Margin="494,245,0,0" VerticalAlignment="Top" Width="122" Fill="#304674" RadiusX="28.161" RadiusY="28.161"/>
+                        <Rectangle HorizontalAlignment="Left" Height="56" Margin="513,263,0,0" VerticalAlignment="Top" Width="96" Fill="WHite" RadiusX="5.238" RadiusY="5.238"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="45,394,786,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="566,394,265,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="368,394,463,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="423,394,408,10"/>
+                        <Ellipse Fill="#304674" Height="50" Width="50" Margin="100,394,731,10"/>
+
+                        <!--logo-->
+                        <Ellipse HorizontalAlignment="Left" Height="150" Margin="45,190,0,0" VerticalAlignment="Top" Width="200" Fill="DarkBlue"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="69,225,0,0" TextWrapping="Wrap" Text="TMS" VerticalAlignment="Top" Foreground="Azure" FontFamily="Times New Roman" FontSize="70" FontWeight="bold"/>
+
+                        <Label Content="{Binding CurrentDate}" Foreground="#304674" FontSize="25" Background="#91BAD6" Margin="684,9,63,400"/>
+                        <Button Content="Increment time" Command="{Binding IncrementTimeCommand}" Margin="661,54,40,365" />
+                        <Label Content="Welcome Admin" HorizontalAlignment="Left" Margin="59,94,0,0"
+                               VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue" />
+
+                        <TextBlock HorizontalAlignment="Left" Margin="10,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="159" Text="{Binding AdminNotification}" Height="16" FontSize="8" Foreground="red" />
+
+
                         <!--logs out of the user; may or may not go back to the login page-->
                         <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}"
                                 HorizontalAlignment="Left"
-                                Margin="699,420,0,0" VerticalAlignment="Top" Height="27" Width="66"
-                                Background="DarkBlue" Foreground="white" FontWeight="Medium" Grid.Column="1" />
+                                Margin="805,417,0,0" VerticalAlignment="Top" Height="27" Width="66"
+                                Background="DarkBlue" Foreground="white" FontWeight="Medium" />
                     </Grid>
 
                 </TabItem>
