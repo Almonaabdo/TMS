@@ -40,7 +40,7 @@ namespace TMS.ViewModel
         private Order _selectedInProgressOrder;
         public Order SelectedInProgressOrder
         {
-            get { return _selectedOrder; }
+            get { return _selectedInProgressOrder; }
             set
             {
                 _selectedInProgressOrder = value;
@@ -84,6 +84,8 @@ namespace TMS.ViewModel
         public ICommand GetOrdersCommand { get; }
         public ICommand AddCarrierCommand { get; }
 
+        public ICommand OrdersTabCommand { get; }
+
 
         private DataService _dataService { get; }
 
@@ -125,6 +127,10 @@ namespace TMS.ViewModel
 
         #region Methods
 
+        //public void RefreshOrdersTab()
+        //{
+
+        //}
         public void GetPendingOrders()
         {
             OrderData = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus == OrderStatus.Pending).ToList() ?? throw new InvalidOperationException());
@@ -214,6 +220,7 @@ namespace TMS.ViewModel
                         _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
                         MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
                         LoggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
+                        GetPendingOrders();
 
 
                     }
@@ -271,6 +278,7 @@ namespace TMS.ViewModel
                         _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
                         MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
                         LoggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
+                        GetPendingOrders();
 
 
                     }

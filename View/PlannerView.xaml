@@ -50,7 +50,7 @@
                         <Label Content="Carrier Information" HorizontalAlignment="Left" Margin="503,-5,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
 
                         <!--refresh button-->
-                        <Button Content="Refresh" HorizontalAlignment="Left" Margin="5,7,0,0" VerticalAlignment="Top" Background="azure"/>
+                        <Button Content="Refresh" Command="{Binding GetOrdersCommand}" HorizontalAlignment="Left" Margin="5,7,0,0" VerticalAlignment="Top" Background="azure"/>
 
                         <!--orders from the buyer that needs to be completed-->
                         <DataGrid  Margin="5,32,444,94" ItemsSource="{Binding OrderData}" SelectedItem="{Binding SelectedOrder}" Name="Orders" Background="Azure" IsReadOnly="True" Grid.RowSpan="2"/>
