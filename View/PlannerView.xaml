@@ -94,7 +94,7 @@
                         <Button Content="Refresh" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" Background="azure"/>
 
                         <!--datagrid for the current status of the completed orders being delivered-->
-                        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,47,10,65"/>
+                        <DataGrid ItemsSource="{Binding OrderDataInProgress}" Margin="10,47,10,65"/>
 
                         <!--complete the order-->
                         <Button Content="Complete Order" Command="{Binding CompleteOrderCommand}" HorizontalAlignment="Center" Margin="0,376,0,0" VerticalAlignment="Top" Height="34" Width="130" FontWeight="Bold" Foreground="#001233" Background="Azure" FontSize="15"/>

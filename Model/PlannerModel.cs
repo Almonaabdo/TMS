@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using TMS_Project.DataLayer.Context;
 using TMS_Project.DataLayer.Model;
 
@@ -29,16 +31,30 @@ public class PlannerModel
 
         if (order != null)
         {
+            try
+            {
 
-            order.OrderStatus = OrderStatus.InProgress;
-            order.Trips.Add(newTrip);
-            _db.SaveChanges();
-            LoggerModel.LogInfo("Succesfully attached a trip to the order");
+
+                MessageBox.Show("order not null");
+                order.OrderStatus = OrderStatus.InProgress;
+                MessageBox.Show("orderstatus assigned in progress");
+                //order.Trips.Add(newTrip);
+                MessageBox.Show("add a trip on order");
+                _db.SaveChanges();
+                MessageBox.Show("saved changes");
+                // LoggerModel.LogInfo("Succesfully attached a trip to the order");
+            }
+
+            catch(Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
         }
 
         else
         {
-            LoggerModel.LogError("Info: Can't Add Trip to Order! Specified Order Wasn't Found In Database.");
+            MessageBox.Show("order null");
+            //LoggerModel.LogError("Info: Can't Add Trip to Order! Specified Order Wasn't Found In Database.");
         }
     }
 

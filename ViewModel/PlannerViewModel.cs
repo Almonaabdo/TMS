@@ -85,6 +85,8 @@ namespace TMS.ViewModel
 
         private PlannerModel _plannerModel { get; }
 
+        public ObservableCollection<Order> OrderDataInProgress { get; private set; } = null!;
+
         #endregion
 
         #region Constructor
@@ -101,8 +103,8 @@ namespace TMS.ViewModel
             CarrierData = _carrierViewModel.CarrierData;
             _plannerModel = new PlannerModel();
             GetDistinctCarrierNames();
-            GetNotCompletedOrders();
-
+            GetPendingOrders();
+            GetInProgressOrders();
 
 
         }
@@ -111,13 +113,14 @@ namespace TMS.ViewModel
 
         #region Methods
 
-        public List<Order> GetNotCompletedOrders()
+        public void GetPendingOrders()
         {
-            var notCompletedOrders = new List<Order>();
-            OrderData = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus != OrderStatus.Completed).ToList() ?? throw new InvalidOperationException());
-            notCompletedOrders = _TmsDbContext.Orders?.Where(order => order.OrderStatus != OrderStatus.Completed).ToList() ?? throw new InvalidOperationException();
-            return notCompletedOrders;
+            OrderData = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus == OrderStatus.Pending).ToList() ?? throw new InvalidOperationException());
+        }
 
+        public void GetInProgressOrders()
+        {
+            OrderDataInProgress = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus == OrderStatus.InProgress).ToList() ?? throw new InvalidOperationException());
         }
         public void GetDistinctCarrierNames()
         {
@@ -170,8 +173,11 @@ namespace TMS.ViewModel
 
                         trip.OrderId = SelectedOrder.OrderId;
                         trip.Order = SelectedOrder;
-                        trip.Carrier = carrier;
-
+                        trip.CarrierId = carrier.CarrierId;
+                        
+                        
+                        MessageBox.Show("Trips done");
+                        MessageBox.Show($" order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
                         _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
                         MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
 
@@ -216,7 +222,7 @@ namespace TMS.ViewModel
             catch
             {
                 MessageBox.Show("Adding a carrier to a trip to attach to the order failed");
-                LoggerModel.LogError("Adding carrier to a trip for the selected order failed");
+                //LoggerModel.LogError("Adding carrier to a trip for the selected order failed");
                 SelectedCarrier = "";
                 AnotherSelectedCarrier = "";
 
