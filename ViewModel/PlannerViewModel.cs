@@ -20,7 +20,9 @@ namespace TMS.ViewModel
 {
     public class PlannerViewModel : ViewModelBase
     {
-        #region Properties 
+        #region Properties
+
+        private readonly LoggerModel _loggerModel = LoggerModel.Instance;
 
         public LogInViewModel LogInViewModel { get; set; } = new();
 
@@ -237,7 +239,7 @@ namespace TMS.ViewModel
                         
                         _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
                         MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
-                        LoggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
+                        _loggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
                         RefreshOrdersTab();
 
 
@@ -295,7 +297,7 @@ namespace TMS.ViewModel
                         
                         _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
                         MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
-                        LoggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
+                        _loggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
                         RefreshOrdersTab();
 
 
@@ -309,7 +311,7 @@ namespace TMS.ViewModel
             catch
             {
                 MessageBox.Show("Adding a carrier to a trip to attach to the order failed");
-                LoggerModel.LogError("Adding carrier to a trip for the selected order failed");
+                _loggerModel.LogError("Adding carrier to a trip for the selected order failed");
 
             }
 

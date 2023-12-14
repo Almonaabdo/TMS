@@ -33,7 +33,7 @@ public class LoggerModel
     *
     * RETURN: void
     */
-    public static void ConfigLog()
+    public void ConfigLog()
     {
         IConfigurationRoot configuration = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -66,7 +66,7 @@ public class LoggerModel
     *
     * RETURN: void
     */
-    private static void Log(CustomLogLevel logLevel, string message)
+    private void Log(CustomLogLevel logLevel, string message)
     {
         var logEntry = $"{message}";
         Logger.Log(logLevel.ToNlogLevel(), logEntry);
@@ -79,7 +79,7 @@ public class LoggerModel
     *
     * RETURN: void
     */
-    public static void LogInfo(string message)
+    public void LogInfo(string message)
     {
         Log(CustomLogLevel.Info, message);
     }
@@ -91,7 +91,7 @@ public class LoggerModel
     *
     * RETURN: void
     */
-    public static void LogWarning(string message)
+    public void LogWarning(string message)
     {
         Log(CustomLogLevel.Warn, message);
     }
@@ -103,7 +103,7 @@ public class LoggerModel
     *
     * RETURN: void
     */
-    public static void LogError(string message)
+    public void LogError(string message)
     {
         Log(CustomLogLevel.Error, message);
     }
@@ -115,7 +115,7 @@ public class LoggerModel
     *
     * RETURN: void
     */
-    public static void LogException(string message)
+    public void LogException(string message)
     {
         Log(CustomLogLevel.Error, $"Exception details: {message}");
     }

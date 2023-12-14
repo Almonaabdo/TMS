@@ -13,6 +13,8 @@ namespace TMS_Project.ViewModel
 
         private readonly LogInModel _logInModel;
         private readonly TmsDbContext _dbContext;
+        private readonly LoggerModel _loggerModel = LoggerModel.Instance;
+
         private readonly NavigationService _navigation;
 
         #endregion
@@ -117,7 +119,7 @@ namespace TMS_Project.ViewModel
                 {
                     // Authentication successful, set the success message
                     LoginMessage = "Login successful! Welcome!";
-                    LoggerModel.LogInfo("Successful login");
+                    _loggerModel.LogInfo("Successful login");
 
                     // Based on the user, show the appropriate window
                     if (Username.Equals("Admin", StringComparison.OrdinalIgnoreCase))
@@ -142,7 +144,7 @@ namespace TMS_Project.ViewModel
             catch (Exception ex)
             {
                 // Log the exception
-                LoggerModel.LogError($"An error occurred during login: {ex.Message}");
+                _loggerModel.LogError($"An error occurred during login: {ex.Message}");
                 // Optionally: Show a user-friendly error message
                 LoginMessage = "An unexpected error occurred during login. Please try again.";
             }

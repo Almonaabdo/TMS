@@ -10,6 +10,7 @@ namespace TMS_Project.Model;
 public class InvoiceGeneratorModel
 {
     private readonly TmsDbContext _dbContext = DbContextSingleton.Instance;
+    private readonly LoggerModel _loggerModel = LoggerModel.Instance;
 
     public InvoiceGeneratorModel()
     {
@@ -97,7 +98,7 @@ public class InvoiceGeneratorModel
         }
         catch (Exception e)
         {
-            LoggerModel.LogException( $"Error creating text file {e.Message}");
+            _loggerModel.LogException( $"Error creating text file {e.Message}");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Documents;
+using Microsoft.Extensions.Logging;
 
 namespace TMS_Project.Model;
 using DataLayer.Context;
@@ -12,7 +13,7 @@ public class BuyerModel
 {
     private readonly TmsDbContext _db;
     private readonly ContractMarketPlaceDbContext _cdb = new ContractMarketPlaceDbContext();
-
+    private readonly LoggerModel _loggerModel = LoggerModel.Instance;
     public BuyerModel(TmsDbContext context)
     {
 
@@ -51,7 +52,7 @@ public class BuyerModel
         catch (Exception e)
         {
             Console.WriteLine(e);
-            LoggerModel.LogException("Error loading contract data.");
+            _loggerModel.LogException("Error loading contract data.");
         }
 
         return new List<Contract>();
@@ -83,11 +84,11 @@ public class BuyerModel
 
                 _db.Customers?.Add(newCustomer);
                 _db.SaveChanges();
-                LoggerModel.LogInfo($"Customer added successfully: {name}");
+                _loggerModel.LogInfo($"Customer added successfully: {name}");
             }
             else
             {
-                LoggerModel.LogWarning("Couldn't Add Customer as it already exists");
+                _loggerModel.LogWarning("Couldn't Add Customer as it already exists");
             }
         }
         catch(Exception e)
@@ -119,7 +120,7 @@ public class BuyerModel
             }
             else
             {
-                LoggerModel.LogWarning("Error Can't find specified Carrier");
+                _loggerModel.LogWarning("Error Can't find specified Carrier");
             }
         }
         catch (Exception e) 

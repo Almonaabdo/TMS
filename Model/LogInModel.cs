@@ -11,6 +11,7 @@ namespace TMS_Project.Model
     {
         private readonly TmsDbContext _dbContext;
         private readonly PasswordHasher _passwordHasher;
+        private readonly LoggerModel _loggerModel = LoggerModel.Instance;
 
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace TMS_Project.Model
                 // Check if the database context or Users collection is null.
                 if (_dbContext.Users == null)
                 {
-                    LoggerModel.LogError("Database context or Users collection is null.");
+                    _loggerModel.LogError("Database context or Users collection is null.");
                     return false;
                 }
 
@@ -58,23 +59,23 @@ namespace TMS_Project.Model
                     if (validUser)
                     {
                         // Log successful authentication.
-                        LoggerModel.LogInfo($"User {username} successfully authenticated.");
+                        _loggerModel.LogInfo($"User {username} successfully authenticated.");
                         return true;
                     }
 
                     // Log incorrect password attempt.
-                    LoggerModel.LogWarning($"Incorrect password for user {username}.");
+                    _loggerModel.LogWarning($"Incorrect password for user {username}.");
                     return false;
                 }
 
                 // Log user not found in the database.
-                LoggerModel.LogWarning($"User {username} not found in the database.");
+                _loggerModel.LogWarning($"User {username} not found in the database.");
                 return false;
             }
             catch (Exception)
             {
                 // Log exception details if an error occurs during user verification.
-                LoggerModel.LogException($"Error verifying the user. Username: {username}");
+                _loggerModel.LogException($"Error verifying the user. Username: {username}");
                 return false;
             }
         }

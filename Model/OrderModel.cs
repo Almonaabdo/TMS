@@ -11,6 +11,7 @@ public class OrderModel
     const double Ftlmarkup = 0.08;
     const double Ltlmarkup = 0.05;
     private readonly TmsDbContext _db;
+    private readonly LoggerModel _loggerModel = LoggerModel.Instance;
 
     public OrderModel(TmsDbContext context)
     { 
@@ -157,7 +158,7 @@ public class OrderModel
         }
         catch (Exception ex)
         {
-            LoggerModel.LogError($"Order creating error: {ex.Message}");
+            _loggerModel.LogError($"Order creating error: {ex.Message}");
         }
     }
 
@@ -183,7 +184,7 @@ public class OrderModel
             }
             else
             {
-                LoggerModel.LogError("Info: Specified Order Wasn't Found In Database.");
+                _loggerModel.LogError("Info: Specified Order Wasn't Found In Database.");
             }
         }
         catch
@@ -219,7 +220,7 @@ public class OrderModel
             }
             else
             {
-                LoggerModel.LogError("Info: Can't Complete order! Specified Order Wasn't Found In Database.");
+                _loggerModel.LogError("Info: Can't Complete order! Specified Order Wasn't Found In Database.");
             }
         }
         catch
@@ -255,12 +256,12 @@ public class OrderModel
                 }
                 else
                 {
-                    LoggerModel.LogError("Info: Trip Status Wasn't change as new status remains the same");
+                    _loggerModel.LogError("Info: Trip Status Wasn't change as new status remains the same");
                 }
             }
             else
             {
-                LoggerModel.LogError("Info: Can't Change Trip Status! Specified trip Wasn't Found In Database.");
+                _loggerModel.LogError("Info: Can't Change Trip Status! Specified trip Wasn't Found In Database.");
             }
         }
         catch

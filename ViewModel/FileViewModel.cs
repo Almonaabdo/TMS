@@ -17,6 +17,8 @@ namespace TMS_Project.ViewModel
     {
         #region Fields
 
+        private readonly LoggerModel _loggerModel = LoggerModel.Instance;
+
         private readonly DataService _dataService;
         private string? _selectedLogFile;
         private string? _selectedBackupFile;
@@ -172,7 +174,7 @@ namespace TMS_Project.ViewModel
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    LoggerModel.LogException("Error performing backup.");
+                   _loggerModel.LogException("Error performing backup.");
                 }
                 finally
                 {
@@ -212,7 +214,7 @@ namespace TMS_Project.ViewModel
             catch (Exception ex)
             {
                 Console.WriteLine($"Error opening file: {ex.Message}");
-                LoggerModel.LogException($"Error opening SQL file.");
+                _loggerModel.LogException($"Error opening SQL file.");
             }
         }
 
@@ -255,7 +257,7 @@ namespace TMS_Project.ViewModel
             catch (Exception ex)
             {
                 Console.WriteLine($"Error opening file: {ex.Message}");
-                LoggerModel.LogException("Error opening log file.");
+                _loggerModel.LogException("Error opening log file.");
             }
         }
 
@@ -274,7 +276,7 @@ namespace TMS_Project.ViewModel
         /// <param name="directoryPath">Where to load files from.</param>
         /// <param name="targetCollection">Where loaded filenames will be stored.</param>
         /// <param name="selectedFile">Reference to the string variable that will be updated with the first line in targetCollection.</param>
-        private static void LoadFiles(string directoryPath, ObservableCollection<string?> targetCollection, ref string? selectedFile)
+        private void LoadFiles(string directoryPath, ObservableCollection<string?> targetCollection, ref string? selectedFile)
         {
             try
             {
@@ -289,13 +291,13 @@ namespace TMS_Project.ViewModel
                 }
                 else
                 {
-                    LoggerModel.LogError("Error retrieving filenames.");
+                    _loggerModel.LogError("Error retrieving filenames.");
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                LoggerModel.LogException("Error loading files.");
+                _loggerModel.LogException("Error loading files.");
             }
         }
 

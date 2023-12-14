@@ -14,6 +14,8 @@ namespace TMS_Project.ViewModel
     {
         #region Fields
         private readonly DataService _dataService;
+        private readonly LoggerModel _loggerModel = LoggerModel.Instance;
+
         #endregion
 
         #region Properties
@@ -171,7 +173,7 @@ namespace TMS_Project.ViewModel
             catch (Exception e)
             {
                 MessageBox.Show("Carrier already exists.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                LoggerModel.LogException("Exception adding new carrier.");
+                _loggerModel.LogException("Exception adding new carrier.");
             }
         }
 

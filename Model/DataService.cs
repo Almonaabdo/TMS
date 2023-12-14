@@ -16,6 +16,8 @@ namespace TMS_Project.Model
 
         private readonly TmsDbContext _dbContext = DbContextSingleton.Instance;
         private int _backupId = 1;
+        private readonly LoggerModel _loggerModel = LoggerModel.Instance;
+
 
         #endregion
 
@@ -83,7 +85,7 @@ namespace TMS_Project.Model
                 if (entityToDelete == null)
                 {
                     // Handle the case where the entity with the given ID is not found
-                    LoggerModel.LogException($"Entity with ID {entityId} not found.");
+                    _loggerModel.LogException($"Entity with ID {entityId} not found.");
                     return;
                 }
 
@@ -94,7 +96,7 @@ namespace TMS_Project.Model
             catch (DbUpdateException)
             {
                 // Handle any exceptions that occur during the delete operation
-                LoggerModel.LogException("Exception while deleting data from entity.");
+                _loggerModel.LogException("Exception while deleting data from entity.");
             }
         }
 
@@ -124,8 +126,8 @@ namespace TMS_Project.Model
                  {
                      Console.WriteLine("Does not exist");
                  }
-                
-                 LoggerModel.LogInfo("hello this is working");
+
+                 _loggerModel.LogInfo("hello this is working");
                 // Get current date for creating backup files
                 
                 _backupId++;
@@ -161,11 +163,11 @@ namespace TMS_Project.Model
                     connection.Close();    // Close connecting
                 }
 
-                LoggerModel.LogInfo("Backup operation was completed successfully by Admin.");  // Log successfully operation
+                _loggerModel.LogInfo("Backup operation was completed successfully by Admin.");  // Log successfully operation
             }
             catch (MySqlException)
             {
-                LoggerModel.LogException($"Exception thrown while backing up database");
+                _loggerModel.LogException($"Exception thrown while backing up database");
             }
         }
 
@@ -190,7 +192,7 @@ namespace TMS_Project.Model
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                LoggerModel.LogException("Exception thrown while loading entity data.");
+                _loggerModel.LogException("Exception thrown while loading entity data.");
             }
 
             return null;
@@ -219,13 +221,13 @@ namespace TMS_Project.Model
                 }
                 else
                 {
-                    LoggerModel.LogWarning($"{typeof(T).Name} not found. Unable to update.");
+                    _loggerModel.LogWarning($"{typeof(T).Name} not found. Unable to update.");
                     throw new InvalidOperationException();
                 }
             }
             catch (DbUpdateException ex)
             {
-                LoggerModel.LogException($"Exception saving changes to database. {ex.Message}");
+                _loggerModel.LogException($"Exception saving changes to database. {ex.Message}");
             }
         }
 

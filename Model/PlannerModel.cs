@@ -9,6 +9,8 @@ namespace TMS_Project.Model;
 public class PlannerModel
 {
     private readonly TmsDbContext _db;
+    private readonly LoggerModel _loggerModel = LoggerModel.Instance;
+
     public PlannerModel()
     {
         _db = new TmsDbContext();
@@ -51,7 +53,7 @@ public class PlannerModel
                 order.Trips.Add(newTrip);
                 
                 _db.SaveChanges();
-                LoggerModel.LogInfo("Succesfully attached a trip to the order");
+                _loggerModel.LogInfo("Succesfully attached a trip to the order");
             }
 
             catch(Exception e)
@@ -63,7 +65,7 @@ public class PlannerModel
         else
         {
             MessageBox.Show("order null");
-            LoggerModel.LogError("Info: Can't Add Trip to Order! Specified Order Wasn't Found In Database.");
+            _loggerModel.LogError("Info: Can't Add Trip to Order! Specified Order Wasn't Found In Database.");
         }
     }
 
