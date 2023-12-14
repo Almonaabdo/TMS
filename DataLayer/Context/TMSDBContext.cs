@@ -56,18 +56,16 @@ namespace TMS_Project.DataLayer.Context
 
             });
 
-            modelBuilder.Entity<JoinedRouteTable>(entity =>
-            {
-                entity.ToTable("JoinedRouteTable");
-                entity.HasKey(e => e.JoinedRouteId);
-                entity.Property(e => e.JoinedRouteId).ValueGeneratedOnAdd();
-                entity.Property(e => e.RouteId);
-                entity.Property(e => e.Origin);
-                entity.Property(e => e.Destination);
-                entity.Property(e => e.Distance);
-                entity.Property(e => e.Duration);
-
-            });
+            // modelBuilder.Entity<JoinedRouteTable>(entity =>
+            // {
+            //     entity.ToTable("JoinedRouteTable");
+            //     entity.Property(e => e.RouteId);
+            //     entity.Property(e => e.Origin);
+            //     entity.Property(e => e.Destination);
+            //     entity.Property(e => e.Distance);
+            //     entity.Property(e => e.Duration);
+            //
+            // });
 
             // Configuration for the 'Carrier' entity.
             modelBuilder.Entity<Carrier>(entity =>   // DONE
@@ -212,6 +210,9 @@ namespace TMS_Project.DataLayer.Context
 
                 // Relationship : A Rate can be associated with multiple Invoices
                 entity.HasMany(e => e.Invoices).WithOne(i => i.Rates).HasForeignKey(e => e.RateId);
+
+
+
             });
 
             modelBuilder.Entity<Route>(entity =>
@@ -243,8 +244,8 @@ namespace TMS_Project.DataLayer.Context
                 entity.Property(e => e.OrderId).IsRequired();
                 entity.Property(e => e.CarrierId).IsRequired();
                 entity.Property(e => e.TripStatus).IsRequired();
-
-               
+                entity.Property(e => e.TripCost);
+                
 
                // Relationship: Each trip has one carrier
                entity.HasOne(e => e.Carrier).WithMany(c => c.Trips).HasForeignKey(e => e.CarrierId);
