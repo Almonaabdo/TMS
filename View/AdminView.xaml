@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
-        Title="AdminView" Height="450" Width="800" WindowState="Maximized">
+        Title="AdminView" Height="450" Width="800">
 
+   
     <Window.DataContext>
         <viewModel:AdminViewModel />
     </Window.DataContext>
-
+   
     <Viewbox Stretch="Fill" StretchDirection="Both">
         <Grid Background="#304674" Width="887" Height="482">
 
@@ -166,11 +167,20 @@
                                                   Width="200" />
                                     </StackPanel>
 
-                                    <DataGrid ItemsSource="{Binding DeleteViewModel.SelectedTableData}"
-                                              AutoGenerateColumns="True" SelectionMode="Single"
-                                              SelectedItem="{Binding DeleteViewModel.SelectedRows}"
+                                    <DataGrid ItemsSource="{Binding DeleteViewModel.CarrierTable}"
+                                              AutoGenerateColumns="True" SelectionMode="Single" SelectedItem="{Binding DeleteViewModel.SelectedCarrier}"
                                               MaxHeight="310" HorizontalAlignment="Center" VerticalAlignment="Top"
-                                              Height="320" Width="614" Margin="0,57,0,0" />
+                                              Height="320" Width="614" Margin="0,57,0,0" Visibility="{Binding DeleteViewModel.IsCarrierTableVisible}" />
+
+                                    <DataGrid ItemsSource="{Binding DeleteViewModel.RouteTable}"
+                                              AutoGenerateColumns="True" SelectionMode="Single" SelectedItem="{Binding DeleteViewModel.SelectedRoute}"
+                                              MaxHeight="310" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                              Height="320" Width="614" Margin="0,57,0,0" Visibility="{Binding DeleteViewModel.IsRouteTableVisible}" />
+
+                                    <DataGrid ItemsSource="{Binding DeleteViewModel.RateTable}"
+                                              AutoGenerateColumns="True" SelectionMode="Single" SelectedItem="{Binding DeleteViewModel.SelectedRate}"
+                                              MaxHeight="310" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                              Height="320" Width="614" Margin="0,57,0,0" Visibility="{Binding DeleteViewModel.IsRateTableVisible}" />
 
                                     <Button Content="Delete Selected Rows" Background="Azure" FontWeight="Bold"
                                             FontSize="15" Height="35" Width="200"

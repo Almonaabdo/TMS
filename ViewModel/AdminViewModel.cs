@@ -14,7 +14,6 @@ namespace TMS_Project.ViewModel
     public sealed class AdminViewModel : ViewModelBase
     {
         #region Fields
-
         // Various view models for different functionalities
         public CarrierViewModel CarrierViewModel { get; } = new();
         public FileViewModel FileViewModel { get; } = new();
