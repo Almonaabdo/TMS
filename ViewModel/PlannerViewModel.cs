@@ -20,7 +20,7 @@ namespace TMS.ViewModel
 {
     public class PlannerViewModel : ViewModelBase
     {
-        #region Properties
+        #region Properties 
 
         public LogInViewModel LogInViewModel { get; set; } = new();
 
@@ -86,10 +86,12 @@ namespace TMS.ViewModel
 
         public ICommand OrdersTabCommand { get; }
 
+        public ICommand ActiveOrdersTabCommand { get; }
+
 
         private DataService _dataService { get; }
 
-        private readonly TmsDbContext _TmsDbContext;
+        private  TmsDbContext _TmsDbContext;
         private OrderModel _orderModel { get; }
 
         private CarrierViewModel _carrierViewModel { get; }
@@ -109,6 +111,8 @@ namespace TMS.ViewModel
         {
             CompleteOrderCommand = new RelayCommand(CallCompleteOrder);
             AddCarrierCommand = new RelayCommand(AddCarrier);
+            ActiveOrdersTabCommand = new RelayCommand(RefreshActiveOrdersTab);
+            OrdersTabCommand = new RelayCommand(RefreshOrdersTab);
             _TmsDbContext = new TmsDbContext();
             GetOrderTable();
             _dataService = new DataService();
@@ -127,10 +131,19 @@ namespace TMS.ViewModel
 
         #region Methods
 
-        //public void RefreshOrdersTab()
-        //{
+        public void RefreshOrdersTab()
+        {
+            GetPendingOrders();
+            GetOrderTable();
+        }
 
-        //}
+        public void RefreshActiveOrdersTab()
+        {
+            _TmsDbContext = new TmsDbContext();
+            GetInProgressOrders();
+            GetOrderInProgressTable();
+        }
+
         public void GetPendingOrders()
         {
             OrderData = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus == OrderStatus.Pending).ToList() ?? throw new InvalidOperationException());
@@ -150,6 +163,11 @@ namespace TMS.ViewModel
         public void GetOrderTable()
         {
             OnPropertyChanged(nameof(OrderData));
+        }
+
+        public void GetOrderInProgressTable()
+        {
+            OnPropertyChanged(nameof(OrderDataInProgress));
         }
 
         public void AddCarrier()
@@ -220,7 +238,7 @@ namespace TMS.ViewModel
                         _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
                         MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
                         LoggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
-                        GetPendingOrders();
+                        RefreshOrdersTab();
 
 
                     }
@@ -278,7 +296,7 @@ namespace TMS.ViewModel
                         _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
                         MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
                         LoggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
-                        GetPendingOrders();
+                        RefreshOrdersTab();
 
 
                     }
@@ -309,7 +327,7 @@ namespace TMS.ViewModel
                 }
                 _orderModel.CompleteOrder(SelectedInProgressOrder.OrderId);
                 MessageBox.Show($"Successfully Completed Order# {SelectedInProgressOrder.OrderId}");
-                GetOrderTable();
+                RefreshActiveOrdersTab();
             }
             catch (Exception ex)
             {

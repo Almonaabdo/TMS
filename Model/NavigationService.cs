@@ -5,6 +5,13 @@ namespace TMS_Project.Model;
 
 public class NavigationService
 {
+
+    /*
+    * METHOD NAME: CloseCurrWindow
+    * DESCRIPTION: Closes the current opened window
+    *
+    * RETURN: void
+    */
     private static void CloseCurrWindow()
     {
         if (Application.Current.MainWindow != null)
@@ -12,17 +19,28 @@ public class NavigationService
             Application.Current.MainWindow.Close();
         }
     }
-    /// <summary>
-    /// Method to navigate to the admin window
-    /// </summary>
+
+
+    /*
+    * METHOD NAME: NavigateToAdmin
+    * DESCRIPTION: Method to navigate to the admin window
+    *
+    * RETURN: void
+    */
     public void NavigateToAdmin()
     {
         var adminWindow = new AdminView();
         adminWindow.Show();
         CloseCurrWindow();
-        
     }
 
+
+    /*
+    * METHOD NAME: NavigateToLogin
+    * DESCRIPTION: Method to navigate to the login window
+    *
+    * RETURN: void
+    */
     public void NavigateToLogin()
     {
         var loginWindow = new LogInView();
@@ -39,9 +57,12 @@ public class NavigationService
     }
 
 
-    /// <summary>
-    /// Method to navigate to planner view
-    /// </summary>
+    /*
+    * METHOD NAME: NavigateToPlanner
+    * DESCRIPTION: Method to navigate to the planner window
+    *
+    * RETURN: void
+    */
     public void NavigateToPlanner()
     {
         var plannerWindow = new PlannerView();
@@ -49,9 +70,13 @@ public class NavigationService
         CloseCurrWindow();
     }
 
-    /// <summary>
-    /// Method to navigate to buyer window
-    /// </summary>
+
+    /*
+    * METHOD NAME: NavigateToBuyer
+    * DESCRIPTION: Method to navigate to the buyer window
+    *
+    * RETURN: void
+    */
     public void NavigateToBuyer()
     {
         var buyerWindow = new BuyerView();

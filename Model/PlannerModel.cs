@@ -14,6 +14,13 @@ public class PlannerModel
         _db = new TmsDbContext();
     }
 
+
+    /*
+    * METHOD NAME: GetCarrier
+    * DESCRIPTION: Gets carrier information from the DB
+    * 
+    * RETURN: carrier if found, null otherwise
+    */
     public Carrier? GetCarrier(string companyName, string originCityy)
     {
         var carrier = _db.Carriers?.FirstOrDefault(e => e.CompanyName == companyName && e.DepotCity == originCityy);
@@ -24,6 +31,13 @@ public class PlannerModel
         return null;
     }
 
+
+    /*
+    * METHOD NAME: AddTripToOrder
+    * DESCRIPTION: Adds trip to an existing order to be completed
+    * 
+    * RETURN: void
+    */
     public void AddTripToOrder(int orderId, Trip newTrip)
     {
         // find specified order.
@@ -33,7 +47,6 @@ public class PlannerModel
         {
             try
             {
-
                 order.OrderStatus = OrderStatus.InProgress;
                 order.Trips.Add(newTrip);
                 

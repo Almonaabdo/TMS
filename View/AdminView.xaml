@@ -71,17 +71,17 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Button Command="{Binding FileViewModel.OpenFileBrowserCommand}"
-                                            Content="Load files" Margin="20,10,754,80" Grid.ColumnSpan="2" />
+                                            Content="Load files" Margin="10,10,754,80" Grid.ColumnSpan="2" Background="AliceBlue"/>
                                     <ComboBox x:Name="Folder" ItemsSource="{Binding FileViewModel.LogFiles}"
                                               SelectedItem="{Binding FileViewModel.SelectedLogFile}"
-                                              Margin="110,10,104,80" Grid.Row="0" Grid.Column="1" />
+                                              Margin="106,10,124,80" Grid.Row="0" Grid.Column="1" />
                                     <TextBox VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                                              Text="{Binding FileViewModel.FileContent}" IsReadOnly="True"
                                              Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="0"
-                                             Margin="16,51,10,10" />
+                                             Margin="10,50,10,10" />
                                     <Button Command="{Binding FileViewModel.OpenSelectedFileCommand}"
-                                            Content="Open selected file" Margin="765,10,9,80" Grid.Row="0"
-                                            Grid.ColumnSpan="2" Grid.Column="0" />
+                                            Content="Open selected file" Margin="736,10,10,80" Grid.Row="0"
+                                            Grid.ColumnSpan="2" Grid.Column="0" Background="AliceBlue"/>
                                 </Grid>
                             </TabItem>
 
