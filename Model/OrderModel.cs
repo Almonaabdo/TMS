@@ -66,19 +66,37 @@ public class OrderModel
     * 
     * RETURN: void
     */
-    public void CreateOrder(City destCity, City? originCity, int customerId)
+    public void CreateOrder(City destCity, City? originCity, int customerId, int jobType, int quantity, int vanType)
     {
         try
         {
-            var newOrder = new Order
-            {
-                OrderStatus = OrderStatus.Pending,
-                DateInitiated = DateTime.Today,
-                DestinationCity = destCity,
-                SourceCity = originCity,
-                CustomerId = customerId
-            };
+            var newOrder = new Order();
 
+            newOrder.OrderStatus = OrderStatus.Pending;
+            newOrder.DateInitiated = DateTime.Today;
+            newOrder.DestinationCity = destCity;
+            newOrder.SourceCity = originCity;
+            newOrder.CustomerId = customerId;
+            newOrder.Quantity = quantity;
+
+            if(jobType == 0)
+            {
+                newOrder.JobType = JobType.Ftl;
+            }
+            else if(jobType == 1)
+            {
+                newOrder.JobType = JobType.Ltl;
+            }
+            
+            if(vanType == 0)
+            {
+                newOrder.VanType = VanType.DryVan;
+            }
+            else if (vanType == 1) 
+            {
+                newOrder.VanType = VanType.Reefer;
+            }
+            
 
             _db.Orders?.Add(newOrder);
             _db.SaveChanges();

@@ -171,6 +171,7 @@ namespace TMS.ViewModel
                 {
                     MessageBox.Show("firstCarrier not empty");
                     string? sourceCity = _orderModel.GetCityById(SelectedOrder.SourceCityId);
+                    string? destinationCity = _orderModel.GetCityById(SelectedOrder.DestinationCityId);
                     MessageBox.Show($" Order source city{sourceCity}");
                     var carrier = _plannerModel.GetCarrier(SelectedCarrier, sourceCity);
                     if (carrier == null)
@@ -180,11 +181,23 @@ namespace TMS.ViewModel
 
                     else
                     {
+                        double totalCost = 0;
+                        double[] kmAndHrs = new double[2];
                         Trip trip = new Trip();
 
                         trip.OrderId = SelectedOrder.OrderId;
                         trip.Order = SelectedOrder;
+                        trip.Carrier = carrier;
                         trip.CarrierId = carrier.CarrierId;
+
+
+                       kmAndHrs =  _orderModel.GetKmAndHrs(destinationCity, sourceCity);
+                       MessageBox.Show($"km {kmAndHrs[0]} hrs {kmAndHrs[1]}");
+                       
+
+
+
+                        trip.TripCost = totalCost;
                         
                         
                         MessageBox.Show("Trips done");

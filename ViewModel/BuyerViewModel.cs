@@ -103,11 +103,11 @@ public class BuyerViewModel: ViewModelBase
             {
                 customer = _orderModelObject.CreateCustomer(SelectedContract.Client_Name);
 
-                _orderModelObject.CreateOrder(contractDestCity, contractOriginCity, customer.CustomerId);
+                _orderModelObject.CreateOrder(contractDestCity, contractOriginCity, customer.CustomerId, SelectedContract.Job_Type, SelectedContract.Quantity, SelectedContract.Van_Type);
             }
             else
             {
-                _orderModelObject.CreateOrder(contractDestCity, contractOriginCity, customer.CustomerId);
+                _orderModelObject.CreateOrder(contractDestCity, contractOriginCity, customer.CustomerId, SelectedContract.Job_Type, SelectedContract.Quantity, SelectedContract.Van_Type);
             }
 
             MessageBox.Show("Successfully accepted customer. A new order has been created.", "New customer added",
