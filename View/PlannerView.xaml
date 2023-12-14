@@ -53,7 +53,7 @@
                         <Button Content="Refresh" HorizontalAlignment="Left" Margin="5,7,0,0" VerticalAlignment="Top" Background="azure"/>
 
                         <!--orders from the buyer that needs to be completed-->
-                        <DataGrid  Margin="5,32,444,94" ItemsSource="{Binding OrderData}" SelectedItem="{Binding SelectedOrder}" Name="Orders" Background="Azure" IsReadOnly="False" Grid.RowSpan="2"/>
+                        <DataGrid  Margin="5,32,444,94" ItemsSource="{Binding OrderData}" SelectedItem="{Binding SelectedOrder}" Name="Orders" Background="Azure" IsReadOnly="True" Grid.RowSpan="2"/>
 
                         <!--ADD TRIP SECTION-->
                         <Grid Background="#304674" Margin="126,331,126,10">
