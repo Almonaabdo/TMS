@@ -224,7 +224,7 @@ public class OrderModel
     *
     * RETURN: double[] profit for TMS and carrier
     */
-    public double[] CalculateRate(Carrier carrier, double totalKm, int vanType, int quantity, int job_type)
+    public double[] CalculateRate(Carrier carrier, double totalKm, int vanType, double quantity, int job_type)
     {
        
         double ftlRate = carrier.FtlRate; 

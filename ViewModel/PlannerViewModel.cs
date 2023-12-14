@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -169,14 +170,66 @@ namespace TMS.ViewModel
 
                 if (SelectedCarrier != null)
                 {
-                    MessageBox.Show("firstCarrier not empty");
+                    
                     string? sourceCity = _orderModel.GetCityById(SelectedOrder.SourceCityId);
                     string? destinationCity = _orderModel.GetCityById(SelectedOrder.DestinationCityId);
-                    MessageBox.Show($" Order source city{sourceCity}");
+                   
                     var carrier = _plannerModel.GetCarrier(SelectedCarrier, sourceCity);
                     if (carrier == null)
                     {
-                        MessageBox.Show("Can't assign this carrier because Carrier doesn't have the order's origin as a depot city");
+                        MessageBox.Show($"Can't assign {SelectedCarrier} as a carrier because it doesn't have the order's origin as a depot city");
+                    }
+
+                    else
+                    {
+                        double totalCost = 0;
+                        double[] kmAndHrs = new double[2];
+                        Trip trip = new Trip();
+
+                        trip.OrderId = SelectedOrder.OrderId;
+                        trip.Order = SelectedOrder;
+                        trip.Carrier = carrier;
+                        trip.CarrierId = carrier.CarrierId;
+
+                        kmAndHrs =  _orderModel.GetKmAndHrs(destinationCity, sourceCity);
+                       
+                        int vanType = 0;
+                        int jobType = 0;
+                        if (SelectedOrder.JobType == JobType.Ltl)
+                        {
+                            jobType = 1;
+                        }
+                        
+                        if (SelectedOrder.VanType == VanType.Reefer)
+                        {
+                            vanType = 1;
+                        }
+
+                       double[] totalCostArray = new double[2];
+                       totalCostArray =  _orderModel.CalculateRate(carrier, kmAndHrs[0], vanType, SelectedOrder.Quantity, jobType);
+                       totalCost = totalCostArray[0] + totalCostArray[1];
+
+                       trip.TripCost = totalCost;
+                        
+                        _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
+                        MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
+                        LoggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
+
+
+                    }
+
+                }
+
+                if (AnotherSelectedCarrier != null)
+                {
+                    
+                    string? sourceCity = _orderModel.GetCityById(SelectedOrder.SourceCityId);
+                    string? destinationCity = _orderModel.GetCityById(SelectedOrder.DestinationCityId);
+                    
+                    var carrier = _plannerModel.GetCarrier(AnotherSelectedCarrier, sourceCity);
+                    if (carrier == null)
+                    {
+                        MessageBox.Show($"Can't assign {AnotherSelectedCarrier} as a carrier because it doesn't have the order's origin as a depot city");
                     }
 
                     else
@@ -191,49 +244,33 @@ namespace TMS.ViewModel
                         trip.CarrierId = carrier.CarrierId;
 
 
-                       kmAndHrs =  _orderModel.GetKmAndHrs(destinationCity, sourceCity);
-                       MessageBox.Show($"km {kmAndHrs[0]} hrs {kmAndHrs[1]}");
-                       
+                        kmAndHrs = _orderModel.GetKmAndHrs(destinationCity, sourceCity);
+                        
+                        
+
+                        int vanType = 0;
+                        int jobType = 0;
+
+                        if (SelectedOrder.JobType == JobType.Ltl)
+                        {
+                            jobType = 1;
+                        }
+
+                        if (SelectedOrder.VanType == VanType.Reefer)
+                        {
+                            vanType = 1;
+                        }
 
 
+                        double[] totalCostArray = new double[2];
+                        totalCostArray = _orderModel.CalculateRate(carrier, kmAndHrs[0], vanType, SelectedOrder.Quantity, jobType);
+                        totalCost = totalCostArray[0] + totalCostArray[1];
 
                         trip.TripCost = totalCost;
                         
-                        
-                        MessageBox.Show("Trips done");
-                        MessageBox.Show($" order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
-                        _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
-                        MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
-
-
-                    }
-
-                }
-
-
-                if (AnotherSelectedCarrier != null)
-                {
-                    MessageBox.Show("second Carrier not empty");
-                    string? sourceCity = _orderModel.GetCityById(SelectedOrder.SourceCityId);
-                    MessageBox.Show($" Order source city{sourceCity}");
-                    var carrier = _plannerModel.GetCarrier(AnotherSelectedCarrier, sourceCity);
-                    if (carrier == null)
-                    {
-                        MessageBox.Show("Can't assign this carrier because Carrier doesn't have the order's origin as a depot city");
-                    }
-
-                    else
-                    {
-                        Trip trip = new Trip();
-
-                        trip.Carrier = carrier;
-                        trip.OrderId = SelectedOrder.OrderId;
-                        trip.Order = SelectedOrder;
-                        trip.TripStatus = TripStatus.Scheduled;
-
                         _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
                         MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
-
+                        LoggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
 
 
                     }
@@ -246,9 +283,7 @@ namespace TMS.ViewModel
             catch
             {
                 MessageBox.Show("Adding a carrier to a trip to attach to the order failed");
-                //LoggerModel.LogError("Adding carrier to a trip for the selected order failed");
-                SelectedCarrier = "";
-                AnotherSelectedCarrier = "";
+                LoggerModel.LogError("Adding carrier to a trip for the selected order failed");
 
             }
 
