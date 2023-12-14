@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Devart.Data.MySql;
 using TMS_Project.Helper;
 
 namespace TMS_Project.ViewModel
@@ -80,15 +81,7 @@ namespace TMS_Project.ViewModel
         {
             _currentDate = DateTime.Now;
             IncrementTimeCommand = new RelayCommand(IncrementDate);
-
-
-            // Calculate the counts
-            CarrierViewModel carrierobj = new CarrierViewModel();
-            RateRouteViewModel routesobj = new RateRouteViewModel();
-            int carriersNumber = carrierobj.CarrierData?.Count / 3 ?? 0;
-            int routesNumber = routesobj.RouteData?.Count ?? 0;
-            // Set BuyerNotification based on the counts
-            AdminNotification = $"You're currently partnering with {carriersNumber} carriers that handle {routesNumber} different routes.";
+            TestDbCommand = new RelayCommand(TestConnection);
         }
 
         private void IncrementDate()
@@ -98,5 +91,86 @@ namespace TMS_Project.ViewModel
         }
 
         #endregion
+
+        private string _server;
+        private string _port;
+        private string _database;
+        private string _username;
+        private string _password;
+
+        public string Server
+        {
+            get => _server;
+            set
+            {
+                _server = value;
+                OnPropertyChanged(nameof(Server));
+            }
+        }
+
+        public string Port
+        {
+            get => _port;
+            set
+            {
+                _port = value;
+                OnPropertyChanged(nameof(Port));
+            }
+        }
+
+        public string Database
+        {
+            get => _database;
+            set
+            {
+                _database = value;
+                OnPropertyChanged(nameof(Database));
+            }
+        }
+
+        public string Username
+        {
+            get => _username;
+            set
+            {
+                _username = value;
+                OnPropertyChanged(nameof(Username));
+            }
+        }
+
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                _password = value;
+                OnPropertyChanged(nameof(Password));
+            }
+        }
+
+        public ICommand TestDbCommand { get; }
+
+        private void TestConnection()
+        {
+            var connectionString = $"Server={Server};Port={Port};Database={Database};User ID={Username};Password={Password};";
+            using var connection = new MySqlConnection(connectionString);
+            try
+            {
+                connection.Open();
+                MessageBox.Show("Connection successful");
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show($"Connection failed. Error: {ex.Message}");
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+     
+
+
     }
 }
