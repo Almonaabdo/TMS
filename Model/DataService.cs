@@ -101,7 +101,13 @@ namespace TMS_Project.Model
                     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                     .AddJsonFile("appsettings.json")
                     .Build();
-                var path = backUpFolder["Backups:BackupFolder"];
+                 var path = backUpFolder["Backups:BackupFolder"];
+                 if (!Directory.Exists(path))
+                 {
+                     Console.WriteLine("Does not exist");
+                 }
+                
+                 LoggerModel.LogInfo("hello this is working");
                 // Get current date for creating backup files
                 
                 _backupId++;
@@ -222,25 +228,26 @@ namespace TMS_Project.Model
             return joinedData;
         }
 
-        public List<JoinedOrder> GetJoinedOrder()
+        public List<JoinedOrder> GetCompletedOrders()
         {
-            var joinedOrders = from order in _dbContext.Orders
+            var completedOrders = from order in _dbContext.Orders
                 join citySource in _dbContext.Cities on order.SourceCityId equals citySource.CityId
                 join cityDest in _dbContext.Cities on order.DestinationCityId equals cityDest.CityId
                 join trip in _dbContext.Trips on order.OrderId equals trip.OrderId
+                where order.OrderStatus == OrderStatus.Completed
                 select new JoinedOrder
                 {
                     OrderId = order.OrderId,
                     CustomerId = order.CustomerId,
                     OrderStatus = order.OrderStatus,
-                    DateCompleted = order.DateCompleted ?? DateTime.MinValue, // Use DateTime.MinValue if DateCompleted is nullable
+                    DateCompleted = order.DateCompleted ?? DateTime.MinValue,
                     DateInititated = order.DateInitiated,
                     Origin = citySource.CityName,
                     Destination = cityDest.CityName,
-                    TripCost = trip.TripCost                                       
+                    TripCost = trip.TripCost
                 };
 
-            return joinedOrders.ToList();
+            return completedOrders.ToList();
         }
 
 
