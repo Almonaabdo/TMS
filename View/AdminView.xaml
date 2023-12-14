@@ -109,12 +109,12 @@
                 </TabItem>
 
                 <!--ALTER DATA TAB-->
-                <TabItem Header="Edit Tables" Background="#304674" FontWeight="Medium">
+                <TabItem Header="Alter Data" Background="#304674" FontWeight="Medium">
                     <Grid Background="#91BAD6" Height="485">
                         <TabControl Margin="10,10,10,10">
 
                             <!-- Route Tab -->
-                            <TabItem Header="Edit Route" Background="#304674">
+                            <TabItem Header="Route" Background="#304674">
                                 <Grid Background="#304674" Height="438">
                                     <DataGrid Name="RouteTable" ItemsSource="{Binding RateRouteViewModel.RouteData}" Background="Azure"
                                               IsReadOnly="False"
@@ -130,7 +130,7 @@
 
 
                             <!-- Rates Tab -->
-                            <TabItem Header="Edit Rate/Fee" Background="#304674">
+                            <TabItem Header="Rate" Background="#304674">
                                 <Grid Background="#304674" Height="437">
                                     <DataGrid ItemsSource="{Binding RateRouteViewModel.RateData}" Background="Azure"
                                               IsReadOnly="False" HorizontalAlignment="Center" VerticalAlignment="Top" Height="366" Width="672" Margin="0,5,0,0" />
@@ -140,7 +140,7 @@
                             </TabItem>
 
                             <!-- Carrier Tab -->
-                            <TabItem Header="Edit Carrier" Background="#304674">
+                            <TabItem Header="Carrier" Background="#304674">
                                 <Grid Background="#304674">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="109*" />
@@ -156,7 +156,7 @@
                             </TabItem>
 
                             <!-- Delete Tab -->
-                            <TabItem Header="Delete" Background="#304674">
+                            <TabItem Header="Delete Data" Background="#304674">
                                 <Grid Background="#304674" Margin="10,0,10,0" Height="427">
                                     <StackPanel>
                                         <Label Content="Select a table to delete from:" FontWeight="Medium"
@@ -218,10 +218,12 @@
                                     </StackPanel>
                                     <Button Content="Add" Background="Azure" HorizontalAlignment="Center"
                                             VerticalAlignment="Top" FontWeight="Bold" FontSize="15"
-                                            Command="{Binding CarrierViewModel.CreateCarrierCommand}" Height="50"
-                                            Width="140" Margin="0,349,0,0" />
+                                            Command="{Binding CarrierViewModel.CreateCarrierCommand}" Height="60"
+                                            Width="150" Margin="0,349,0,0" />
                                 </Grid>
                             </TabItem>
+
+
                         </TabControl>
                     </Grid>
                 </TabItem>
@@ -230,27 +232,36 @@
                 <TabItem Header="DB Connection" Background="#304674" FontWeight="Medium">
                     <Grid Background="#91BAD6">
                         <TabControl Margin="10,10,10,10">
+                            <!-- Local DB Tab -->
+                            <TabItem Header="Local DB" Background="#304674">
+                                <!-- Local DB Tab Content -->
+                                <StackPanel Margin="10">
+                                    <TextBlock Text="Local DB Settings" Foreground="White" Margin="0,0,0,10" />
+                                </StackPanel>
+                            </TabItem>
+
                             <!-- Remote DB Tab -->
                             <TabItem Header="Remote DB" Background="#304674">
                                 <!-- Remote DB Tab Content -->
                                 <StackPanel Margin="10">
-                                    <TextBlock Text="Test Database Connection" Foreground="Black" Margin="0,0,0,10" />
+                                    <TextBlock Text="Remote DB Settings" Foreground="White" Margin="0,0,0,10" />
                                     <Label Content="Server" />
-                                    <TextBox Margin="0,0,0,10" Text="{Binding Server}" />
+                                    <TextBox x:Name="RemoteDbServerTextBox" Margin="0,0,0,10" />
                                     <Label Content="Port" />
-                                    <TextBox Margin="0,0,0,10" Text="{Binding Port}" />
-                                    <Label Content="Database"  />
-                                    <TextBox Margin="0,0,0,10" Text="{Binding Database}" />
-                                    <Label Content="Username"  />
-                                    <TextBox Margin="0,0,0,10" Text="{Binding Username}" />
+                                    <TextBox x:Name="RemoteDbPortTextBox" Margin="0,0,0,10" />
+                                    <Label Content="Database" />
+                                    <TextBox x:Name="RemoteDbNameTextBox" Margin="0,0,0,10" />
+                                    <Label Content="Username" />
+                                    <TextBox x:Name="RemoteDbUsernameTextBox" Margin="0,0,0,10" />
                                     <Label Content="Password" />
-                                    <TextBox Margin="0,0,0,10" Text="{Binding Password}" />
-                                    <Button Content="Test Connection" Command="{Binding TestDbCommand}" />
+                                    <TextBox x:Name="RemoteDbPasswordBox" Margin="0,0,0,10" />
+                                    <Button Content="Test Connection" />
                                 </StackPanel>
                             </TabItem>
                         </TabControl>
                     </Grid>
                 </TabItem>
+
             </TabControl>
         </Grid>
     </Viewbox>
