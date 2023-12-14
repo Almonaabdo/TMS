@@ -144,16 +144,13 @@ public class BuyerViewModel : ViewModelBase
     {
         try
         {
-            if (SelectedOrder != null)
-            {
-                _invoiceModel.GenerateInvoice(SelectedOrder);
+            var orderId = SelectedOrder.OrderId.ToString();
+            var custId = SelectedOrder.CustomerId.ToString();
+            var tripCost = SelectedOrder.TripCost.ToString();
 
-                MessageBox.Show($"Successfully Created Invoice for {SelectedOrder.OrderId}");
-            }
-            else
-            {
-                MessageBox.Show($"Couldn't Create invoice for this specified order");
-            }
+            _invoiceModel.GenerateInvoice(orderId, tripCost, custId);
+
+            MessageBox.Show($"Successfully Created Invoice for {SelectedOrder.OrderId}");
         }
         catch (Exception ex)
         {

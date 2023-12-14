@@ -8,13 +8,11 @@ namespace TMS_Project.DataLayer.Model;
 public sealed class Invoice
 {
     [Key] public int InvoiceId { get; set; }
-    [Required]
+    
     public int OrderId { get; set; }
-    [Required]
-    public int Quantity { get; set; }
-    [Required]
+  
     public double Amount { get; set; }
-    [Required]
+   
     public DateTime InvoiceDate { get; set; }
 
     // Foreign key for Customer

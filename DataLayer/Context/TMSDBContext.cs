@@ -16,7 +16,7 @@ namespace TMS_Project.DataLayer.Context
         public DbSet<Rate>? Rates { get; set; }
         public DbSet<Route>? Routes { get; set; }
         public DbSet<LogFile>? LogFiles { get; set; }
-        public DbSet<Invoice>? InvoiceDetails { get;}
+        public DbSet<Invoice>? Invoice { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -129,7 +129,6 @@ namespace TMS_Project.DataLayer.Context
                 entity.HasKey(e => e.InvoiceId);
                 entity.Property(e => e.InvoiceId).ValueGeneratedOnAdd();
                 entity.Property(e => e.OrderId).IsRequired();
-                entity.Property(e => e.Quantity).IsRequired();
                 entity.Property(e => e.Amount).IsRequired();
                 entity.Property(e => e.InvoiceDate).IsRequired();
 
