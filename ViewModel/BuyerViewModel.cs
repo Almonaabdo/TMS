@@ -17,12 +17,13 @@ public class BuyerViewModel: ViewModelBase
 
     public IEnumerable<Contract>? ContractData { get; private set; }
     public ICommand CreateOrderCommand { get; }
-    public ObservableCollection<Order> CompletedOrders { get; set; } = new ObservableCollection<Order>();
+    public List<JoinedOrder> CompletedOrders { get; private set; } = new List<JoinedOrder>();
 
     private readonly TmsDbContext _tmsDbContext = DbContextSingleton.Instance;
     private readonly BuyerModel _buyerModel;
+    private readonly DataService _dataService;
     public LogInViewModel LogInViewModel { get; private set; } = new();
-    public readonly OrderModel OrderModelObject;  
+    private readonly OrderModel _orderModelObject;  
 
 
     private Contract _selectedContract;
@@ -56,47 +57,27 @@ public class BuyerViewModel: ViewModelBase
         _buyerModel = new BuyerModel(_tmsDbContext);
         LoadData();
         CreateOrderCommand = new RelayCommand(CallCreateOrder);
-        OrderModelObject = new OrderModel(_tmsDbContext);
-
-        LoadCompleteOrder();
+        _orderModelObject = new OrderModel(_tmsDbContext);
+        _dataService = new DataService();
 
         // Calculate the counts
-        int completedOrdersCount = CompletedOrders.Count;
-        int contractsCount = ContractData?.Count() ?? 0;
+      //  int completedOrdersCount = CompletedOrders.Count;
+       // int contractsCount = ContractData?.Count() ?? 0;
         // Set BuyerNotification based on the counts
-        BuyerNotification = $"You have {completedOrdersCount} completed orders and {contractsCount} contracts.";
+        //BuyerNotification = $"You have {completedOrdersCount} completed orders and {contractsCount} contracts.";
     }
 
     #endregion
 
     #region Methods
 
-    public void LoadData()
+    private void LoadData()
     {
         var loadedContracts = _buyerModel.LoadContracts();
         ContractData = new ObservableCollection<Contract>(loadedContracts);
+       // CompletedOrders = _dataService.GetJoinedOrder().ToList();
     }
     #endregion
-
-    private void LoadCompleteOrder()
-    {
-        try
-        {
-            var complete = _buyerModel.GetCompletedOrders();
-            CompletedOrders.Clear();
-
-            foreach (var order in complete)
-            {
-                CompletedOrders.Add(order);
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-
 
     private void CallCreateOrder()
     {
@@ -105,28 +86,28 @@ public class BuyerViewModel: ViewModelBase
             if (SelectedContract.Destination == null)
                 return;
 
-            var contractDestCity = OrderModelObject.GetCity(SelectedContract.Destination);
+            var contractDestCity = _orderModelObject.GetCity(SelectedContract.Destination);
             if (contractDestCity == null)
                 throw new ArgumentNullException($"GetCity({nameof(SelectedContract)}.Destination)");
 
             if (SelectedContract.Origin == null)
                 return;
 
-            var contractOriginCity = OrderModelObject.GetCity(SelectedContract.Origin);
+            var contractOriginCity = _orderModelObject.GetCity(SelectedContract.Origin);
 
             if (SelectedContract.Client_Name == null)
                 return;
 
-            var customer = OrderModelObject.FindCustomerByName(SelectedContract.Client_Name);
+            var customer = _orderModelObject.FindCustomerByName(SelectedContract.Client_Name);
             if (customer == null)
             {
-                customer = OrderModelObject.CreateCustomer(SelectedContract.Client_Name);
+                customer = _orderModelObject.CreateCustomer(SelectedContract.Client_Name);
 
-                OrderModelObject.CreateOrder(contractDestCity, contractOriginCity, customer.CustomerId);
+                _orderModelObject.CreateOrder(contractDestCity, contractOriginCity, customer.CustomerId);
             }
             else
             {
-                OrderModelObject.CreateOrder(contractDestCity, contractOriginCity, customer.CustomerId);
+                _orderModelObject.CreateOrder(contractDestCity, contractOriginCity, customer.CustomerId);
             }
 
             MessageBox.Show("Successfully accepted customer. A new order has been created.", "New customer added",
