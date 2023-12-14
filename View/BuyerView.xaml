@@ -56,7 +56,7 @@
                         <Label Content="Values" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
 
                         <!--order requests data from the cmp database-->
-                        <DataGrid ItemsSource="{Binding ContractData}" SelectedItem="{Binding SelectedContract}" Margin="158,45,10,96" Name="OrderRequests" Background="Azure" IsReadOnly="False"/>
+                        <DataGrid ItemsSource="{Binding ContractData}" SelectedItem="{Binding SelectedContract}" Margin="158,45,10,96" Name="OrderRequests" Background="Azure" IsReadOnly="True"/>
 
                         <!--legend for the cmp values-->
                         <Grid Margin="10,45,610,96" Background="#304674">
