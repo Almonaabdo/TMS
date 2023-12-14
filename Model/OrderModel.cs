@@ -296,8 +296,8 @@ public class OrderModel
             return totalKmAndHrs;
         }
         catch
-        {
-
+        { 
+        
         }
         return null;
     }
