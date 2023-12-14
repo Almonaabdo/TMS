@@ -11,19 +11,29 @@ using TMS_Project.Model;
 
 namespace TMS_Project.ViewModel;
 
-public class BuyerViewModel: ViewModelBase
+public class BuyerViewModel : ViewModelBase
 {
     #region Fields
 
     public IEnumerable<Contract>? ContractData { get; private set; }
     public ICommand CreateOrderCommand { get; }
-    public List<JoinedOrder> CompletedOrders { get; private set; } = new List<JoinedOrder>();
-
+    public ICommand ProcessInvoiceCommand { get; }
+    private ObservableCollection<JoinedOrder> _completedOrders;
+    public ObservableCollection<JoinedOrder> CompletedOrders
+    {
+        get => _completedOrders;
+        set
+        {
+            _completedOrders = value;
+            OnPropertyChanged(nameof(CompletedOrders));
+        }
+    }
     private readonly TmsDbContext _tmsDbContext = DbContextSingleton.Instance;
     private readonly BuyerModel _buyerModel;
     private readonly DataService _dataService;
     public LogInViewModel LogInViewModel { get; private set; } = new();
-    private readonly OrderModel _orderModelObject;  
+    private readonly OrderModel _orderModelObject;
+    private readonly InvoiceGeneratorModel _invoiceModel;
 
 
     private Contract _selectedContract;
@@ -38,16 +48,18 @@ public class BuyerViewModel: ViewModelBase
     }
 
 
-    private string _buyerNotification;
-    public string BuyerNotification
+
+    private JoinedOrder _selectedOrder;
+    public JoinedOrder SelectedOrder
     {
-        get => _buyerNotification;
+        get => _selectedOrder;
         set
         {
-            _buyerNotification = value;
-            OnPropertyChanged(nameof(BuyerNotification));
+            _selectedOrder = value;
+            OnPropertyChanged(nameof(SelectedOrder));
         }
     }
+
     #endregion
 
     #region Constructor
@@ -55,16 +67,15 @@ public class BuyerViewModel: ViewModelBase
     public BuyerViewModel()
     {
         _buyerModel = new BuyerModel(_tmsDbContext);
-        LoadData();
+
         CreateOrderCommand = new RelayCommand(CallCreateOrder);
+        ProcessInvoiceCommand = new RelayCommand(CallProcessInvoice);
+
+
         _orderModelObject = new OrderModel(_tmsDbContext);
         _dataService = new DataService();
-
-        // Calculate the counts
-      //  int completedOrdersCount = CompletedOrders.Count;
-       // int contractsCount = ContractData?.Count() ?? 0;
-        // Set BuyerNotification based on the counts
-        //BuyerNotification = $"You have {completedOrdersCount} completed orders and {contractsCount} contracts.";
+        _invoiceModel = new InvoiceGeneratorModel();
+        LoadData();
     }
 
     #endregion
@@ -73,9 +84,16 @@ public class BuyerViewModel: ViewModelBase
 
     private void LoadData()
     {
-        var loadedContracts = _buyerModel.LoadContracts();
-        ContractData = new ObservableCollection<Contract>(loadedContracts);
-       // CompletedOrders = _dataService.GetJoinedOrder().ToList();
+        try
+        {
+            var loadedContracts = _buyerModel.LoadContracts();
+            ContractData = new ObservableCollection<Contract>(loadedContracts);
+            CompletedOrders = new ObservableCollection<JoinedOrder>(_dataService.GetCompletedOrders());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e + e.Source + e.StackTrace + e.InnerException);
+        }
     }
     #endregion
 
@@ -122,5 +140,21 @@ public class BuyerViewModel: ViewModelBase
 
 
 
-   
+    private void CallProcessInvoice()
+    {
+        try
+        {
+            var orderId = SelectedOrder.OrderId.ToString();
+            var custId = SelectedOrder.CustomerId.ToString();
+            var tripCost = SelectedOrder.TripCost.ToString();
+
+            _invoiceModel.GenerateInvoice(orderId, tripCost, custId);
+
+            MessageBox.Show($"Successfully Created Invoice for {SelectedOrder.OrderId}");
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error {ex.Message}");
+        }
+    }
 }

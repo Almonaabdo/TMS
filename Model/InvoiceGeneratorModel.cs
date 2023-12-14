@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
 using NLog;
 using TMS_Project.DataLayer.Context;
 using TMS_Project.DataLayer.Model;
@@ -18,28 +19,45 @@ public class InvoiceGeneratorModel
     /// <summary>
     /// Method to create an invoice
     /// </summary>
-    /// <param name="order"></param>
-    /// <param name="rates"></param>
-    /// <param name="customer"></param>
+    /// <param name="orderId"></param>
+    /// <param name="tripCost"></param>
+    /// <param name="customerId"></param>
     /// <returns></returns>
-    public Invoice GenerateInvoice(Order order, Rate rates, Customer customer)
+    public Invoice GenerateInvoice(string orderId, string tripCost, string customerId)
     {
-        double amount = 100; // Call method to get invoice amount here, just a place holder for now
-
-        var invoice = new Invoice  // Create a new invoice
+        try
         {
-            OrderId = order.OrderId,
-            RateId = rates.RateId,
-            Amount = amount,
-            InvoiceDate = DateTime.Today,
-            CustomerId = customer.CustomerId
-        };
+            if (int.TryParse(orderId, out var idOrder) && double.TryParse(tripCost, out var cost) && int.TryParse(customerId, out var idCustomer))
+            {
+                Console.WriteLine($"Parsed values: idOrder={idOrder}, cost={cost}, idCustomer={idCustomer}");
+                var newInvoice = new Invoice
+                {
+                    OrderId = idOrder,
+                    CustomerId = idCustomer,
+                    Amount = cost,
+                    InvoiceDate = DateTime.Now,
+                };
 
-        _dbContext.InvoiceDetails?.Add(invoice); // Add invoice to db
-        _dbContext.SaveChanges(); // Save changes
+                _dbContext.Invoice?.Add(newInvoice);
+                Console.WriteLine("Added new invoice");
+                _dbContext.SaveChanges();
+                Console.WriteLine("Saved changes");
+            }
+            else
+            {
+                Console.WriteLine("Not working, its null");
+            }
+            
+               
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating invoice: {ex.Message}");
+        }
 
-        return invoice; // Return the create invoice
+        return null!;
     }
+
 
     /// <summary>
     /// Method to create a text file invoice with all details included
@@ -71,12 +89,10 @@ public class InvoiceGeneratorModel
 
                 // Billing details
                 writer.WriteLine("Billing Details:");
-                writer.WriteLine($"Rate ID: {invoice.RateId}");
-                writer.WriteLine($"Quantity: {invoice.Quantity}");
                 writer.WriteLine($"Amount: {invoice.Amount:C}");
 
                 // Just for confirmation, 
-                Console.WriteLine($"TXT document saved to: {filePath}");
+                MessageBox.Show($"TXT document saved to: {filePath}");
             }
         }
         catch (Exception e)
@@ -84,6 +100,4 @@ public class InvoiceGeneratorModel
             LoggerModel.LogException( $"Error creating text file {e.Message}");
         }
     }
-
-
 }
