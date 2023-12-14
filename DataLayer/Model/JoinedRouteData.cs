@@ -3,10 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TMS_Project.DataLayer.Model;
 
-[Table("JoinedRouteTable")]
 public class JoinedRouteTable
 {
-    [Key] public int JoinedRouteId { get; set; }
     public int RouteId { get; set; }
     public string? Origin { get; set; }
     public string? Destination { get; set; }

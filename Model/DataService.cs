@@ -41,8 +41,8 @@ namespace TMS_Project.Model
                 DepotCity = depotCity,
                 Ftla = newFtla,
                 Ltla = newLtla,
-                FtlRate = newFtlaRate,
-                LtlRate = newLtlaRate,
+               // FtlRate = newFtlaRate,
+              //  LtlRate = newLtlaRate,
                 ReefCharge = newReefCharge
             };
 
@@ -58,19 +58,31 @@ namespace TMS_Project.Model
         /// Deletes data from the database.
         /// </summary>
         /// <typeparam name="T">Type of entity to delete.</typeparam>
-        public void DeleteData<T>(T? entityToDelete) where T : class
+        public void DeleteData<T>(int entityId) where T : class
         {
             try
             {
-                if (entityToDelete == null) return;
+                // Find the entity by its ID
+                var entityToDelete = _dbContext.Set<T>().Find(entityId);
+
+                if (entityToDelete == null)
+                {
+                    // Handle the case where the entity with the given ID is not found
+                    LoggerModel.LogException($"Entity with ID {entityId} not found.");
+                    return;
+                }
+
+                // Remove the entity and save changes
                 _dbContext.Set<T>().Remove(entityToDelete);
                 _dbContext.SaveChanges();
             }
             catch (DbUpdateException)
             {
+                // Handle any exceptions that occur during the delete operation
                 LoggerModel.LogException("Exception while deleting data from entity.");
             }
         }
+
 
         #endregion
 
@@ -209,6 +221,28 @@ namespace TMS_Project.Model
 
             return joinedData;
         }
+
+        public List<JoinedOrder> GetJoinedOrder()
+        {
+            var joinedOrders = from order in _dbContext.Orders
+                join citySource in _dbContext.Cities on order.SourceCityId equals citySource.CityId
+                join cityDest in _dbContext.Cities on order.DestinationCityId equals cityDest.CityId
+                join trip in _dbContext.Trips on order.OrderId equals trip.OrderId
+                select new JoinedOrder
+                {
+                    OrderId = order.OrderId,
+                    CustomerId = order.CustomerId,
+                    OrderStatus = order.OrderStatus,
+                    DateCompleted = order.DateCompleted ?? DateTime.MinValue, // Use DateTime.MinValue if DateCompleted is nullable
+                    DateInititated = order.DateInitiated,
+                    Origin = citySource.CityName,
+                    Destination = cityDest.CityName,
+                    TripCost = trip.TripCost                                       
+                };
+
+            return joinedOrders.ToList();
+        }
+
 
         #endregion
 

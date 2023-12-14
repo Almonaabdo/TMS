@@ -3,171 +3,265 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 using TMS_Project.DataLayer.Model;
 using TMS_Project.Helper;
 using TMS_Project.Model;
 
-namespace TMS_Project.ViewModel;
-
-public class DeleteViewModel : ViewModelBase
+namespace TMS_Project.ViewModel
 {
-    #region Fields
-
-    private string _selectedDeleteOption;
-    private List<string> _deleteOptions;
-    private ObservableCollection<object> _selectedTableData;
-    private readonly DataService _dataService;
-    private object _selectedRows;
-
-    #endregion
-
-
-    #region Properties
-
-    public object SelectedRows
+    public class DeleteViewModel : ViewModelBase
     {
-        get => _selectedRows;
-        set
+        #region Fields
+
+        private string _selectedDeleteOption;
+        private List<string> _deleteOptions;
+        private readonly DataService _dataService;
+        private ObservableCollection<JoinedRouteTable> _routeTable;
+        private ObservableCollection<Rate> _rateTable;
+        private ObservableCollection<Carrier> _carrierTable;
+
+        private Carrier _selectedCarrier;
+        private JoinedRouteTable _selectedRoute;
+        private Rate _selectedRate;
+
+        private Visibility _isRouteTableVisible = Visibility.Hidden;
+        private Visibility _isRateTableVisible = Visibility.Hidden;
+        private Visibility _isCarrierTableVisible = Visibility.Hidden;
+
+        #endregion
+
+        #region Properties
+
+        public List<string> DeleteOptions
         {
-            _selectedRows = value;
-            OnPropertyChanged(nameof(SelectedRows));
+            get => _deleteOptions;
+            set
+            {
+                _deleteOptions = value;
+                OnPropertyChanged(nameof(DeleteOptions));
+            }
         }
-    }
 
-    public List<string> DeleteOptions
-    {
-        get => _deleteOptions;
-        set
+        public string SelectedDeleteOption
         {
-            _deleteOptions = value;
-            OnPropertyChanged(nameof(DeleteOptions));
+            get => _selectedDeleteOption;
+            set
+            {
+                _selectedDeleteOption = value;
+                LoadTableData();
+                OnPropertyChanged(nameof(SelectedDeleteOption));
+            }
         }
-    }
 
-    public string SelectedDeleteOption
-    {
-        get => _selectedDeleteOption;
-        set
+        public ObservableCollection<JoinedRouteTable> RouteTable
         {
-            _selectedDeleteOption = value;
-            LoadTableData();
-            OnPropertyChanged(nameof(SelectedDeleteOption));
+            get => _routeTable;
+            set
+            {
+                _routeTable = value;
+                OnPropertyChanged(nameof(RouteTable));
+            }
         }
-    }
 
-    public ObservableCollection<object> SelectedTableData
-    {
-        get => _selectedTableData;
-        set
+        public ObservableCollection<Rate> RateTable
         {
-            _selectedTableData = value;
-            OnPropertyChanged(nameof(SelectedTableData));
+            get => _rateTable;
+            set
+            {
+                _rateTable = value;
+                OnPropertyChanged(nameof(RateTable));
+            }
         }
-    }
 
-    #endregion
-
-
-    #region Commands
-
-    public RelayCommand DeleteCommand { get; }
-
-    #endregion
-
-    #region Constructor
-
-    public DeleteViewModel()
-    {
-        _dataService = new DataService();
-        DeleteOptions = new List<string> { "Route", "Rate", "Carrier" }; // Add other options as needed
-        DeleteCommand = new RelayCommand(DeleteData);
-    }
-
-    #endregion
-
-    #region Methods
-
-    private void LoadTableData()
-    {
-        switch (SelectedDeleteOption)
+        public ObservableCollection<Carrier> CarrierTable
         {
-            case "Route":
-                SelectedTableData = new ObservableCollection<object>(
-                    _dataService.GetJoinedRouteData()?.Cast<object>() ?? throw new InvalidOperationException());
-                break;
-            case "Rate":
-                SelectedTableData = new ObservableCollection<object>(
-                    _dataService.RetrieveTable<Rate>()?.Cast<object>() ?? throw new InvalidOperationException());
-                break;
-            case "Carrier":
-                SelectedTableData = new ObservableCollection<object>(
-                    _dataService.RetrieveTable<Carrier>()?.Cast<object>() ?? throw new InvalidOperationException());
-                break;
-            default:
-                MessageBox.Show("Please select a valid option.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                break;
+            get => _carrierTable;
+            set
+            {
+                _carrierTable = value;
+                OnPropertyChanged(nameof(CarrierTable));
+            }
         }
-    }
 
-    private void DeleteData()
-    {
-        try
+        #endregion
+
+        #region Commands
+
+        public RelayCommand DeleteCommand { get; }
+
+        #endregion
+
+        #region Visibility Properties
+
+        public Visibility IsRouteTableVisible
+        {
+            get => _isRouteTableVisible;
+            set
+            {
+                _isRouteTableVisible = value;
+                OnPropertyChanged(nameof(IsRouteTableVisible));
+            }
+        }
+
+        public Visibility IsRateTableVisible
+        {
+            get => _isRateTableVisible;
+            set
+            {
+                _isRateTableVisible = value;
+                OnPropertyChanged(nameof(IsRateTableVisible));
+            }
+        }
+
+        public Visibility IsCarrierTableVisible
+        {
+            get => _isCarrierTableVisible;
+            set
+            {
+                _isCarrierTableVisible = value;
+                OnPropertyChanged(nameof(IsCarrierTableVisible));
+            }
+        }
+
+        #endregion
+
+        #region Selected Item Properties
+
+        public Carrier SelectedCarrier
+        {
+            get => _selectedCarrier;
+            set
+            {
+                _selectedCarrier = value;
+                OnPropertyChanged(nameof(SelectedCarrier));
+            }
+        }
+
+        public Rate SelectedRate
+        {
+            get => _selectedRate;
+            set
+            {
+                _selectedRate = value;
+                OnPropertyChanged(nameof(SelectedRate));
+            }
+        }
+
+        public JoinedRouteTable SelectedRoute
+        {
+            get => _selectedRoute;
+            set
+            {
+                _selectedRoute = value;
+                OnPropertyChanged(nameof(SelectedRoute));
+            }
+        }
+
+        #endregion
+
+        #region Constructor
+
+        public DeleteViewModel()
+        {
+            _dataService = new DataService();
+            DeleteOptions = new List<string> { "Route", "Rate", "Carrier" }; // Add other options as needed
+            DeleteCommand = new RelayCommand(DeleteData);
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void LoadTableData()
         {
             switch (SelectedDeleteOption)
             {
                 case "Route":
-                    DeleteRows<Route>();
+                    RouteTable = new ObservableCollection<JoinedRouteTable>(_dataService.GetJoinedRouteData()?.Cast<JoinedRouteTable>() ??
+                                                                             throw new InvalidOperationException());
+                    IsRouteTableVisible = Visibility.Visible;
+                    IsRateTableVisible = Visibility.Hidden; // Ensure other tables are hidden
+                    IsCarrierTableVisible = Visibility.Hidden;
                     break;
                 case "Rate":
-                    DeleteRows<Rate>();
+                    RateTable = new ObservableCollection<Rate>(_dataService.RetrieveTable<Rate>()?.Cast<Rate>() ??
+                                                               throw new InvalidOperationException());
+                    IsRateTableVisible = Visibility.Visible;
+                    IsRouteTableVisible = Visibility.Hidden; // Ensure other tables are hidden
+                    IsCarrierTableVisible = Visibility.Hidden;
                     break;
                 case "Carrier":
-                    DeleteRows<Carrier>();
+                    CarrierTable = new ObservableCollection<Carrier>(
+                        _dataService.RetrieveTable<Carrier>()?.Cast<Carrier>() ?? throw new InvalidOperationException());
+                    IsCarrierTableVisible = Visibility.Visible;
+                    IsRouteTableVisible = Visibility.Hidden; // Ensure other tables are hidden
+                    IsRateTableVisible = Visibility.Hidden;
                     break;
                 default:
-                    MessageBox.Show("Please select a valid option.", "Error", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                    MessageBox.Show("Please select a valid option.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
             }
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            MessageBox.Show("Error deleting data.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-    }
 
-    private void DeleteRows<T>() where T : class
-    {
-        try
+        private void DeleteData()
         {
-            if (SelectedRows != null)
+            try
+            {
+                string tableId;
+                switch (SelectedDeleteOption)
+                {
+                    case "Route":
+                        tableId = SelectedRoute.RouteId.ToString();
+                        DeleteRows<Route>(tableId);
+                        break;
+                    case "Rate":
+                        tableId = SelectedRate.RateId.ToString();
+                        DeleteRows<Rate>(tableId);
+                        break;
+                    case "Carrier":
+                        tableId = SelectedCarrier.CarrierId.ToString();
+                        DeleteRows<Carrier>(tableId);
+                        break;
+                    default:
+                        MessageBox.Show("Please select a valid option.", "Error", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                MessageBox.Show("Error deleting data.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void DeleteRows<T>(string tableId) where T : class
+        {
+            try
             {
                 var result = MessageBox.Show("Are you sure you want to delete the selected row?",
                     "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    _dataService.DeleteData(SelectedRows as T);
-
+                    if (int.TryParse(tableId, out var id))
+                    {
+                        _dataService.DeleteData<T>(id);
+                    }
                     // Refresh the data after deletion
                     LoadTableData();
 
                     MessageBox.Show("Selected row deleted successfully!");
                 }
             }
-            else
+            catch (Exception e)
             {
-                MessageBox.Show("Please select a row to delete.", "Warning", MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                Console.WriteLine(e);
+                MessageBox.Show("Error deleting row", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            MessageBox.Show("Error deleting row", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-    }
 
-    #endregion
+        #endregion
+    }
 }

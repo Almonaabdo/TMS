@@ -137,38 +137,10 @@ namespace TMS_Project.ViewModel
             _dataService = new DataService();
             SaveCarrierCommand = new RelayCommand(SaveCarrierChanges);
             CreateCarrierCommand = new RelayCommand(CreateCarrier);
-            DeleteCarrierCommand = new RelayCommand(DeleteCarrier);
             LoadData();
         }
 
-        private void DeleteCarrier()
-        {
-            try
-            {
-                if (SelectedCarrier != null)
-                {
-                    MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this carrier?",
-                        "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        _dataService.DeleteData(SelectedCarrier);
-                        CarrierData.Remove(SelectedCarrier);
-                        SelectedCarrier = null!;
-                        MessageBox.Show("Carrier deleted successfully!");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Please select a carrier to delete.", "Warning", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                MessageBox.Show("Error deleting carrier", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+       
 
         #endregion
 
@@ -216,7 +188,7 @@ namespace TMS_Project.ViewModel
         {
             try
             {
-                List<Carrier> updatedCarriers = new List<Carrier>(CarrierData);
+                var updatedCarriers = new List<Carrier>(CarrierData);
 
                 foreach (var carrier in updatedCarriers)
                 {
