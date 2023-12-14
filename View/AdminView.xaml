@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
-        Title="AdminView" Height="450" Width="800">
+        Title="AdminView" Height="450" Width="800" WindowState="Maximized">
 
 
     <Window.DataContext>
@@ -44,7 +44,6 @@
                         <Label Content="{Binding CurrentDate}" Foreground="#304674" FontSize="25" Background="#91BAD6" Margin="736,10,10,399"/>
                         <Button Content="Increment time" Command="{Binding IncrementTimeCommand}" Margin="744,58,19,361" Background="AliceBlue" FontWeight="bold"/>
 
-
                         <!--notifications-->
                         <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Notifications" VerticalAlignment="Top" Foreground="DarkBlue" FontSize="10"/>
                         <TextBlock HorizontalAlignment="Left" Margin="10,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="155" Text="{Binding AdminNotification}" Height="23" Foreground="red" FontSize="8"/>
@@ -77,17 +76,17 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Button Command="{Binding FileViewModel.OpenFileBrowserCommand}"
-                                            Content="Load files" Margin="20,10,754,80" Grid.ColumnSpan="2" />
+                                            Content="Load files" Margin="16,10,754,80" Grid.ColumnSpan="2"  Background="AliceBlue" FontWeight="bold"/>
                                     <ComboBox x:Name="Folder" ItemsSource="{Binding FileViewModel.LogFiles}"
                                               SelectedItem="{Binding FileViewModel.SelectedLogFile}"
-                                              Margin="110,10,104,80" Grid.Row="0" Grid.Column="1" />
+                                              Margin="106,10,136,80" Grid.Row="0" Grid.Column="1" Background="AliceBlue" />
                                     <TextBox VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                                              Text="{Binding FileViewModel.FileContent}" IsReadOnly="True"
                                              Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="0"
                                              Margin="16,51,10,10" />
                                     <Button Command="{Binding FileViewModel.OpenSelectedFileCommand}"
-                                            Content="Open selected file" Margin="765,10,9,80" Grid.Row="0"
-                                            Grid.ColumnSpan="2" Grid.Column="0" />
+                                            Content="Open selected file" Margin="724,10,14,80" Grid.Row="0"
+                                            Grid.ColumnSpan="2" Grid.Column="0" Background="AliceBlue" FontWeight="bold"/>
                                 </Grid>
                             </TabItem>
 
@@ -130,55 +129,50 @@
 
                 <!--ALTER DATA TAB-->
                 <TabItem Header="Alter Data" Background="#304674" FontWeight="Medium">
-                    <Grid Background="#91BAD6" Height="485">
+                    <Grid Background="#91BAD6">
                         <TabControl Margin="10,10,10,10">
 
                             <!-- Route Tab -->
                             <TabItem Header="Route" Background="#304674">
-                                <Grid Background="#304674" Height="438">
+                                <Grid Background="#304674" >
                                     <DataGrid Name="RouteTable" ItemsSource="{Binding RateRouteViewModel.RouteData}" Background="Azure"
                                               IsReadOnly="False"
                                               HorizontalAlignment="Center" VerticalAlignment="Top"
-                                              Width="580" Height="366" Margin="0,16,0,0" />
+                                              Width="520" Height="340" Margin="0,20,0,0" />
                                     <Button Content="Save Changes" Command="{Binding RateRouteViewModel.SaveRouteCommand}" Height="30"
-                                            Width="109"
-                                            Background="Azure" FontWeight="Bold" FontSize="15"
-                                            VerticalAlignment="Bottom" HorizontalAlignment="Left"
-                                            Margin="350,0,0,23" />
+                                            Width="110" Background="Azure" FontWeight="Bold" FontSize="15"
+                                            VerticalAlignment="Top" HorizontalAlignment="Center"
+                                            Margin="0,366,0,0" />
                                 </Grid>
                             </TabItem>
 
 
                             <!-- Rates Tab -->
                             <TabItem Header="Rate" Background="#304674">
-                                <Grid Background="#304674" Height="437">
+                                <Grid Background="#304674">
                                     <DataGrid ItemsSource="{Binding RateRouteViewModel.RateData}" Background="Azure"
-                                              IsReadOnly="False" HorizontalAlignment="Center" VerticalAlignment="Top" Height="366" Width="672" Margin="0,5,0,0" />
-                                    <Button Content="Save" Command="{Binding RateRouteViewModel.SaveRouteCommand}" Height="31" Width="98"
-                                            Background="Azure" FontWeight="Bold" FontSize="15" Margin="378,382,379,24" />
+                                              IsReadOnly="False" HorizontalAlignment="Center" VerticalAlignment="Top" Height="340" Width="520" Margin="0,20,0,0" />
+                                    <Button Content="Save" Command="{Binding RateRouteViewModel.SaveRouteCommand}" Height="30"
+                                            Background="Azure" FontWeight="Bold" FontSize="15" Margin="373,366,373,10" />
+
                                 </Grid>
                             </TabItem>
 
                             <!-- Carrier Tab -->
                             <TabItem Header="Carrier" Background="#304674">
                                 <Grid Background="#304674">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="109*" />
-                                        <ColumnDefinition Width="679*" />
-                                    </Grid.ColumnDefinitions>
                                     <DataGrid ItemsSource="{Binding CarrierViewModel.CarrierData}"
-                                              Background="Azure" CanUserAddRows="False" HorizontalAlignment="Left"
-                                              VerticalAlignment="Top" IsReadOnly="False" Height="353" Width="717" Margin="78,10,0,0" Grid.ColumnSpan="2" />
+                                              Background="Azure" CanUserAddRows="False" HorizontalAlignment="Center"
+                                              VerticalAlignment="Top" IsReadOnly="False" Height="341" Width="520" Margin="0,20,0,0"/>
 
-                                    <Button Content="Save" Command="{Binding CarrierViewModel.SaveCarrierCommand}" Background="Azure" FontWeight="Bold" FontSize="15"
-                                            Grid.Column="1" Margin="251,368,368,34" />
+                                    <Button Content="Save" Command="{Binding CarrierViewModel.SaveCarrierCommand}" Background="Azure" FontWeight="Bold" FontSize="15" Margin="373,366,372,10" Height="30" Width="110"/>
                                 </Grid>
                             </TabItem>
 
                             <!-- Delete Tab -->
                             <TabItem Header="Delete Data" Background="#304674">
-                                <Grid Background="#304674" Margin="10,0,10,0" Height="427">
-                                    <StackPanel>
+                                <Grid Background="#304674">
+                                    <StackPanel Grid.RowSpan="2">
                                         <Label Content="Select a table to delete from:" FontWeight="Medium"
                                                Foreground="#b2cbde"
                                                HorizontalAlignment="Center" Margin="0,0,0,5" />
@@ -205,19 +199,19 @@
                                     <Button Content="Delete Selected Rows" Background="Azure" FontWeight="Bold"
                                             FontSize="15" Height="35" Width="200"
                                             Command="{Binding DeleteViewModel.DeleteCommand}"
-                                            HorizontalAlignment="Center" Margin="0,372,0,10" />
+                                            HorizontalAlignment="Center" Margin="0,361,0,10" />
                                 </Grid>
                             </TabItem>
 
                             <!--Add tab-->
                             <TabItem Header="Add Carrier" Background="#304674">
-                                <Grid Background="#304674" Height="428">
-                                    <Label FontWeight="Medium" Margin="183,310,373,93" />
+                                <Grid Background="#304674">
+                                    <!--<Label FontWeight="Medium" Margin="183,310,373,93" />-->
                                     <StackPanel Margin="61,0,41,71">
 
                                         <!-- Input Fields for Creating a New Carrier -->
                                         <StackPanel x:Name="CarrierInputFields" Visibility="Visible">
-                                            <Label Content="Company Name" />
+                                            <Label Content="Company Name" Margin="0,20,0,0"/>
                                             <TextBox Text="{Binding CarrierViewModel.CompanyName}"
                                                      RenderTransformOrigin="0.5,0.5" Height="22" />
                                             <Label Content="Departure City:" />
@@ -236,10 +230,11 @@
                                         <Label Content="Add new carrier" Margin="425,391,306,13" FontWeight="Bold"
                                                Foreground="AliceBlue" RenderTransformOrigin="0.639,0.571" />
                                     </StackPanel>
+
                                     <Button Content="Add" Background="Azure" HorizontalAlignment="Center"
-                                            VerticalAlignment="Top" FontWeight="Bold" FontSize="15"
-                                            Command="{Binding CarrierViewModel.CreateCarrierCommand}" Height="60"
-                                            Width="150" Margin="0,349,0,0" />
+                                            VerticalAlignment="Top" FontWeight="Bold" FontSize="20"
+                                            Command="{Binding CarrierViewModel.CreateCarrierCommand}" Height="50"
+                                            Width="150" Margin="0,346,0,0" />
                                 </Grid>
                             </TabItem>
 
@@ -252,6 +247,7 @@
                 <TabItem Header="DB Connection" Background="#304674" FontWeight="Medium">
                     <Grid Background="#91BAD6">
                         <TabControl Margin="10,10,10,10">
+                            
                             <!-- Local DB Tab -->
                             <TabItem Header="Local DB" Background="#304674">
                                 <!-- Local DB Tab Content -->
@@ -263,19 +259,19 @@
                             <!-- Remote DB Tab -->
                             <TabItem Header="Remote DB" Background="#304674">
                                 <!-- Remote DB Tab Content -->
-                                <StackPanel Margin="10">
-                                    <TextBlock Text="Remote DB Settings" Foreground="White" Margin="0,0,0,10" />
-                                    <Label Content="Server" />
-                                    <TextBox x:Name="RemoteDbServerTextBox" Margin="0,0,0,10" />
-                                    <Label Content="Port" />
-                                    <TextBox x:Name="RemoteDbPortTextBox" Margin="0,0,0,10" />
-                                    <Label Content="Database" />
-                                    <TextBox x:Name="RemoteDbNameTextBox" Margin="0,0,0,10" />
-                                    <Label Content="Username" />
-                                    <TextBox x:Name="RemoteDbUsernameTextBox" Margin="0,0,0,10" />
-                                    <Label Content="Password" />
-                                    <TextBox x:Name="RemoteDbPasswordBox" Margin="0,0,0,10" />
-                                    <Button Content="Test Connection" />
+                                <StackPanel Background="#304674">
+                                    <TextBlock Text="Remote DB Settings" Foreground="White" Margin="0,20,0,10" Width="800" />
+                                    <Label Content="Server"  Width="800"/>
+                                    <TextBox x:Name="RemoteDbServerTextBox" Margin="0,0,0,10"  Width="800"/>
+                                    <Label Content="Port"  Width="800"/>
+                                    <TextBox x:Name="RemoteDbPortTextBox" Margin="0,0,0,10"  Width="800"/>
+                                    <Label Content="Database" Width="800" />
+                                    <TextBox x:Name="RemoteDbNameTextBox" Margin="0,0,0,10"  Width="800"/>
+                                    <Label Content="Username" Width="800" />
+                                    <TextBox x:Name="RemoteDbUsernameTextBox" Margin="0,0,0,10"  Width="800" />
+                                    <Label Content="Password" Width="800" />
+                                    <TextBox x:Name="RemoteDbPasswordBox" Margin="0,0,0,10" Width="800" />
+                                    <Button Content="Test Connection" Background="AliceBlue" Width="172" Margin="0,10,0,10" />
                                 </StackPanel>
                             </TabItem>
                         </TabControl>
