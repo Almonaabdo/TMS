@@ -10,6 +10,8 @@ namespace TMS_Project.Model
     public class LogInModel
     {
         private readonly TmsDbContext _dbContext;
+        private readonly PasswordHasher _passwordHasher;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LogInModel"/> class.
@@ -22,7 +24,11 @@ namespace TMS_Project.Model
 
             // Consider moving NLog configuration to the application startup.
           //  LoggerModel.ConfigLog();
+
+            _passwordHasher = new PasswordHasher();
         }
+
+
 
         /// <summary>
         /// Verifies the user's credentials.
@@ -32,6 +38,8 @@ namespace TMS_Project.Model
         /// <returns>True if the user is successfully authenticated; otherwise, false.</returns>
         public bool VerifyUser(string username, string password)
         {
+            var HashedInput = _passwordHasher.Hash(password);
+
             try
             {
                 // Check if the database context or Users collection is null.
@@ -47,7 +55,8 @@ namespace TMS_Project.Model
                 if (user != null)
                 {
                     // Check if the provided password matches the user's password.
-                    if (password == user.Password)
+                    bool validUser = _passwordHasher.verify(HashedInput, user.Password); // user.password is already stored as hashed value
+                    if (validUser)
                     {
                         // Log successful authentication.
                         LoggerModel.LogInfo($"User {username} successfully authenticated.");
