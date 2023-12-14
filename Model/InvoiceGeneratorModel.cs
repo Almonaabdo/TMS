@@ -16,63 +16,53 @@ public class InvoiceGeneratorModel
         
     }
 
-    
-    /*
-    * METHOD NAME: GenerateInvoice
-    * DESCRIPTION: Method to create an invoice
-    * 
-    * RETURN: invoice, null
-    */
-    public Invoice GenerateInvoice(JoinedOrder order)
+    /// <summary>
+    /// Method to create an invoice
+    /// </summary>
+    /// <param name="orderId"></param>
+    /// <param name="tripCost"></param>
+    /// <param name="customerId"></param>
+    /// <returns></returns>
+    public Invoice GenerateInvoice(string orderId, string tripCost, string customerId)
     {
-        //initialized variables   
-        int orderId = 0 ;
-        double tripCost = 0;
-        int customerId = 0;
-
         try
-        { 
-            if (order != null)
+        {
+            if (int.TryParse(orderId, out var idOrder) && double.TryParse(tripCost, out var cost) && int.TryParse(customerId, out var idCustomer))
             {
-                orderId = order.OrderId;
-                tripCost = order.TripCost;
-                customerId = order.CustomerId;
-                MessageBox.Show("order nottt nulllll");
+                Console.WriteLine($"Parsed values: idOrder={idOrder}, cost={cost}, idCustomer={idCustomer}");
+                var newInvoice = new Invoice
+                {
+                    OrderId = idOrder,
+                    CustomerId = idCustomer,
+                    Amount = cost,
+                    InvoiceDate = DateTime.Now,
+                };
+
+                _dbContext.Invoice?.Add(newInvoice);
+                Console.WriteLine("Added new invoice");
+                _dbContext.SaveChanges();
+                Console.WriteLine("Saved changes");
             }
             else
             {
-                MessageBox.Show("order is nulllll");
+                Console.WriteLine("Not working, its null");
             }
-            var invoice = new Invoice               // Create a new invoice
-            {
-                OrderId = orderId,
-                Amount = tripCost,
-                InvoiceDate = DateTime.Today,
-                CustomerId = customerId
-            };
-
-            MessageBox.Show("Createddddd unvoice");
-            _dbContext.InvoiceDetails?.Add(invoice); // Add invoice to db
-            _dbContext.SaveChanges();                // Save changes
-
-            MessageBox.Show("Saved unvoice");
-            return invoice;                          // Return the create invoice
+            
+               
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
-            MessageBox.Show($"Error {ex.Message}");
-            return null;                          // Return the create invoice
+            Console.WriteLine($"Error creating invoice: {ex.Message}");
         }
 
+        return null!;
     }
 
 
-    /*
-    * METHOD NAME: GenerateTxt
-    * DESCRIPTION: Method to create a text file invoice with all details included
-    * 
-    * RETURN: void
-    */
+    /// <summary>
+    /// Method to create a text file invoice with all details included
+    /// </summary>
+    /// <param name="invoice">The invoice to create file for</param>
     public void GenerateTxt(Invoice? invoice)
     {
         if (invoice == null)
@@ -99,7 +89,6 @@ public class InvoiceGeneratorModel
 
                 // Billing details
                 writer.WriteLine("Billing Details:");
-                writer.WriteLine($"Quantity: {invoice.Quantity}");
                 writer.WriteLine($"Amount: {invoice.Amount:C}");
 
                 // Just for confirmation, 
