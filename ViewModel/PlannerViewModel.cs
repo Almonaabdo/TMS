@@ -20,7 +20,7 @@ namespace TMS.ViewModel
 {
     public class PlannerViewModel : ViewModelBase
     {
-        #region Properties
+        #region Properties 
 
         public LogInViewModel LogInViewModel { get; set; } = new();
 
