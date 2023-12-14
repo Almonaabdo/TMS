@@ -36,6 +36,17 @@ namespace TMS.ViewModel
             }
         }
 
+        private Order _selectedInProgressOrder;
+        public Order SelectedInProgressOrder
+        {
+            get { return _selectedOrder; }
+            set
+            {
+                _selectedInProgressOrder = value;
+                OnPropertyChanged(nameof(SelectedInProgressOrder));
+            }
+        }
+
         private string _selectedCarrier;
         public string SelectedCarrier
         {
@@ -235,13 +246,13 @@ namespace TMS.ViewModel
         {
             try
             {
-                if (SelectedOrder.OrderStatus == OrderStatus.Pending)
+                if (SelectedInProgressOrder.OrderStatus == OrderStatus.Pending)
                 {
-                    MessageBox.Show($"Order# {SelectedOrder.OrderId} is still pending. Attach a trip to complete it");
+                    MessageBox.Show($"Order# {SelectedInProgressOrder.OrderId} is still pending. Attach a trip to complete it");
                     return;
                 }
-                _orderModel.CompleteOrder(SelectedOrder.OrderId);
-                MessageBox.Show($"Successfully Completed Order# {SelectedOrder.OrderId}");
+                _orderModel.CompleteOrder(SelectedInProgressOrder.OrderId);
+                MessageBox.Show($"Successfully Completed Order# {SelectedInProgressOrder.OrderId}");
                 GetOrderTable();
             }
             catch (Exception ex)
