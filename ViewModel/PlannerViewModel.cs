@@ -91,7 +91,7 @@ namespace TMS.ViewModel
 
         private DataService _dataService { get; }
 
-        private readonly TmsDbContext _TmsDbContext;
+        private  TmsDbContext _TmsDbContext;
         private OrderModel _orderModel { get; }
 
         private CarrierViewModel _carrierViewModel { get; }
@@ -112,7 +112,7 @@ namespace TMS.ViewModel
             CompleteOrderCommand = new RelayCommand(CallCompleteOrder);
             AddCarrierCommand = new RelayCommand(AddCarrier);
             ActiveOrdersTabCommand = new RelayCommand(RefreshOrdersTab);
-            OrdersTabCommand = new RelayCommand(RefreshOrdersTab);
+            OrdersTabCommand = new RelayCommand(RefreshActiveOrdersTab);
             _TmsDbContext = new TmsDbContext();
             GetOrderTable();
             _dataService = new DataService();
@@ -134,12 +134,14 @@ namespace TMS.ViewModel
         public void RefreshOrdersTab()
         {
             GetPendingOrders();
-            GetInProgressOrders();
             GetOrderTable();
-            GetOrderInProgressTable();
-            CarrierData = _carrierViewModel.CarrierData;
-            GetDistinctCarrierNames();
+        }
 
+        public void RefreshActiveOrdersTab()
+        {
+            _TmsDbContext = new TmsDbContext();
+            GetInProgressOrders();
+            GetOrderInProgressTable();
         }
 
         public void GetPendingOrders()
@@ -325,7 +327,7 @@ namespace TMS.ViewModel
                 }
                 _orderModel.CompleteOrder(SelectedInProgressOrder.OrderId);
                 MessageBox.Show($"Successfully Completed Order# {SelectedInProgressOrder.OrderId}");
-                RefreshOrdersTab();
+                RefreshActiveOrdersTab();
             }
             catch (Exception ex)
             {
