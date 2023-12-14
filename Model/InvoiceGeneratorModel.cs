@@ -16,19 +16,20 @@ public class InvoiceGeneratorModel
         
     }
 
-    /// <summary>
-    /// Method to create an invoice
-    /// </summary>
-    /// <param name="order"></param>
-    /// <param name="rates"></param>
-    /// <param name="customer"></param>
-    /// <returns></returns>
+    
+    /*
+    * METHOD NAME: GenerateInvoice
+    * DESCRIPTION: Method to create an invoice
+    * 
+    * RETURN: invoice, null
+    */
     public Invoice GenerateInvoice(JoinedOrder order)
     {
-        
+        //initialized variables   
         int orderId = 0 ;
         double tripCost = 0;
         int customerId = 0;
+
         try
         { 
             if (order != null)
@@ -65,10 +66,13 @@ public class InvoiceGeneratorModel
 
     }
 
-    /// <summary>
-    /// Method to create a text file invoice with all details included
-    /// </summary>
-    /// <param name="invoice">The invoice to create file for</param>
+
+    /*
+    * METHOD NAME: GenerateTxt
+    * DESCRIPTION: Method to create a text file invoice with all details included
+    * 
+    * RETURN: void
+    */
     public void GenerateTxt(Invoice? invoice)
     {
         if (invoice == null)

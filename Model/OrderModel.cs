@@ -17,46 +17,100 @@ public class OrderModel
         _db = context;
     }
 
+
+    /*
+    * METHOD NAME: FindCustomerByName
+    * DESCRIPTION: Finds a customer from the DB through name
+    *
+    * RETURN: found customer
+    */
     public Customer? FindCustomerByName(string customerName)
     {
         return _db.Customers?.SingleOrDefault(c => c.Name == customerName);
     }
 
 
+    /*
+    * METHOD NAME: CreateCustomer
+    * DESCRIPTION: Creates a new customer and is added to the DB
+    *
+    * RETURN: newCustomer
+    */
     public Customer CreateCustomer(string name)
     {
-        var newCustomer = new Customer
+        try
         {
-            Name = name
-        };
+            var newCustomer = new Customer
+            {
+                Name = name
+            };
 
-        _db.Customers?.Add(newCustomer);
-        _db.SaveChanges();
+            _db.Customers?.Add(newCustomer);
+            _db.SaveChanges();
 
-        return newCustomer;
-    }
-
-    public string? GetCityById(int cityId)
-    {
-        string city = "";
-        if (_db.Cities != null)
-        {
-            var cityFound = _db.Cities.FirstOrDefault(c => c.CityId == cityId);
-            city = cityFound.CityName.ToString();
-            return city;
+            return newCustomer;
         }
-
-        return city;
-    }
-    public City? GetCity(string? cityName)
-    {
-        if (_db.Cities != null)
+        catch
         {
-            var city =_db.Cities.FirstOrDefault(c => c.CityName == cityName);
-            return city;
+
         }
 
         return null;
+    }
+
+
+    /*
+    * METHOD NAME: GetCityById
+    * DESCRIPTION: Gets city from DB through ID and if found, convert to string
+    *
+    * RETURN: city
+    */
+    public string? GetCityById(int cityId)
+    {
+        try
+        {
+            string city = "";
+            if (_db.Cities != null)
+            {
+                var cityFound = _db.Cities.FirstOrDefault(c => c.CityId == cityId);
+                city = cityFound.CityName.ToString();
+                return city;
+            }
+
+            return city;
+        }
+        catch
+        {
+
+        }
+
+        return null;
+        
+    }
+
+
+    /*
+    * METHOD NAME: CreateOrder
+    * DESCRIPTION: Creates new order by calling the database Add method and saves changes
+    * 
+    * RETURN: void
+    */
+    public City? GetCity(string? cityName)
+    {
+        try
+        {
+            if (_db.Cities != null)
+            {
+                var city = _db.Cities.FirstOrDefault(c => c.CityName == cityName);
+                return city;
+            }
+        }
+        catch
+        {
+
+        }
+        return null;
+
     }
 
 
@@ -116,50 +170,64 @@ public class OrderModel
     */
     public void DeleteOrder (int orderId)
     {
-        // searching for the entered order
-        var order = _db.Orders?.Find(orderId);
+        try
+        {
+            // searching for the entered order
+            var order = _db.Orders?.Find(orderId);
 
-        if (order != null)
-        {
-            // remove order and save changes
-            _db.Orders?.Remove(order);
-            _db.SaveChanges();
+            if (order != null)
+            {
+                // remove order and save changes
+                _db.Orders?.Remove(order);
+                _db.SaveChanges();
+            }
+            else
+            {
+                LoggerModel.LogError("Info: Specified Order Wasn't Found In Database.");
+            }
         }
-        else
+        catch
         {
-            LoggerModel.LogError("Info: Specified Order Wasn't Found In Database.");
+
         }
+        
     }
-
 
 
     /*
-  * METHOD NAME: CompleteOrder
-  * DESCRIPTION: Changes status of specified order, and completed order data as todays date.
-  *
-  * RETURN: void
-  */
+    * METHOD NAME: CompleteOrder
+    * DESCRIPTION: Changes status of specified order, and completed order data as todays date.
+    *
+    * RETURN: void
+    */
     public void CompleteOrder(int orderId)
     {
-        // searching for the entered order
-        var order = _db.Orders?.Find(orderId);
-
-        if (order != null)
+        try
         {
-            // updating the status of the found order by changing status and dateCompleted.
-            UpdateTripStatus(orderId, TripStatus.Completed);
-            order.OrderStatus = OrderStatus.Completed;
-            // changing dataCopleted to the current date of today.
-            order.DateCompleted = DateTime.Now;
+            // searching for the entered order
+            var order = _db.Orders?.Find(orderId);
 
-            _db.SaveChanges();
+            if (order != null)
+            {
+                // updating the status of the found order by changing status and dateCompleted.
+                UpdateTripStatus(orderId, TripStatus.Completed);
+                order.OrderStatus = OrderStatus.Completed;
+                // changing dataCopleted to the current date of today.
+                order.DateCompleted = DateTime.Now;
+
+                _db.SaveChanges();
+            }
+            else
+            {
+                LoggerModel.LogError("Info: Can't Complete order! Specified Order Wasn't Found In Database.");
+            }
         }
-        else
+        catch
         {
-            LoggerModel.LogError("Info: Can't Complete order! Specified Order Wasn't Found In Database.");
+
         }
+        
     }
-
 
 
     /*
@@ -170,51 +238,68 @@ public class OrderModel
     */
     public void UpdateTripStatus(int tripId, TripStatus newStatus)
     {
-        // find specified trip.
-        var trip = _db.Trips?.Find(tripId);
-        
-
-        if (trip != null)
+        try
         {
-            // check if new status matches old status
-            if (trip.TripStatus != newStatus)
-            { 
-                // update trip if it's found and doesn't match
-                trip.TripStatus = newStatus;
-                _db.SaveChanges();
+            // find specified trip.
+            var trip = _db.Trips?.Find(tripId);
+
+
+            if (trip != null)
+            {
+                // check if new status matches old status
+                if (trip.TripStatus != newStatus)
+                {
+                    // update trip if it's found and doesn't match
+                    trip.TripStatus = newStatus;
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    LoggerModel.LogError("Info: Trip Status Wasn't change as new status remains the same");
+                }
             }
             else
             {
-                LoggerModel.LogError("Info: Trip Status Wasn't change as new status remains the same");
+                LoggerModel.LogError("Info: Can't Change Trip Status! Specified trip Wasn't Found In Database.");
             }
         }
-        else
+        catch
         {
-            LoggerModel.LogError("Info: Can't Change Trip Status! Specified trip Wasn't Found In Database.");
+
         }
+       
+
     }
 
 
     /*
-  * METHOD NAME: GetKmAndHrs
-  * DESCRIPTION: Gets the total Km and hours needed for the carrier to reach the destination from the origin
-  * 
-  * RETURN: double[], [0] = totalKm, [1] = totalHrs
-  */
+    * METHOD NAME: GetKmAndHrs
+    * DESCRIPTION: Gets the total Km and hours needed for the carrier to reach the destination from the origin
+    * 
+    * RETURN: double[], [0] = totalKm, [1] = totalHrs
+    */
     public double[] GetKmAndHrs(string destination, string origin)
     {
-        double[] totalKmAndHrs = new double[2];
-
-        var route = _db?.Routes?.FirstOrDefault(e =>
-            e.SourceCity.CityName == origin && e.DestinationCity.CityName == destination);
-
-        if (route != null)
+        try
         {
-            totalKmAndHrs[0] = Math.Round(route.Distance, 3);
-            totalKmAndHrs[1] = Math.Round(route.Duration, 3);
-        }
+            double[] totalKmAndHrs = new double[2];
 
-        return totalKmAndHrs;
+            var route = _db?.Routes?.FirstOrDefault(e =>
+                e.SourceCity.CityName == origin && e.DestinationCity.CityName == destination);
+
+            if (route != null)
+            {
+                totalKmAndHrs[0] = Math.Round(route.Distance, 3);
+                totalKmAndHrs[1] = Math.Round(route.Duration, 3);
+            }
+
+            return totalKmAndHrs;
+        }
+        catch
+        {
+
+        }
+        return null;
     }
 
 
@@ -278,11 +363,9 @@ public class OrderModel
                 return totalAmount;
             }
 
-
         }
         return totalAmount;
 
     }
-
 
 }

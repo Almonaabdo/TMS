@@ -29,13 +29,12 @@ namespace TMS_Project.Model
         }
 
 
-
-        /// <summary>
-        /// Verifies the user's credentials.
-        /// </summary>
-        /// <param name="username">The username to verify.</param>
-        /// <param name="password">The password to verify.</param>
-        /// <returns>True if the user is successfully authenticated; otherwise, false.</returns>
+        /*
+        * METHOD NAME: VerifyUser
+        * DESCRIPTION: Verifies the user's credentials
+        *
+        * RETURN: bool - true if user is verified, otherwise false
+        */
         public bool VerifyUser(string username, string password)
         {
             var HashedInput = _passwordHasher.Hash(password);
