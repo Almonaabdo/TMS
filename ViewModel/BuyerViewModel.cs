@@ -17,8 +17,16 @@ public class BuyerViewModel: ViewModelBase
 
     public IEnumerable<Contract>? ContractData { get; private set; }
     public ICommand CreateOrderCommand { get; }
-    public List<JoinedOrder> CompletedOrders { get; private set; } = new List<JoinedOrder>();
-
+    private ObservableCollection<JoinedOrder> _completedOrders;
+    public ObservableCollection<JoinedOrder> CompletedOrders
+    {
+        get => _completedOrders;
+        set
+        {
+            _completedOrders = value;
+            OnPropertyChanged(nameof(CompletedOrders));
+        }
+    }
     private readonly TmsDbContext _tmsDbContext = DbContextSingleton.Instance;
     private readonly BuyerModel _buyerModel;
     private readonly DataService _dataService;
@@ -36,18 +44,7 @@ public class BuyerViewModel: ViewModelBase
             OnPropertyChanged(nameof(SelectedContract));
         }
     }
-
-
-    private string _buyerNotification;
-    public string BuyerNotification
-    {
-        get => _buyerNotification;
-        set
-        {
-            _buyerNotification = value;
-            OnPropertyChanged(nameof(BuyerNotification));
-        }
-    }
+ 
     #endregion
 
     #region Constructor
@@ -55,16 +52,11 @@ public class BuyerViewModel: ViewModelBase
     public BuyerViewModel()
     {
         _buyerModel = new BuyerModel(_tmsDbContext);
-        LoadData();
+      
         CreateOrderCommand = new RelayCommand(CallCreateOrder);
         _orderModelObject = new OrderModel(_tmsDbContext);
-        _dataService = new DataService();
-
-        // Calculate the counts
-      //  int completedOrdersCount = CompletedOrders.Count;
-       // int contractsCount = ContractData?.Count() ?? 0;
-        // Set BuyerNotification based on the counts
-        //BuyerNotification = $"You have {completedOrdersCount} completed orders and {contractsCount} contracts.";
+        _dataService = new DataService(); 
+        LoadData();
     }
 
     #endregion
@@ -73,9 +65,16 @@ public class BuyerViewModel: ViewModelBase
 
     private void LoadData()
     {
-        var loadedContracts = _buyerModel.LoadContracts();
-        ContractData = new ObservableCollection<Contract>(loadedContracts);
-       // CompletedOrders = _dataService.GetJoinedOrder().ToList();
+        try
+        {
+            var loadedContracts = _buyerModel.LoadContracts();
+            ContractData = new ObservableCollection<Contract>(loadedContracts);
+            CompletedOrders = new ObservableCollection<JoinedOrder>(_dataService.GetCompletedOrders());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e + e.Source + e.StackTrace + e.InnerException);
+        }
     }
     #endregion
 
