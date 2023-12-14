@@ -111,8 +111,8 @@ namespace TMS.ViewModel
         {
             CompleteOrderCommand = new RelayCommand(CallCompleteOrder);
             AddCarrierCommand = new RelayCommand(AddCarrier);
-            ActiveOrdersTabCommand = new RelayCommand(RefreshOrdersTab);
-            OrdersTabCommand = new RelayCommand(RefreshActiveOrdersTab);
+            ActiveOrdersTabCommand = new RelayCommand(RefreshActiveOrdersTab);
+            OrdersTabCommand = new RelayCommand(RefreshOrdersTab);
             _TmsDbContext = new TmsDbContext();
             GetOrderTable();
             _dataService = new DataService();
