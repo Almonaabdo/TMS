@@ -11,8 +11,6 @@ public sealed class Invoice
     [Required]
     public int OrderId { get; set; }
     [Required]
-    public int RateId { get; set; }
-    [Required]
     public int Quantity { get; set; }
     [Required]
     public double Amount { get; set; }
@@ -24,8 +22,6 @@ public sealed class Invoice
 
     // Navigation properties
     public Order? Order { get; set; } // Assuming an Invoice is associated with one Order
-    public Rate? Rates { get; set; }
-
     // Navigation property for Customer
     public Customer? Customer { get; set; }
 }

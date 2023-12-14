@@ -129,7 +129,6 @@ namespace TMS_Project.DataLayer.Context
                 entity.HasKey(e => e.InvoiceId);
                 entity.Property(e => e.InvoiceId).ValueGeneratedOnAdd();
                 entity.Property(e => e.OrderId).IsRequired();
-                entity.Property(e => e.RateId).IsRequired();
                 entity.Property(e => e.Quantity).IsRequired();
                 entity.Property(e => e.Amount).IsRequired();
                 entity.Property(e => e.InvoiceDate).IsRequired();
@@ -138,11 +137,6 @@ namespace TMS_Project.DataLayer.Context
                 entity.HasOne(e => e.Order)
                     .WithOne(o => o.Invoices)
                     .HasForeignKey<Invoice>(e => e.OrderId);
-
-                // Relationship : An Invoice has one Rate
-                 entity.HasOne(e => e.Rates)
-                     .WithMany()
-                     .HasForeignKey(e => e.RateId);
 
                  // Relationship : An Invoice belongs to one Customer
                  entity.HasOne(e => e.Customer)
@@ -207,12 +201,6 @@ namespace TMS_Project.DataLayer.Context
                 entity.Property(e => e.RateId).ValueGeneratedOnAdd();
                 entity.Property(e => e.RateType).IsRequired();
                 entity.Property(e => e.Amount).IsRequired();
-
-                // Relationship : A Rate can be associated with multiple Invoices
-                entity.HasMany(e => e.Invoices).WithOne(i => i.Rates).HasForeignKey(e => e.RateId);
-
-
-
             });
 
             modelBuilder.Entity<Route>(entity =>
