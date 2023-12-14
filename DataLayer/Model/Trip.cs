@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography;
 
 namespace TMS_Project.DataLayer.Model
 {
@@ -11,9 +12,10 @@ namespace TMS_Project.DataLayer.Model
         public int CarrierId { get; set; }
         public TripStatus TripStatus { get; set; }
 
+        public double TripCost { get; set; }
+
         // Navigation properties
         [ForeignKey("OrderId")] public Order Order { get; set; }
-
         public Carrier Carrier { get; set; }
     }
 
