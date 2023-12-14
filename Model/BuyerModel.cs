@@ -20,7 +20,6 @@ public class BuyerModel
     }
 
 
-
     public Contract GetContracts()
     {
 
@@ -28,6 +27,13 @@ public class BuyerModel
         return contract;
     }
 
+
+    /*
+    * METHOD NAME: LoadContracts 
+    * DESCRIPTION: Gets list contracts from CMP from DB
+    * 
+    * RETURN: list of contracts
+    */
     public List<Contract> LoadContracts()
     {
 
@@ -53,69 +59,135 @@ public class BuyerModel
     }
 
 
+    /*
+    * METHOD NAME: AddCustomer
+    * DESCRIPTION: Adds a new customer to the DB if doesn't exist
+    * 
+    * RETURN: void
+    */
     public void AddCustomer(string name, string phoneNumber, string email)
     {
         var existingCustomer = _db.Customers?.FirstOrDefault(w => w.Email == email || w.PhoneNumber == phoneNumber);
 
-        if (existingCustomer == null)
+        try
         {
-            var newCustomer = new Customer();
+            //no existing customer, proceed with adding the customer
+            if (existingCustomer == null)
+            {
+                var newCustomer = new Customer();
 
-            newCustomer.Name = name;
-            newCustomer.PhoneNumber = phoneNumber;
-            newCustomer.Email = email;
-            int i = newCustomer.CustomerId;
+                newCustomer.Name = name;
+                newCustomer.PhoneNumber = phoneNumber;
+                newCustomer.Email = email;
+                int i = newCustomer.CustomerId;
 
-            _db.Customers?.Add(newCustomer);
-            _db.SaveChanges();
-            LoggerModel.LogInfo($"Customer added successfully: {name}");
+                _db.Customers?.Add(newCustomer);
+                _db.SaveChanges();
+                LoggerModel.LogInfo($"Customer added successfully: {name}");
+            }
+            else
+            {
+                LoggerModel.LogWarning("Couldn't Add Customer as it already exists");
+            }
         }
-        else
+        catch(Exception e)
         {
-            LoggerModel.LogWarning("Couldn't Add Customer as it already exists");
+
         }
+      
     }
 
 
+    /*
+    * METHOD NAME: DeleteCustomer
+    * DESCRIPTION: Deletes an existing customer from the DB if found
+    * 
+    * RETURN: void
+    */
     public void DeleteCustomer(int customerId)
     {
         // searching for the entered order
         var customer = _db.Customers?.Find(customerId);
 
-        if (customer != null)
+        try
         {
-            // remove order and save changes
-            _db.Customers?.Remove(customer);
-            _db.SaveChanges();
+            if (customer != null)
+            {
+                // remove order and save changes
+                _db.Customers?.Remove(customer);
+                _db.SaveChanges();
+            }
+            else
+            {
+                LoggerModel.LogWarning("Error Can't find specified Carrier");
+            }
         }
-        else
-        {
-            LoggerModel.LogWarning("Error Can't find specified Carrier");
+        catch (Exception e) 
+        { 
+
         }
+       
     }
 
+
+    /*
+    * METHOD NAME: GetCity 
+    * DESCRIPTION: Converts string city to City
+    * 
+    * RETURN: city
+    */
     public City? GetCity(string cityName)
     {
         var city = _db.Cities?.FirstOrDefault(c => c.CityName == cityName);
         return city;
     }
 
+
+    /*
+    * METHOD NAME: FindCustomerByName
+    * DESCRIPTION: Finds string customer from Customer DB
+    * 
+    * RETURN: customer
+    */
     public Customer? FindCustomerByName(string customerName)
     {
-        return _db.Customers?.SingleOrDefault(c => c.Name == customerName);
+        var customer = _db.Customers?.SingleOrDefault(c => c.Name == customerName);
+        return customer;
     }
 
+
+    /*
+    * METHOD NAME: CreateCustomer
+    * DESCRIPTION: Creates a new customer to be added to the DB
+    * 
+    * RETURN: void
+    */
     public void CreateCustomer(string name)
     {
-        var newCustomer = new Customer
+        try
         {
-            Name = name
-        };
+            var newCustomer = new Customer
+            {
+                Name = name
+            };
 
-        _db.Customers?.Add(newCustomer);
-        _db.SaveChanges();
+            _db.Customers?.Add(newCustomer);
+            _db.SaveChanges();
+        }
+        catch(Exception e)
+        {
+
+        }
+        
     }
 
+
+    /*
+    * METHOD NAME: GetCompletedOrders 
+    * DESCRIPTION: Gets list of completed orders from DB
+    * 
+    * RETURN: list of completed orders
+    */
     public List<Order> GetCompletedOrders()
     {
         return _db.Orders?.Where(order => order.OrderStatus == OrderStatus.Completed).ToList() ?? throw new InvalidOperationException();

@@ -26,9 +26,13 @@ public class LoggerModel
     /// </summary>
     public static LoggerModel Instance => LazyInstance.Value;
 
-    /// <summary>
-    ///     Method to handle Nlog settings, logs all log levels to specified file
-    /// </summary>
+   
+    /*
+    * METHOD NAME: ConfigLog
+    * DESCRIPTION: Method to handle Nlog settings, logs all log levels to specified file
+    *
+    * RETURN: void
+    */
     public static void ConfigLog()
     {
         IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -56,58 +60,74 @@ public class LoggerModel
     }
 
 
-    /// <summary>
-    ///     Method to log all levels to file
-    /// </summary>
-    /// <param name="logLevel"></param>
-    /// <param name="message"></param>
+    /*
+    * METHOD NAME: Log
+    * DESCRIPTION: Method to log all levels to file
+    *
+    * RETURN: void
+    */
     private static void Log(CustomLogLevel logLevel, string message)
     {
         var logEntry = $"{message}";
         Logger.Log(logLevel.ToNlogLevel(), logEntry);
     }
 
-    /// <summary>
-    ///     Method to log informational message with timestamp
-    /// </summary>
-    /// <param name="message">The message to be logged</param>
+
+    /*
+    * METHOD NAME: LogInfo
+    * DESCRIPTION: Method to log informational message with timestamp
+    *
+    * RETURN: void
+    */
     public static void LogInfo(string message)
     {
         Log(CustomLogLevel.Info, message);
     }
 
-    /// <summary>
-    ///     Method to log warning messages with timestamp
-    /// </summary>
-    /// <param name="message">The warning message to be logged as string</param>
+
+    /*
+    * METHOD NAME: LogWarning
+    * DESCRIPTION: Method to log warning messages with timestamp
+    *
+    * RETURN: void
+    */
     public static void LogWarning(string message)
     {
         Log(CustomLogLevel.Warn, message);
     }
 
-    /// <summary>
-    ///     Method to log error messages
-    /// </summary>
-    /// <param name="message">The error message to be logged as string</param>
+
+    /*
+    * METHOD NAME: LogError
+    * DESCRIPTION: Method to log error messages
+    *
+    * RETURN: void
+    */
     public static void LogError(string message)
     {
         Log(CustomLogLevel.Error, message);
     }
 
-    /// <summary>
-    ///     Method to log exceptions
-    /// </summary>
-    /// <param name="ex">The exception to be logged</param>
-    /// <param name="message"> The additional message to be logged</param>
+
+    /*
+    * METHOD NAME: LogException
+    * DESCRIPTION: Method to log exceptions
+    *
+    * RETURN: void
+    */
     public static void LogException(string message)
     {
         Log(CustomLogLevel.Error, $"Exception details: {message}");
     }
 }
 
-/// <summary>
-///     Enum of the possible log levels
-/// </summary>
+
+/*
+* METHOD NAME: CustomLogLevel
+* DESCRIPTION: Enum of the possible log levels
+*
+* RETURN: void
+*/
 public enum CustomLogLevel
 {
     Info,
@@ -115,17 +135,18 @@ public enum CustomLogLevel
     Error
 }
 
+
 /// <summary>
 ///     Class to handle conversion of Custom log levels to Nlog levels
 /// </summary>
 internal static class LogLevelExt
 {
-    /// <summary>
-    ///     Convert custom log level to Nlog equivalent log level
-    /// </summary>
-    /// <param name="logLevel">The customer log level to convert</param>
-    /// <returns>The corresponding Nlog log level</returns>
-    /// <exception cref="ArgumentException">Is thrown when an unknown log level is provided</exception>
+    /*
+    * METHOD NAME: ToNlogLevel
+    * DESCRIPTION: Convert custom log level to Nlog equivalent log level
+    *
+    * RETURN: loglevel 
+    */
     public static LogLevel ToNlogLevel(this CustomLogLevel logLevel)
     {
         return logLevel switch
