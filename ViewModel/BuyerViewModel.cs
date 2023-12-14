@@ -11,12 +11,13 @@ using TMS_Project.Model;
 
 namespace TMS_Project.ViewModel;
 
-public class BuyerViewModel: ViewModelBase
+public class BuyerViewModel : ViewModelBase
 {
     #region Fields
 
     public IEnumerable<Contract>? ContractData { get; private set; }
     public ICommand CreateOrderCommand { get; }
+    public ICommand ProcessInvoiceCommand { get; }
     private ObservableCollection<JoinedOrder> _completedOrders;
     public ObservableCollection<JoinedOrder> CompletedOrders
     {
@@ -31,7 +32,8 @@ public class BuyerViewModel: ViewModelBase
     private readonly BuyerModel _buyerModel;
     private readonly DataService _dataService;
     public LogInViewModel LogInViewModel { get; private set; } = new();
-    private readonly OrderModel _orderModelObject;  
+    private readonly OrderModel _orderModelObject;
+    private readonly InvoiceGeneratorModel _invoiceModel;
 
 
     private Contract _selectedContract;
@@ -44,7 +46,20 @@ public class BuyerViewModel: ViewModelBase
             OnPropertyChanged(nameof(SelectedContract));
         }
     }
- 
+
+
+
+    private JoinedOrder _selectedOrder;
+    public JoinedOrder SelectedOrder
+    {
+        get => _selectedOrder;
+        set
+        {
+            _selectedOrder = value;
+            OnPropertyChanged(nameof(SelectedOrder));
+        }
+    }
+
     #endregion
 
     #region Constructor
@@ -52,10 +67,14 @@ public class BuyerViewModel: ViewModelBase
     public BuyerViewModel()
     {
         _buyerModel = new BuyerModel(_tmsDbContext);
-      
+
         CreateOrderCommand = new RelayCommand(CallCreateOrder);
+        ProcessInvoiceCommand = new RelayCommand(CallProcessInvoice);
+
+
         _orderModelObject = new OrderModel(_tmsDbContext);
-        _dataService = new DataService(); 
+        _dataService = new DataService();
+        _invoiceModel = new InvoiceGeneratorModel();
         LoadData();
     }
 
@@ -121,5 +140,24 @@ public class BuyerViewModel: ViewModelBase
 
 
 
-   
+    private void CallProcessInvoice()
+    {
+        try
+        {
+            if (SelectedOrder != null)
+            {
+                _invoiceModel.GenerateInvoice(SelectedOrder);
+
+                MessageBox.Show($"Successfully Created Invoice for {SelectedOrder.OrderId}");
+            }
+            else
+            {
+                MessageBox.Show($"Couldn't Create invoice for this specified order");
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error {ex.Message}");
+        }
+    }
 }
