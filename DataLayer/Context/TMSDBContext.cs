@@ -15,7 +15,6 @@ namespace TMS_Project.DataLayer.Context
         public DbSet<Trip>? Trips { get; set; }
         public DbSet<Rate>? Rates { get; set; }
         public DbSet<Route>? Routes { get; set; }
-        public DbSet<LogFile>? LogFiles { get; set; }
         public DbSet<Invoice>? Invoice { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -133,21 +132,7 @@ namespace TMS_Project.DataLayer.Context
                      .HasForeignKey((e => e.CustomerId));
             });
 
-            // Configuration for the 'LogFile' entity.
-            modelBuilder.Entity<LogFile>(entity =>
-            {
-                entity.ToTable("LogFile");
-                entity.HasKey(e => e.LogId);
-                entity.Property(e => e.LogId).ValueGeneratedOnAdd();
-                entity.Property(e => e.UserId).IsRequired();
-                entity.Property(e => e.LogDetails).IsRequired();
-                entity.Property(e => e.LogTimeStamp).IsRequired();
-
-                // Relationship : A LogFile belongs to one User
-                entity.HasOne(e => e.Users)
-                    .WithMany(u => u.LogFiles)
-                    .HasForeignKey(e => e.UserId);
-            });
+          
 
             // Configuration for the 'Orders' entity.
             modelBuilder.Entity<Order>(entity =>
@@ -236,9 +221,6 @@ namespace TMS_Project.DataLayer.Context
                 entity.Property(e => e.Username).IsRequired();
                 entity.Property(e => e.Password).IsRequired();
                 entity.Property(e => e.UserType).IsRequired();
-
-                // Relationship: Each user can have multiple log files
-                entity.HasMany(e => e.LogFiles).WithOne(l => l.Users).HasForeignKey(l => l.UserId);
             });
         }
     }
