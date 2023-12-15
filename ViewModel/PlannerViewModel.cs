@@ -90,6 +90,9 @@ namespace TMS.ViewModel
 
         public ICommand ActiveOrdersTabCommand { get; }
 
+        public ICommand TwoWeeksTimeCommand { get; }
+
+        public ICommand AllTimeCommand { get; }
 
         private DataService _dataService { get; }
 
@@ -98,6 +101,7 @@ namespace TMS.ViewModel
 
         private CarrierViewModel _carrierViewModel { get; }
         public ObservableCollection<Order> OrderData { get; private set; } = null!;
+        public ObservableCollection<Invoice> Invoices { get; private set; } = null!;
 
         public ObservableCollection<Carrier> CarrierData { get; private set; } = null!;
 
@@ -125,6 +129,7 @@ namespace TMS.ViewModel
             GetDistinctCarrierNames();
             GetPendingOrders();
             GetInProgressOrders();
+            GetAllTimeInvoices();
         }
 
         #endregion
@@ -174,6 +179,20 @@ namespace TMS.ViewModel
             //Store the observable collection to OrderData
             OrderData = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus == OrderStatus.Pending).ToList() ?? throw new InvalidOperationException());
         }
+
+        /*
+       * METHOD NAME: GetAllTimeInvoices
+       * DESCRIPTION: Gets all time invoices
+       * 
+       * RETURN: void
+       */
+        public void GetAllTimeInvoices()
+        {
+            //Store the observable collection to OrderDataInProgress
+            Invoices = new ObservableCollection<Invoice>(_TmsDbContext.Invoice?.ToList() ?? throw new InvalidOperationException());
+        }
+
+
 
 
         /*
