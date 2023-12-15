@@ -418,8 +418,6 @@ namespace TMS_Project.ViewModel
 
                 }
                 
-
-                
                 //If second carrier not null do the following
                 if (AnotherSelectedCarrier != null)
                 {
