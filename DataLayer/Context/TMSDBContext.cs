@@ -165,6 +165,11 @@ namespace TMS_Project.DataLayer.Context
                     .WithOne(e => e.Order)
                     .HasForeignKey<Invoice>(i => i.OrderId)
                     .IsRequired();
+
+                entity.HasOne(o => o.Carrier)
+                    .WithMany(o => o.Orders)
+                    .HasForeignKey(o => o.CarrierId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
 

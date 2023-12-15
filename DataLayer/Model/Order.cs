@@ -13,10 +13,12 @@ namespace TMS_Project.DataLayer.Model
         public int CustomerId { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public DateTime DateInitiated { get; set; }
+
         public DateTime? DateCompleted { get; set; }
+
         //public string? ClientName { get; set; }
-       public JobType? JobType { get; set; }
-       public VanType VanType { get; set; }
+        public JobType? JobType { get; set; }
+        public VanType VanType { get; set; }
         public double Quantity { get; set; }
 
         // Foreign keys for source and destination
@@ -27,7 +29,8 @@ namespace TMS_Project.DataLayer.Model
         public Customer? Customer { get; set; }
         public City? SourceCity { get; set; }
         public City? DestinationCity { get; set; }
-
+        public int? CarrierId { get; set; }
+        public virtual Carrier? Carrier { get; set; }
         public virtual ICollection<Trip> Trips { get; set; } = new List<Trip>();
         public Invoice? Invoices { get; set; }
     }

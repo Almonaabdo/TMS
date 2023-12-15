@@ -21,7 +21,7 @@ public class Carrier
     // percentage referring to extra cost if its freezer truck
     public double ReefCharge { get; set; }
 
-
+    public ICollection<Order> Orders { get; set; } = new List<Order>();
 
     // Navigational properties
     public ICollection<Trip> Trips { get; set; } = new List<Trip>();
