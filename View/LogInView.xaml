@@ -40,7 +40,7 @@
             <PasswordBox HorizontalAlignment="Center"  Margin="0,226,0,0" VerticalAlignment="Top" Width="120" x:Name="PasswordBox" Password=""/>
 
             <TextBlock HorizontalAlignment="Center" Margin="0,282,0,0" TextWrapping="Wrap" Text="{Binding LoginMessage}" VerticalAlignment="Top" FontSize="9" Foreground="Red" FontWeight="Regular" />
-            <Button Content="Log In" Command="{Binding LoginCommand}" HorizontalAlignment="Center" Margin="0,259,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="68" Height="23"/>
+            <Button Content="Log In" Command="{Binding LoginCommand}" HorizontalAlignment="Center" Margin="0,259,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="68" Height="23" Background="AliceBlue"/>
 
         </Grid>
     </Viewbox>
