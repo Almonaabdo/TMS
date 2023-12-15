@@ -18,17 +18,17 @@ namespace TMS_Project.ViewModel
         public IEnumerable<Contract>? ContractData { get; private set; }
         public ICommand CreateOrderCommand { get; }
         public ICommand ProcessInvoiceCommand { get; }
-        private ObservableCollection<JoinedOrder> _completedOrders;
+        private ObservableCollection<JoinedOrder>? _completedOrders;
         private readonly BuyerModel _buyerModel;
-        private readonly DataService _dataService;
+        private readonly AdminServices _adminServices;
         public LogInViewModel LogInViewModel { get; private set; } = new();
         private readonly OrderModel _orderModelObject;
         private readonly InvoiceGeneratorModel _invoiceModel;
-        private Contract _selectedContract; 
+        private Contract? _selectedContract; 
         #endregion
 
         #region Properties
-        public ObservableCollection<JoinedOrder> CompletedOrders 
+        public ObservableCollection<JoinedOrder>? CompletedOrders 
         { 
             get => _completedOrders; 
             set 
@@ -46,7 +46,7 @@ namespace TMS_Project.ViewModel
                 OnPropertyChanged(nameof(CurrentDate));
             }
         }
-        public Contract SelectedContract
+        public Contract? SelectedContract
         {
             get => _selectedContract;
             set
@@ -56,9 +56,9 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        private JoinedOrder _selectedOrder;
+        private JoinedOrder? _selectedOrder;
 
-        public JoinedOrder SelectedOrder
+        public JoinedOrder? SelectedOrder
         {
             get => _selectedOrder;
             set
@@ -80,7 +80,7 @@ namespace TMS_Project.ViewModel
 
             CurrentDate = DateTime.Today;
             _orderModelObject = new OrderModel();
-            _dataService = new DataService();
+            _adminServices = new AdminServices();
             _invoiceModel = new InvoiceGeneratorModel();
             LoadData();
         }
@@ -101,7 +101,7 @@ namespace TMS_Project.ViewModel
             {
                 var loadedContracts = _buyerModel.LoadContracts();
                 ContractData = new ObservableCollection<Contract>(loadedContracts);
-                CompletedOrders = new ObservableCollection<JoinedOrder>(_dataService.GetCompletedOrders());
+                CompletedOrders = new ObservableCollection<JoinedOrder>(_adminServices.GetCompletedOrders());
             }
             catch (Exception e)
             {
@@ -124,7 +124,7 @@ namespace TMS_Project.ViewModel
             try
             {
                 // Check if destination is valid, Get the destination city of the contract
-                if (SelectedContract.Destination == null)
+                if (SelectedContract?.Destination == null)
                 {
                     _loggerModel.LogError("Destination for contract is null");
                     return; // Exit method if the destination is null
@@ -160,8 +160,9 @@ namespace TMS_Project.ViewModel
                 if (customer == null)
                 {
                     customer = _orderModelObject.CreateCustomer(SelectedContract.Client_Name);
-                    _orderModelObject.CreateOrder(contractDestCity, contractOriginCity, customer.CustomerId,
-                        SelectedContract.Job_Type, SelectedContract.Quantity, SelectedContract.Van_Type);
+                    if (customer != null)
+                        _orderModelObject.CreateOrder(contractDestCity, contractOriginCity, customer.CustomerId,
+                            SelectedContract.Job_Type, SelectedContract.Quantity, SelectedContract.Van_Type);
                 }
                 else // If customer exists, create order only
                 {
@@ -197,36 +198,32 @@ namespace TMS_Project.ViewModel
             try
             {
                 // Retrieve necessary information from the selected order
-                var orderId = SelectedOrder.OrderId;
-                var customerId = SelectedOrder.CustomerId;
-                var tripCost = SelectedOrder.TripCost;
-                var origin = SelectedOrder.Origin;
-                var destination = SelectedOrder.Destination;
-
-                // Check if destination and origin are valid
-                if (destination == null || origin == null)
+                if (SelectedOrder != null)
                 {
-                    _loggerModel.LogError("Invalid destination or origin for the selected order");
-                    return; // Exit method if destination or origin is null
-                }
+                    var orderId = SelectedOrder.OrderId;
+                    var customerId = SelectedOrder.CustomerId;
+                    var tripCost = SelectedOrder.TripCost;
+                    var origin = SelectedOrder.Origin;
+                    var destination = SelectedOrder.Destination;
 
-                // Generate invoice
-                var invoice = _invoiceModel.GenerateInvoice(orderId, customerId, tripCost, destination, origin);
+                    // Generate invoice
+                    var invoice = _invoiceModel.CreateInvoice(orderId, customerId, tripCost, destination, origin);
 
-                if (invoice != null)
-                {
-                    // Show success message
-                    MessageBox.Show("Invoice generated successfully.", "Success", MessageBoxButton.OK,
-                        MessageBoxImage.Information);
+                    if (invoice != null)
+                    {
+                        // Show success message
+                        MessageBox.Show("Invoice generated successfully.", "Success", MessageBoxButton.OK,
+                            MessageBoxImage.Information);
 
-                    // Generate text file for the invoice
-                    _invoiceModel.GenerateTxt(invoice);
-                }
-                else
-                {
-                    // Show a message if invoice generation fails
-                    MessageBox.Show("Failed to generate invoice.", "Error", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                        // Generate text file for the invoice
+                        _invoiceModel.GenerateTxtInvoice(invoice);
+                    }
+                    else
+                    {
+                        // Show a message if invoice generation fails
+                        MessageBox.Show("Failed to generate invoice.", "Error", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+                    }
                 }
             }
             catch (Exception ex)
