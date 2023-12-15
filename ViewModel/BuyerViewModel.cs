@@ -28,6 +28,7 @@ public class BuyerViewModel : ViewModelBase
             OnPropertyChanged(nameof(CompletedOrders));
         }
     }
+
     private readonly TmsDbContext _tmsDbContext = DbContextSingleton.Instance;
     private readonly BuyerModel _buyerModel;
     private readonly DataService _dataService;
@@ -66,13 +67,13 @@ public class BuyerViewModel : ViewModelBase
 
     public BuyerViewModel()
     {
-        _buyerModel = new BuyerModel(_tmsDbContext);
+        _buyerModel = new BuyerModel();
 
         CreateOrderCommand = new RelayCommand(CallCreateOrder);
         ProcessInvoiceCommand = new RelayCommand(CallProcessInvoice);
 
 
-        _orderModelObject = new OrderModel(_tmsDbContext);
+        _orderModelObject = new OrderModel();
         _dataService = new DataService();
         _invoiceModel = new InvoiceGeneratorModel();
         LoadData();
@@ -82,6 +83,12 @@ public class BuyerViewModel : ViewModelBase
 
     #region Methods
 
+    /*
+    * METHOD NAME: LoadData
+    * DESCRIPTION: Gets the contracts and orders from the DB
+    * 
+    * RETURN: void
+    */
     private void LoadData()
     {
         try
@@ -97,6 +104,13 @@ public class BuyerViewModel : ViewModelBase
     }
     #endregion
 
+
+    /*
+    * METHOD NAME: CallCreateOrder
+    * DESCRIPTION: Accepts an order from a customer fromthe CMP 
+    * 
+    * RETURN: void
+    */
     private void CallCreateOrder()
     {
         try
@@ -139,7 +153,12 @@ public class BuyerViewModel : ViewModelBase
     }
 
 
-
+    /*
+    * METHOD NAME: CallProcessInvoice
+    * DESCRIPTION: Processes an invoice for a completed order
+    * 
+    * RETURN: void
+    */
     private void CallProcessInvoice()
     {
         try

@@ -11,13 +11,11 @@ using System.Linq;
 
 public class BuyerModel
 {
-    private readonly TmsDbContext _db;
+    private readonly TmsDbContext _db = DbContextSingleton.Instance;
     private readonly ContractMarketPlaceDbContext _cdb = new ContractMarketPlaceDbContext();
     private readonly LoggerModel _loggerModel = LoggerModel.Instance;
-    public BuyerModel(TmsDbContext context)
+    public BuyerModel()
     {
-
-        _db = context;
     }
 
 

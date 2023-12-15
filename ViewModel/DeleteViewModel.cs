@@ -173,6 +173,13 @@ namespace TMS_Project.ViewModel
 
         #region Methods
 
+
+        /*
+        * METHOD NAME: LoadTableData
+        * DESCRIPTION: Displays data in the specified table 
+        * 
+        * RETURN: void
+        */
         private void LoadTableData()
         {
             switch (SelectedDeleteOption)
@@ -204,6 +211,13 @@ namespace TMS_Project.ViewModel
             }
         }
 
+
+        /*
+        * METHOD NAME: DeleteData
+        * DESCRIPTION: Deletes a row of data in the specified table
+        * 
+        * RETURN: void
+        */
         private void DeleteData()
         {
             try
@@ -236,6 +250,13 @@ namespace TMS_Project.ViewModel
             }
         }
 
+
+        /*
+        * METHOD NAME: DeleteRows
+        * DESCRIPTION: Asks the user to confirm table row data deletion
+        * PARAM: tableID - uses tableID to locate the row to be deleted
+        * RETURN: void
+        */
         private void DeleteRows<T>(string tableId) where T : class
         {
             try
