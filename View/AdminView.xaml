@@ -136,7 +136,7 @@
                                     <DataGrid Name="RouteTable" ItemsSource="{Binding RateRouteViewModel.RouteData}" Background="Azure"
                                               IsReadOnly="False"
                                               HorizontalAlignment="Center" VerticalAlignment="Top"
-                                              Width="418" Height="351" Margin="0,10,0,0" />
+                                              Width="444" Height="351" Margin="0,10,0,0" />
                                     <Button Content="Save Changes" Command="{Binding RateRouteViewModel.SaveRouteCommand}" Height="30"
                                             Width="110"
                                             Background="Azure" FontWeight="Bold" FontSize="15"
@@ -150,9 +150,9 @@
                             <TabItem Header="Edit Rate/Fee" Background="#304674">
                                 <Grid Background="#304674">
                                     <DataGrid ItemsSource="{Binding RateRouteViewModel.RateData}" Background="Azure"
-                                              IsReadOnly="False" HorizontalAlignment="Center" VerticalAlignment="Top" Height="313" Width="834" Margin="0,10,0,0" />
+                                              IsReadOnly="False" HorizontalAlignment="Center" VerticalAlignment="Top" Height="351" Width="445" Margin="0,10,0,0" />
                                     <Button Content="Save Changes" Command="{Binding RateRouteViewModel.SaveRouteCommand}" Height="30" Width="110"
-                                            Background="Azure" FontWeight="Bold" FontSize="15" Margin="378,365,363,10" />
+                                            Background="Azure" FontWeight="Bold" FontSize="15" Margin="0,366,0,10" HorizontalAlignment="Center" />
                                 </Grid>
                             </TabItem>
 
@@ -185,20 +185,20 @@
                                     <DataGrid ItemsSource="{Binding DeleteViewModel.CarrierTable}"
                                               AutoGenerateColumns="True" SelectionMode="Single" SelectedItem="{Binding DeleteViewModel.SelectedCarrier}"
                                               MaxHeight="310" HorizontalAlignment="Center" VerticalAlignment="Top"
-                                              Height="295" Width="614" Margin="0,60,0,0" Visibility="{Binding DeleteViewModel.IsCarrierTableVisible}" />
+                                              Height="300" Width="614" Margin="0,60,0,0" Visibility="{Binding DeleteViewModel.IsCarrierTableVisible}" />
 
                                     <DataGrid ItemsSource="{Binding DeleteViewModel.RouteTable}"
                                               AutoGenerateColumns="True" SelectionMode="Single" SelectedItem="{Binding DeleteViewModel.SelectedRoute}"
                                               MaxHeight="310" HorizontalAlignment="Center" VerticalAlignment="Top"
-                                              Height="295" Width="614" Margin="0,60,0,0" Visibility="{Binding DeleteViewModel.IsRouteTableVisible}" />
+                                              Height="300" Width="614" Margin="0,60,0,0" Visibility="{Binding DeleteViewModel.IsRouteTableVisible}" />
 
                                     <DataGrid ItemsSource="{Binding DeleteViewModel.RateTable}"
                                               AutoGenerateColumns="True" SelectionMode="Single" SelectedItem="{Binding DeleteViewModel.SelectedRate}"
                                               MaxHeight="310" HorizontalAlignment="Center" VerticalAlignment="Top"
-                                              Height="295" Width="614" Margin="0,60,0,0" Visibility="{Binding DeleteViewModel.IsRateTableVisible}" />
+                                              Height="300" Width="614" Margin="0,60,0,0" Visibility="{Binding DeleteViewModel.IsRateTableVisible}" />
 
                                     <Button Content="Delete Selected Rows" Background="Azure" FontWeight="Bold"
-                                            FontSize="15" Height="35" Width="200"
+                                            FontSize="15" Height="30" Width="200"
                                             Command="{Binding DeleteViewModel.DeleteCommand}"
                                             HorizontalAlignment="Center" Margin="0,361,0,10" />
                                 </Grid>
@@ -233,8 +233,8 @@
                                     </StackPanel>
                                     <Button Content="Add" Background="Azure" HorizontalAlignment="Center"
                                             VerticalAlignment="Top" FontWeight="Bold" FontSize="15"
-                                            Command="{Binding CarrierViewModel.CreateCarrierCommand}" Height="50"
-                                            Width="140" Margin="0,340,0,0" />
+                                            Command="{Binding CarrierViewModel.CreateCarrierCommand}" Height="30"
+                                            Width="150" Margin="0,361,0,0" />
                                 </Grid>
                             </TabItem>
                         </TabControl>
@@ -248,19 +248,19 @@
                             <!-- Remote DB Tab -->
                             <TabItem Header="Remote DB" Background="#304674">
                                 <!-- Remote DB Tab Content -->
-                                <StackPanel Margin="10">
-                                    <TextBlock Text="Test Database Connection" Foreground="Black" Margin="0,0,0,10" />
-                                    <Label Content="Server" />
-                                    <TextBox Margin="0,0,0,10" Text="{Binding Server}" />
-                                    <Label Content="Port" />
-                                    <TextBox Margin="0,0,0,10" Text="{Binding Port}" />
-                                    <Label Content="Database"  />
-                                    <TextBox Margin="0,0,0,10" Text="{Binding Database}" />
-                                    <Label Content="Username"  />
-                                    <TextBox Margin="0,0,0,10" Text="{Binding Username}" />
-                                    <Label Content="Password" />
-                                    <TextBox Margin="0,0,0,10" Text="{Binding Password}" />
-                                    <Button Content="Test Connection" Command="{Binding TestDbCommand}" />
+                                <StackPanel Background="#304674">
+                                    <TextBlock Text="Test Database Connection" Foreground="Azure" Margin="0,10,0,10" Width="251" FontWeight="Bold" FontSize="20"/>
+                                    <Label Content="Server" Width="760"/>
+                                    <TextBox Margin="0,0,0,10" Text="{Binding Server}" Width="760" />
+                                    <Label Content="Port" Width="760"/>
+                                    <TextBox Margin="0,0,0,10" Text="{Binding Port}" Width="760" />
+                                    <Label Content="Database" Width="760" />
+                                    <TextBox Margin="0,0,0,10" Text="{Binding Database}" Width="760" />
+                                    <Label Content="Username"  Width="760"/>
+                                    <TextBox Margin="0,0,0,10" Text="{Binding Username}" Width="760" />
+                                    <Label Content="Password" Width="760" />
+                                    <TextBox Margin="0,0,0,10" Text="{Binding Password}" Width="760"/>
+                                    <Button Content="Test Connection" Command="{Binding TestDbCommand}" Width="200" Height="30" Background="AliceBlue" FontSize="15" FontWeight="Bold" Margin="0,10,0,0"/>
                                 </StackPanel>
                             </TabItem>
                         </TabControl>
