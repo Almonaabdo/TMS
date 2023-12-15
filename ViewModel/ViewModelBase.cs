@@ -9,7 +9,7 @@ public class ViewModelBase : INotifyPropertyChanged
 
     /*
     * METHOD NAME: OnPropertyChanged
-    * DESCRIPTION: Dyanmically changes the value displaying
+    * DESCRIPTION: Raises the PropertyChanged event for the specified property name.
     * 
     * RETURN: void
     */
