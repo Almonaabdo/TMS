@@ -8,14 +8,6 @@ namespace TMS_Project.Model;
 
 public class PlannerModel
 {
-    private readonly TmsDbContext _db;
-    private readonly LoggerModel _loggerModel = LoggerModel.Instance;
-
-    // default constructor
-    public PlannerModel()
-    {
-        _db = new TmsDbContext();
-    }
 
 
     /*
@@ -24,14 +16,14 @@ public class PlannerModel
     * 
     * RETURN: carrier if found, null otherwise
     */
-    public Carrier? GetCarrier(string companyName, string originCityy)
+    public Carrier? GetCarrier(string? companyName, string originCityy)
     {
         try
         {
-            var carrier = _db.Carriers?.FirstOrDefault(e => e.CompanyName == companyName && e.DepotCity == originCityy);
+            var carrier = DbContextSingleton.Instance.Carriers?.FirstOrDefault(e => e.CompanyName == companyName && e.DepotCity == originCityy);
             if (carrier != null)
             {
-                _loggerModel.LogInfo($" Carrier {carrier.CompanyName} found");
+                LoggerModel.Instance.LogInfo($" Carrier {carrier.CompanyName} found");
                 return carrier;
 
             }
@@ -40,7 +32,7 @@ public class PlannerModel
 
         catch
         {
-            _loggerModel.LogError("Finding carrier failed");
+            LoggerModel.Instance.LogError("Finding carrier failed");
             MessageBox.Show("Finding carrier failed");
             return null;
         }
@@ -58,10 +50,10 @@ public class PlannerModel
     {
         try
         {
-            var carrier = _db.Carriers?.FirstOrDefault(e => e.DepotCity == originCityy);
+            var carrier = DbContextSingleton.Instance.Carriers?.FirstOrDefault(e => e.DepotCity == originCityy);
             if (carrier != null)
             {
-                _loggerModel.LogInfo($" Carrier {carrier.CompanyName} found");
+                LoggerModel.Instance.LogInfo($" Carrier {carrier.CompanyName} found");
                 return carrier;
 
             }
@@ -70,7 +62,7 @@ public class PlannerModel
 
         catch
         {
-            _loggerModel.LogError("Finding carrier failed");
+            LoggerModel.Instance.LogError("Finding carrier failed");
             MessageBox.Show("Finding carrier failed");
             return null;
         }
@@ -84,21 +76,30 @@ public class PlannerModel
     * 
     * RETURN: void
     */
-    public void AddTripToOrder(int orderId, Trip newTrip)
+    public void AddTripToOrder(int orderId,Order? order, Carrier carrier, double cost)
     {
         // find specified order.
-        var order = _db.Orders?.Find(orderId);
+         order = DbContextSingleton.Instance.Orders?.Find(orderId);
 
         if (order != null)
         {
             try
             {
+                 Trip trip = new Trip
+                 {
+                     OrderId = orderId,
+                     Order = order,
+                     Carrier = carrier,
+                     CarrierId = carrier.CarrierId,
+                     TripCost = cost
+                 };
+
                 //Change order status and add the new trip to order
                 order.OrderStatus = OrderStatus.InProgress;
-                order.Trips.Add(newTrip);
+                order.Trips.Add(trip);
                 //Save changes from database
-                _db.SaveChanges();
-                _loggerModel.LogInfo("Succesfully attached a trip to the order");
+                DbContextSingleton.Instance.SaveChanges();
+                LoggerModel.Instance.LogInfo("Successfully attached a trip to the order");
             }
 
             catch(Exception e)
@@ -110,7 +111,7 @@ public class PlannerModel
         else
         {
             MessageBox.Show("order null");
-            _loggerModel.LogError("Info: Can't Add Trip to Order! Specified Order Wasn't Found In Database.");
+            LoggerModel.Instance.LogError("Info: Can't Add Trip to Order! Specified Order Wasn't Found In Database.");
         }
     }
 
