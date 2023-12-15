@@ -1,6 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Security.Principal;
 using System.Windows;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using NLog;
 using TMS_Project.DataLayer.Context;
 using TMS_Project.DataLayer.Model;
@@ -24,36 +28,48 @@ public class InvoiceGeneratorModel
     /// <param name="tripCost"></param>
     /// <param name="customerId"></param>
     /// <returns></returns>
-    public Invoice GenerateInvoice(string orderId, string tripCost, string customerId)
+    public Invoice GenerateInvoice(string orderId)
     {
         try
         {
-            if (int.TryParse(orderId, out var idOrder) && double.TryParse(tripCost, out var cost) && int.TryParse(customerId, out var idCustomer))
+            if (int.TryParse(orderId, out var id))
             {
-                Console.WriteLine($"Parsed values: idOrder={idOrder}, cost={cost}, idCustomer={idCustomer}");
-                var newInvoice = new Invoice
+                try
                 {
-                    OrderId = idOrder,
-                    CustomerId = idCustomer,
-                    Amount = cost,
-                    InvoiceDate = DateTime.Now,
-                };
+                    if (_dbContext.Orders != null)
+                    {
+                        var order = _dbContext.Orders.FirstOrDefault(o => o.OrderId == id);
 
-                _dbContext.Invoice?.Add(newInvoice);
-                Console.WriteLine("Added new invoice");
-                _dbContext.SaveChanges();
-                Console.WriteLine("Saved changes");
+                        if (order != null)
+                        {
+                            var invoice = new Invoice
+                            {
+                                OrderId = order.OrderId,
+                                //Amount
+                                DateCompleted = (DateTime)order.DateCompleted!,
+                                JobType = order.JobType,
+                                VanType = order.VanType,
+                                Quantity = order.Quantity,
+
+
+                            };
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                } 
             }
-            else
-            {
-                Console.WriteLine("Not working, its null");
-            }
-            
+
+
                
+              
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error creating invoice: {ex.Message}");
+            Console.WriteLine($"Error creating invoice: {ex.InnerException}");
         }
 
         return null!;
@@ -68,37 +84,63 @@ public class InvoiceGeneratorModel
     {
         if (invoice == null)
         {
-            Console.WriteLine("Invalid invoice");
+            _loggerModel.LogError("Invoice is null.");
+            return;
         }
 
-        string filePath = $"Invoice_{invoice.InvoiceId}.txt"; // Generate file path based on invoice id
+        var config = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .Build();
 
-        try
+     //   var invoicePath = config["Invoice:InvoicePath"];
+        var invoicePath = "C:\\Users\\Yafet\\OneDrive\\Desktop\\TMS\\bin\\Debug\\net6.0-windows\\Invoice";
+
+        if (!string.IsNullOrEmpty(invoicePath))
         {
-            using (StreamWriter writer = new StreamWriter(filePath))                            
+            var filePath = Path.Combine(invoicePath, $"Invoice_{invoice.InvoiceId}.txt");
+
+            try
             {
-                // Header
-                writer.WriteLine($"Invoice ID: {invoice.InvoiceId}");
-                writer.WriteLine($"Date: {DateTime.Now}");
-                writer.WriteLine();
+                // Ensure the directory exists before writing the file
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath) ?? throw new InvalidOperationException());
 
-                // Order details
-                writer.WriteLine("Order details:");
-                writer.WriteLine($"Order ID: {invoice.OrderId}");
-                writer.WriteLine($"Customer ID: {invoice.CustomerId}");
-                writer.WriteLine();
+                using (var writer = new StreamWriter(filePath))
+                {
+                    // Header
+                    writer.WriteLine($"Invoice ID: {invoice.InvoiceId}");
+                    writer.WriteLine($"Date: {DateTime.Now}");
+                    
+                    writer.WriteLine();
 
-                // Billing details
-                writer.WriteLine("Billing Details:");
-                writer.WriteLine($"Amount: {invoice.Amount:C}");
+                    // Order details
+                    writer.WriteLine("Order details:");
+                    writer.WriteLine($"Order ID: {invoice.OrderId}");
+                    writer.WriteLine($"Customer ID: {invoice.CustomerId}");
+                    writer.WriteLine($"Customer Name: {invoice.CustomerName}");
+                    writer.WriteLine($"Order Origin: {invoice.Origin}");
+                    writer.WriteLine($"Order Destination: {invoice.Destination}");
+                    writer.WriteLine($"Order Quantity: {invoice.Quantity}");
+                    writer.WriteLine($"Date Completed: {invoice.DateCompleted}");
+                   
+                    writer.WriteLine();
+                    
+                    // Billing details
+                    writer.WriteLine("Billing Details:");
+                    writer.WriteLine($"Amount: {invoice.Amount:C}");
+                    writer.WriteLine($"Job Type: {invoice.JobType}");
+                    writer.WriteLine($"Van Type: {invoice.JobType}");
 
-                // Just for confirmation, 
-                MessageBox.Show($"TXT document saved to: {filePath}");
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error here");
+                _loggerModel.LogException($"Error creating text file: {e.Message}");
             }
         }
-        catch (Exception e)
-        {
-            _loggerModel.LogException( $"Error creating text file {e.Message}");
-        }
     }
+
 }

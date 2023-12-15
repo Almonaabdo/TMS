@@ -11,8 +11,6 @@ public class User
     public string Username { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public UserType UserType { get; set; }
-
-    public virtual ICollection<Order>? Orders { get; set; }
 }
 
 public enum UserType

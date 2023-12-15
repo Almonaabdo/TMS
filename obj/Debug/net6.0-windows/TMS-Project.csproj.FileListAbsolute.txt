@@ -349,9 +349,16 @@ C:\Users\Yafet\OneDrive\Desktop\TMS - Final Copy\obj\Debug\net6.0-windows\TMS-Pr
 C:\Users\Yafet\OneDrive\Desktop\TMS - Final Copy\obj\Debug\net6.0-windows\TMS-Project.genruntimeconfig.cache
 C:\Users\Yafet\OneDrive\Desktop\TMS - Final Copy\obj\Debug\net6.0-windows\ref\TMS-Project.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\TMS-Project.exe
+C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\TMS-Project.deps.json
+C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\TMS-Project.runtimeconfig.json
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\TMS-Project.dll
+C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\TMS-Project.pdb
+C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Devart.Data.MySql.dll
+C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Devart.Data.dll
+C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Humanizer.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.EntityFrameworkCore.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.EntityFrameworkCore.Design.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.EntityFrameworkCore.Relational.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Caching.Abstractions.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Caching.Memory.dll
@@ -361,88 +368,21 @@ C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extension
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.Json.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyInjection.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyModel.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.FileProviders.Physical.dll
+C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Logging.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Options.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Primitives.dll
+C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Mono.TextTemplating.dll
+C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\MySqlBackupNet.DevartExpress.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\MySqlConnector.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\NLog.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Pomelo.EntityFrameworkCore.MySql.dll
-C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\System.Text.Json.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\TMS-Project.exe
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\TMS-Project.deps.json
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\TMS-Project.runtimeconfig.json
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\TMS-Project.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\TMS-Project.pdb
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Devart.Data.MySql.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Devart.Data.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Humanizer.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.EntityFrameworkCore.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.EntityFrameworkCore.Abstractions.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.EntityFrameworkCore.Design.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.EntityFrameworkCore.Relational.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Caching.Abstractions.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Caching.Memory.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.Json.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyInjection.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyModel.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.FileProviders.Physical.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Logging.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Options.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.Primitives.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Mono.TextTemplating.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\MySqlBackupNet.DevartExpress.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\MySqlConnector.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\NLog.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\Pomelo.EntityFrameworkCore.MySql.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\System.Text.Encodings.Web.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\System.Text.Json.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\bin\Debug\net6.0-windows\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\TMS-Project.csproj.AssemblyReference.cache
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\View\AdminView.g.cs
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\View\BuyerView.g.cs
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\View\LogInView.g.cs
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\View\PlannerView.g.cs
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\App.g.cs
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\TMS-Project_MarkupCompile.cache
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\TMS-Project_MarkupCompile.lref
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\View\AdminView.baml
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\View\BuyerView.baml
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\View\LogInView.baml
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\View\PlannerView.baml
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\TMS-Project.g.resources
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\TMS-Project.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\TMS-Project.AssemblyInfoInputs.cache
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\TMS-Project.AssemblyInfo.cs
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\TMS-Project.csproj.CoreCompileInputs.cache
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\TMS-Project.csproj.CopyComplete
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\TMS-Project.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\refint\TMS-Project.dll
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\TMS-Project.pdb
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\TMS-Project.genruntimeconfig.cache
-C:\Users\Yafet\OneDrive\Desktop\Final - TMS\obj\Debug\net6.0-windows\ref\TMS-Project.dll
-C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\TMS-Project.deps.json
-C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\TMS-Project.runtimeconfig.json
-C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\TMS-Project.pdb
-C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Devart.Data.MySql.dll
-C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Devart.Data.dll
-C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Humanizer.dll
-C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.EntityFrameworkCore.Design.dll
-C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.DependencyModel.dll
-C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
-C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\Mono.TextTemplating.dll
-C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\MySqlBackupNet.DevartExpress.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\System.Text.Encodings.Web.dll
+C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\System.Text.Json.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\bin\Debug\net6.0-windows\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 C:\SecondyearFirst\SQ\TMS_Group\TMS\obj\Debug\net6.0-windows\TMS-Project.csproj.AssemblyReference.cache
 C:\SecondyearFirst\SQ\TMS_Group\TMS\obj\Debug\net6.0-windows\View\AdminView.g.cs

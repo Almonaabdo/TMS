@@ -179,7 +179,7 @@ public class BuyerViewModel : ViewModelBase
             var custId = SelectedOrder.CustomerId.ToString();
             var tripCost = SelectedOrder.TripCost.ToString();
 
-            _invoiceModel.GenerateInvoice(orderId, tripCost, custId);
+           // _invoiceModel.GenerateInvoice(orderId, tripCost, custId);
 
             MessageBox.Show($"Successfully Created Invoice for {SelectedOrder.OrderId}");
         }

@@ -241,10 +241,11 @@ namespace TMS_Project.Model
         * 
         * RETURN: joinedData
         */
-        public IQueryable<JoinedRouteTable> GetJoinedRouteData()
+        public List<JoinedRouteTable> GetJoinedRouteData()
         {
             try
             {
+                // Query to retrieve joined route data
                 var joinedData = from route in _dbContext.Routes
                                  join sourceCity in _dbContext.Cities on route.SourceCityId equals sourceCity.CityId
                                  join destCity in _dbContext.Cities on route.DestinationCityId equals destCity.CityId
@@ -257,19 +258,20 @@ namespace TMS_Project.Model
                                      Destination = destCity.CityName
                                  };
 
-                return joinedData;
+                return new List<JoinedRouteTable>(joinedData);
             }
-            catch
+            catch (Exception e)
             {
-
+                // Log exception
+                _loggerModel.LogException($"Exception while performing query. {e.Message}");
             }
 
-            return null;
+            return new List<JoinedRouteTable>() ;
         }
 
         /*
         * METHOD NAME: GetCompletedOrders
-        * DESCRIPTION: Joins tables from the DB to get Order data
+        * DESCRIPTION: Joins tables from the DB to get all completed orders
         * 
         * RETURN: list of completedOrders
         */
@@ -277,6 +279,7 @@ namespace TMS_Project.Model
         {
             try
             {
+                // Query to retrieve completed orders along with associated details
                 var completedOrders = from order in _dbContext.Orders
                                       join citySource in _dbContext.Cities on order.SourceCityId equals citySource.CityId
                                       join cityDest in _dbContext.Cities on order.DestinationCityId equals cityDest.CityId
@@ -288,20 +291,22 @@ namespace TMS_Project.Model
                                           CustomerId = order.CustomerId,
                                           OrderStatus = order.OrderStatus,
                                           DateCompleted = order.DateCompleted ?? DateTime.MinValue,
-                                          DateInititated = order.DateInitiated,
+                                          DateInitiated = order.DateInitiated,
                                           Origin = citySource.CityName,
                                           Destination = cityDest.CityName,
                                           TripCost = trip.TripCost
                                       };
 
-                return completedOrders.ToList();
+                return completedOrders.ToList();  // Return result as a list
             }
-            catch
+            catch (Exception e)
             {
-
+                // Log exception
+                _loggerModel.LogException($"Exception while performing query. {e.Message}");
             }
 
-            return null;
+            // Return empty list, if theres an exception or no completed orders
+            return new List<JoinedOrder>();
         }
 
 
