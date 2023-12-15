@@ -66,7 +66,7 @@ public class BuyerViewModel : ViewModelBase
 
     public BuyerViewModel()
     {
-        _buyerModel = new BuyerModel(_tmsDbContext);
+        _buyerModel = new BuyerModel();
 
         CreateOrderCommand = new RelayCommand(CallCreateOrder);
         ProcessInvoiceCommand = new RelayCommand(CallProcessInvoice);
