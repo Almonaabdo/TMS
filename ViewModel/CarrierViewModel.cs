@@ -13,7 +13,7 @@ namespace TMS_Project.ViewModel
     public class CarrierViewModel : ViewModelBase
     {
         #region Fields
-        private readonly DataService _dataService;
+        private readonly AdminServices _adminServices;
         private readonly LoggerModel _loggerModel = LoggerModel.Instance;
 
         #endregion
@@ -21,7 +21,7 @@ namespace TMS_Project.ViewModel
         #region Properties
 
         // Collection for storing Carrier data
-        public ObservableCollection<Carrier> CarrierData { get; private set; } = null!;
+        public ObservableCollection<Carrier>? CarrierData { get; private set; } = null!;
         // List for storing Contract data
         public List<Contract> ContractsData { get; private set; } = null!;
 
@@ -37,7 +37,7 @@ namespace TMS_Project.ViewModel
         private double _ltlaRate;
         private double _reefCharge;
         private string _depotCity = null!;
-        private Carrier _selectedCarrier;
+        private Carrier? _selectedCarrier;
 
         // Carrier properties with OnPropertyChanged
         public string CompanyName
@@ -110,7 +110,7 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        public Carrier SelectedCarrier
+        public Carrier? SelectedCarrier
         {
             get => _selectedCarrier;
             set
@@ -127,7 +127,7 @@ namespace TMS_Project.ViewModel
         // Command for saving Carrier changes
         public ICommand SaveCarrierCommand { get; }
         public ICommand CreateCarrierCommand { get; set; }
-        public ICommand DeleteCarrierCommand { get; }
+        public ICommand? DeleteCarrierCommand { get; }
 
         #endregion
 
@@ -136,7 +136,7 @@ namespace TMS_Project.ViewModel
         // Constructor for initializing necessary commands, methods, and variables
         public CarrierViewModel()
         {
-            _dataService = new DataService();
+            _adminServices = new AdminServices();
             SaveCarrierCommand = new RelayCommand(SaveCarrierChanges);
             CreateCarrierCommand = new RelayCommand(CreateCarrier);
             LoadData();
@@ -164,7 +164,7 @@ namespace TMS_Project.ViewModel
                     MessageBox.Show("Please fill in all required fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return; // Exit the method if any required field is empty
                 }
-                _dataService.CreateCarrier(CompanyName, DepotCity, Ftla, Ltla, FtlaRate, LtlaRate, ReefCharge);
+                _adminServices.CreateCarrier(CompanyName, DepotCity, Ftla, Ltla, FtlaRate, LtlaRate, ReefCharge);
                 LoadData();
                 CompanyName = String.Empty;
                 FtlaRate = 0;
@@ -178,7 +178,7 @@ namespace TMS_Project.ViewModel
             catch (Exception e)
             {
                 MessageBox.Show("Carrier already exists.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                _loggerModel.LogException("Exception adding new carrier.");
+                _loggerModel.LogException($"Exception adding new carrier.{e.Message}");
             }
         }
 
@@ -188,11 +188,11 @@ namespace TMS_Project.ViewModel
         * DESCRIPTION: Loads data
         * 
         * RETURN: void
-        */
+        */                                      
         private void LoadData()
         {
             // Load Carrier data
-            CarrierData = new ObservableCollection<Carrier>(_dataService.RetrieveTable<Carrier>() ?? throw new InvalidOperationException());
+            CarrierData = new ObservableCollection<Carrier>(_adminServices.RetrieveTable<Carrier>() ?? throw new InvalidOperationException());
             OnPropertyChanged(nameof(CarrierData));
         }
 
@@ -207,18 +207,21 @@ namespace TMS_Project.ViewModel
         {
             try
             {
-                var updatedCarriers = new List<Carrier>(CarrierData);
-
-                foreach (var carrier in updatedCarriers)
+                if (CarrierData != null)
                 {
-                    _dataService.SaveChanges(carrier);
+                    var updatedCarriers = new List<Carrier>(CarrierData);
+
+                    foreach (var carrier in updatedCarriers)
+                    {
+                        _adminServices.SaveChanges(carrier);
+                    }
                 }
 
                 MessageBox.Show("Changes saved successfully!");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _loggerModel.LogException($"{e.Message}");
             }
         }
 
