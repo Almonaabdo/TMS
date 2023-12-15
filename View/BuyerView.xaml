@@ -13,7 +13,7 @@
     </Window.DataContext>
     <Viewbox Stretch="Fill" StretchDirection="Both">
         <Grid Background="#304674">
-            <DatePicker FontSize="12" SelectedDate="{Binding Date, Mode=TwoWay}" Margin="574,0,0,394"/>
+            <DatePicker FontSize="12" SelectedDate="{Binding CurrentDate, Mode=TwoWay}" Margin="574,0,0,394"/>
             <TabControl >
                 <!--HOME TAB-->
                 <TabItem Header="Home" Background="#304674" FontWeight="Medium">

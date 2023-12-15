@@ -67,12 +67,25 @@
                             <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding CarrierNames}"  SelectedItem ="{Binding SelectedCarrier}" Margin="107,48,0,0" VerticalAlignment="Top" Width="120" x:Name="CarrierName">
                             </ComboBox>
 
-                            <!--if wanted multiple trip-->
-                            <CheckBox Content="Multiple Trip" HorizontalAlignment="Left" Margin="313,8,0,0" VerticalAlignment="Top" Foreground="AliceBlue" FontSize="10"/>
+                            <!--checkbox for multiple trip-->
+                            <CheckBox Content="Multiple Trip" HorizontalAlignment="Left" Margin="313,8,0,0" VerticalAlignment="Top" Foreground="AliceBlue" FontSize="10" x:Name="MultipleTripCheckBox"/>
 
                             <!--combo box for carrier - multiple trip-->
                             <TextBlock HorizontalAlignment="Left" Margin="313,0,0,0" Text="Choose Carrier for Another Trip" VerticalAlignment="Center" Foreground="AliceBlue" FontSize="7"/>
-                            <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding CarrierNames}" SelectedItem ="{Binding AnotherSelectedCarrier}" Margin="313,49,0,0" VerticalAlignment="Top" Width="120" x:Name="CarrierName2">
+                            <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding CarrierNames}" SelectedItem="{Binding AnotherSelectedCarrier}" Margin="313,49,0,0" VerticalAlignment="Top" Width="120" x:Name="CarrierName2">
+                                <ComboBox.Style>
+                                    <Style TargetType="ComboBox">
+                                        <Style.Triggers>
+                                            <!--Bind IsEnabled property to IsChecked property of CheckBox-->
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=MultipleTripCheckBox}" Value="False">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=MultipleTripCheckBox}" Value="True">
+                                                <Setter Property="IsEnabled" Value="True"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ComboBox.Style>
                             </ComboBox>
 
                             <!--add the trip-->
