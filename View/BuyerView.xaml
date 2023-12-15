@@ -36,11 +36,6 @@
 
                         <Label Content="Welcome Buyer" HorizontalAlignment="Left" Margin="40,53,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue"/>
 
-                        <!--notification-->
-                        <TextBlock HorizontalAlignment="Left" Margin="5,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="177" Text="Notifications" Foreground="DarkBlue" FontSize="10"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="5,18,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" Text="{Binding BuyerNotification}" Foreground="red" FontSize="8"/>
-
-
                         <!--logs out of the user; may or may not go back to the login page-->
                         <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}" HorizontalAlignment="Left" Margin="687,352,0,0" VerticalAlignment="Top" Height="27" Width="66" Background="DarkBlue" Foreground="white" FontWeight="Medium"/>
 
