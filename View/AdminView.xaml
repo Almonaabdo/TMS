@@ -40,10 +40,8 @@
                         <Label Content="Welcome Admin" HorizontalAlignment="Left" Margin="57,75,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue" />
 
                         <!--logs out of the user; may or may not go back to the login page-->
-                        <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}"
-                                HorizontalAlignment="Left"
-                                Margin="805,420,0,0" VerticalAlignment="Top" Height="27" Width="66"
-                                Background="DarkBlue" Foreground="white" FontWeight="Medium" />
+                                              <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}" HorizontalAlignment="Left" Margin="684,360,0,0" VerticalAlignment="Top" Height="50" Width="130" Background="DarkBlue" Foreground="white" FontWeight="Medium" />
+
                     </Grid>
                 </TabItem>
 

@@ -79,19 +79,19 @@ namespace TMS_Project.ViewModel
             TestDbCommand = new RelayCommand(TestConnection);
         }
 
-        public ICommand Increase { get; set; }
+        public ICommand? Increase { get; set; }
 
 
 
         #endregion
 
-        private string _server;
-        private string _port;
-        private string _database;
-        private string _username;
-        private string _password;
+        private string? _server;
+        private string? _port;
+        private string? _database;
+        private string? _username;
+        private string? _password;
 
-        public string Server
+        public string? Server
         {
             get => _server;
             set
@@ -101,7 +101,7 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        public string Port
+        public string? Port
         {
             get => _port;
             set
@@ -111,7 +111,7 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        public string Database
+        public string? Database
         {
             get => _database;
             set
@@ -121,7 +121,7 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        public string Username
+        public string? Username
         {
             get => _username;
             set
@@ -131,7 +131,7 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        public string Password
+        public string? Password
         {
             get => _password;
             set
