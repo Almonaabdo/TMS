@@ -93,7 +93,7 @@ namespace TMS.ViewModel
 
         private DataService _dataService { get; }
 
-        private  TmsDbContext _TmsDbContext;
+        private TmsDbContext _TmsDbContext = DbContextSingleton.Instance;
         private OrderModel _orderModel { get; }
 
         private CarrierViewModel _carrierViewModel { get; }
@@ -106,7 +106,7 @@ namespace TMS.ViewModel
         public ObservableCollection<Order> OrderDataInProgress { get; private set; } = null!;
 
         #endregion
-
+        
         #region Constructor
 
         public PlannerViewModel()
@@ -115,10 +115,10 @@ namespace TMS.ViewModel
             AddCarrierCommand = new RelayCommand(AddCarrier);
             ActiveOrdersTabCommand = new RelayCommand(RefreshActiveOrdersTab);
             OrdersTabCommand = new RelayCommand(RefreshOrdersTab);
-            _TmsDbContext = new TmsDbContext();
+            
             GetOrderTable();
             _dataService = new DataService();
-            _orderModel = new OrderModel(_TmsDbContext);
+            _orderModel = new OrderModel();
             _carrierViewModel = new CarrierViewModel();
             CarrierData = _carrierViewModel.CarrierData;
             _plannerModel = new PlannerModel();
@@ -141,7 +141,7 @@ namespace TMS.ViewModel
 
         public void RefreshActiveOrdersTab()
         {
-            _TmsDbContext = new TmsDbContext();
+            
             GetInProgressOrders();
             GetOrderInProgressTable();
         }
