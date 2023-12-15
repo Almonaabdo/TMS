@@ -50,7 +50,7 @@ namespace TMS_Project.ViewModel
         }
 
 
-                private string _adminNotification;
+        private string _adminNotification;
         public string AdminNotification
         {
             get => _adminNotification;
@@ -84,6 +84,13 @@ namespace TMS_Project.ViewModel
             TestDbCommand = new RelayCommand(TestConnection);
         }
 
+
+        /*
+        * METHOD NAME: IncrementDate
+        * DESCRIPTION: Increments the date
+        * 
+        * RETURN: void
+        */
         private void IncrementDate()
         {
             _currentDate = _currentDate.AddDays(1);
@@ -150,6 +157,12 @@ namespace TMS_Project.ViewModel
 
         public ICommand TestDbCommand { get; }
 
+        /*
+        * METHOD NAME: TestConnection
+        * DESCRIPTION: Tests the connection to the remote DB
+        * 
+        * RETURN: void
+        */
         private void TestConnection()
         {
             var connectionString = $"Server={Server};Port={Port};Database={Database};User ID={Username};Password={Password};";
@@ -168,9 +181,6 @@ namespace TMS_Project.ViewModel
                 connection.Close();
             }
         }
-
-     
-
 
     }
 }
