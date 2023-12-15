@@ -11,6 +11,7 @@ namespace TMS_Project.Helper
             remove => CommandManager.RequerySuggested -= value;
         }
 
+        
         private readonly Action _methodToExecute;
         private readonly Func<bool> _canExecuteEvaluator;
 
@@ -25,6 +26,13 @@ namespace TMS_Project.Helper
         {
         }
 
+
+        /*
+        * METHOD NAME: CanExecute
+        * DESCRIPTION: To whether to execute the command or not
+        * PARAM: paramaeter
+        * RETURN: result - true or false
+        */
         public bool CanExecute(object parameter)
         {
             if (this._canExecuteEvaluator == null)
@@ -38,6 +46,13 @@ namespace TMS_Project.Helper
             }
         }
 
+
+        /*
+        * METHOD NAME: Execute
+        * DESCRIPTION: Executes the command
+        * PARAM: paramaeter
+        * RETURN: result - treu or false
+        */
         public void Execute(object parameter)
         {
             this._methodToExecute.Invoke();

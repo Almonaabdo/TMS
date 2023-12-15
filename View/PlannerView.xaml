@@ -13,10 +13,6 @@
 
     <Viewbox Stretch="Fill" StretchDirection="Both">
         <Grid Background="#304674" Height="448">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="11*"/>
-                <ColumnDefinition Width="72*"/>
-            </Grid.ColumnDefinitions>
             <DatePicker Text="{Binding CurrentDate}" Margin="464,0,0,394" Grid.Column="1"/>
             <TabControl HorizontalAlignment="Left" Width="830" Grid.ColumnSpan="2">
 
@@ -112,11 +108,12 @@
                         <Button Content="Refresh" Command ="{Binding ActiveOrdersTabCommand}" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" Background="azure"/>
 
                         <!--datagrid for the current status of the completed orders being delivered-->
-                        <DataGrid ItemsSource="{Binding OrderDataInProgress}" SelectedItem = "{Binding SelectedInProgressOrder}" Margin="10,47,10,65" IsReadOnly="True"/>
+                        <DataGrid ItemsSource="{Binding OrderDataInProgress}" SelectedItem = "{Binding SelectedInProgressOrder}" Margin="10,47,10,49" IsReadOnly="True"/>
 
                         <!--complete the order-->
                         <Button Content="Complete Order" Command="{Binding CompleteOrderCommand}" HorizontalAlignment="Center" Margin="0,376,0,0" VerticalAlignment="Top" Height="34" Width="130" FontWeight="Bold" Foreground="#001233" Background="Azure" FontSize="15"/>
-                        <Button Content="Increment" Command="{Binding IncrementDayCommand}" HorizontalAlignment="Left" Margin="681,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.309,0.321" Height="27" Width="90"/>
+                        <Button Content="Increment" Command="{Binding IncrementDayCommand}" HorizontalAlignment="Left" Margin="681,9,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.309,0.321" Height="27" Width="90"
+                                Background="AliceBlue" FontWeight="Bold"/>
                         <Label Content="Increment date by one day" HorizontalAlignment="Left" Margin="525,10,0,0" VerticalAlignment="Top"/>
 
 
@@ -133,13 +130,13 @@
 
 
                         <Label Content="Generate Invoice Summary Reports" HorizontalAlignment="Center" Margin="0,12,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" Foreground="#1E3F66"/>
-                        <DataGrid ItemsSource="{Binding Invoices}" Margin="20,54,20,99" Grid.ColumnSpan="2"/>
+                        <DataGrid ItemsSource="{Binding Invoices}" Margin="20,54,20,81"/>
 
                         <!--buttons for generating summary reports-->
-                        <TextBlock HorizontalAlignment="Left" Margin="142,381,0,0" Text="All Time Summary Report" VerticalAlignment="Top" Foreground="Azure" FontWeight="Medium" FontSize="10"/>
-                        <Button Content="All Time" Command="{Binding AllTimeCommand}" HorizontalAlignment="Left" Margin="136,337,0,0" VerticalAlignment="Top" Background="azure" FontSize="15" Height="39" Width="129" FontWeight="Bold" Grid.Column="1"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="482,381,0,0" Text="Two Weeks Time Summary Report" VerticalAlignment="Top" Foreground="Azure" FontWeight="Medium" FontSize="10"/>
-                        <Button Content="Two Weeks Time" Command="{Binding TwoWeeksTimeCommand}" HorizontalAlignment="Right" Margin="0,337,200,0" VerticalAlignment="Top" Background="azure" FontSize="15" Height="39" Width="129" FontWeight="Bold" Grid.Column="1"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="142,397,0,0" Text="All Time Summary Report" VerticalAlignment="Top" Foreground="Azure" FontWeight="Medium" FontSize="10"/>
+                        <Button Content="All Time" Command="{Binding AllTimeCommand}" HorizontalAlignment="Left" Margin="136,353,0,0" VerticalAlignment="Top" Background="azure" FontSize="15" Height="39" Width="129" FontWeight="Bold"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="546,397,0,0" Text="Two Weeks Time Summary Report" VerticalAlignment="Top" Foreground="Azure" FontWeight="Medium" FontSize="10"/>
+                        <Button Content="Two Weeks Time" Command="{Binding TwoWeeksTimeCommand}" HorizontalAlignment="Right" Margin="0,353,136,0" VerticalAlignment="Top" Background="azure" FontSize="15" Height="39" Width="129" FontWeight="Bold"/>
 
                     </Grid>
                 </TabItem>

@@ -22,6 +22,8 @@ public class OrderModel
     }
 
 
+    #region Methods
+
     /*
     * METHOD NAME: FindCustomerByName
     * DESCRIPTION: Finds a customer from the DB through name
@@ -90,8 +92,6 @@ public class OrderModel
             return null;
            
         }
-
-        
         
     }
 
@@ -397,4 +397,5 @@ public class OrderModel
 
     }
 
+#endregion
 }

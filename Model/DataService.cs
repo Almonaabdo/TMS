@@ -27,7 +27,7 @@ namespace TMS_Project.Model
         /*
         * METHOD NAME: CreateCarrier
         * DESCRIPTION: Creates a new carrier along with is information - depotCity, FTLA, LTLA, rates and reef charge
-        * 
+        *
         * RETURN: void
         */
         public void CreateCarrier(string name, string depotCity, int newFtla, int newLtla, double newFtlaRate, double newLtlaRate, double newReefCharge)

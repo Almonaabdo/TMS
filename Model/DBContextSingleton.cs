@@ -7,5 +7,6 @@ public static class DbContextSingleton
 {
     private static readonly Lazy<TmsDbContext> LazyInstance = new Lazy<TmsDbContext>(() => new TmsDbContext());
 
+
     public static TmsDbContext Instance => LazyInstance.Value;
 }
