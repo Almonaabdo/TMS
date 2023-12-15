@@ -74,17 +74,17 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Button Command="{Binding FileViewModel.OpenFileBrowserCommand}"
-                                            Content="Load files" Margin="20,10,754,80" Grid.ColumnSpan="2" />
+                                            Content="Load files" Margin="10,10,754,80" Grid.ColumnSpan="2" Background="AliceBlue" FontWeight="Bold"/>
                                     <ComboBox x:Name="Folder" ItemsSource="{Binding FileViewModel.LogFiles}"
                                               SelectedItem="{Binding FileViewModel.SelectedLogFile}"
-                                              Margin="110,10,104,80" Grid.Row="0" Grid.Column="1" />
+                                              Margin="106,10,124,80" Grid.Row="0" Grid.Column="1" />
                                     <TextBox VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                                              Text="{Binding FileViewModel.FileContent}" IsReadOnly="True"
                                              Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="0"
-                                             Margin="16,51,10,10" />
+                                             Margin="10,50,10,10" />
                                     <Button Command="{Binding FileViewModel.OpenSelectedFileCommand}"
-                                            Content="Open selected file" Margin="765,10,9,80" Grid.Row="0"
-                                            Grid.ColumnSpan="2" Grid.Column="0" />
+                                            Content="Open selected file" Margin="736,10,9,80" Grid.Row="0"
+                                            Grid.ColumnSpan="2" Grid.Column="0" Background="AliceBlue" FontWeight="Bold"/>
                                 </Grid>
                             </TabItem>
 
@@ -135,13 +135,13 @@
                                 <Grid Background="#304674">
                                     <DataGrid Name="RouteTable" ItemsSource="{Binding RateRouteViewModel.RouteData}" Background="Azure"
                                               IsReadOnly="False"
-                                              HorizontalAlignment="Left" VerticalAlignment="Top"
-                                              Width="168" Height="240" Margin="321,32,0,0" />
+                                              HorizontalAlignment="Center" VerticalAlignment="Top"
+                                              Width="418" Height="351" Margin="0,10,0,0" />
                                     <Button Content="Save Changes" Command="{Binding RateRouteViewModel.SaveRouteCommand}" Height="30"
-                                            Width="109"
+                                            Width="110"
                                             Background="Azure" FontWeight="Bold" FontSize="15"
-                                            VerticalAlignment="Bottom" HorizontalAlignment="Left"
-                                            Margin="390,0,0,121" />
+                                            VerticalAlignment="Top" HorizontalAlignment="Center"
+                                            Margin="0,366,0,0" />
                                 </Grid>
                             </TabItem>
 
@@ -150,9 +150,9 @@
                             <TabItem Header="Edit Rate/Fee" Background="#304674">
                                 <Grid Background="#304674">
                                     <DataGrid ItemsSource="{Binding RateRouteViewModel.RateData}" Background="Azure"
-                                              IsReadOnly="False" HorizontalAlignment="Center" VerticalAlignment="Top" Height="324" Width="672" Margin="0,5,0,0" />
-                                    <Button Content="Save" Command="{Binding RateRouteViewModel.SaveRouteCommand}" Height="31" Width="98"
-                                            Background="Azure" FontWeight="Bold" FontSize="15" Margin="378,365,379,10" />
+                                              IsReadOnly="False" HorizontalAlignment="Center" VerticalAlignment="Top" Height="313" Width="834" Margin="0,10,0,0" />
+                                    <Button Content="Save Changes" Command="{Binding RateRouteViewModel.SaveRouteCommand}" Height="30" Width="110"
+                                            Background="Azure" FontWeight="Bold" FontSize="15" Margin="378,365,363,10" />
                                 </Grid>
                             </TabItem>
 
@@ -161,10 +161,11 @@
                                 <Grid Background="#304674">
 
                                     <DataGrid ItemsSource="{Binding CarrierViewModel.CarrierData}"
-                                              Background="Azure" CanUserAddRows="False" HorizontalAlignment="Left"
-                                              VerticalAlignment="Top" IsReadOnly="False" Height="217" Width="717" Margin="78,10,0,0" />
+                                              Background="Azure" CanUserAddRows="False" HorizontalAlignment="Center"
+                                              VerticalAlignment="Top" IsReadOnly="False" Height="351" Width="602" Margin="0,10,0,0" />
 
-                                    <Button Content="Save" Command="{Binding CarrierViewModel.SaveCarrierCommand}" Background="Azure" FontWeight="Bold" FontSize="15" Margin="286,312,333,55" />
+                                    <Button Content="Save Changes" Command="{Binding CarrierViewModel.SaveCarrierCommand}" Background="Azure" FontWeight="Bold" FontSize="15" Margin="372,366,373,10" 
+                                            Height="30" Width="110"/>
                                 </Grid>
                             </TabItem>
 
@@ -174,27 +175,27 @@
                                     <StackPanel Margin="0,10,0,0">
                                         <Label Content="Select a table to delete from:" FontWeight="Medium"
                                                Foreground="#b2cbde"
-                                               HorizontalAlignment="Center" Margin="0,0,0,5" />
+                                               HorizontalAlignment="Center" Margin="0,0,0,0" />
                                         <ComboBox ItemsSource="{Binding DeleteViewModel.DeleteOptions}"
                                                   SelectedItem="{Binding DeleteViewModel.SelectedDeleteOption}"
-                                                  Width="200" />
-                                        
+                                                  Width="200" Margin="0,0,0,5" />
+
                                     </StackPanel>
 
                                     <DataGrid ItemsSource="{Binding DeleteViewModel.CarrierTable}"
                                               AutoGenerateColumns="True" SelectionMode="Single" SelectedItem="{Binding DeleteViewModel.SelectedCarrier}"
                                               MaxHeight="310" HorizontalAlignment="Center" VerticalAlignment="Top"
-                                              Height="320" Width="614" Margin="0,57,0,0" Visibility="{Binding DeleteViewModel.IsCarrierTableVisible}" />
+                                              Height="295" Width="614" Margin="0,60,0,0" Visibility="{Binding DeleteViewModel.IsCarrierTableVisible}" />
 
                                     <DataGrid ItemsSource="{Binding DeleteViewModel.RouteTable}"
                                               AutoGenerateColumns="True" SelectionMode="Single" SelectedItem="{Binding DeleteViewModel.SelectedRoute}"
                                               MaxHeight="310" HorizontalAlignment="Center" VerticalAlignment="Top"
-                                              Height="320" Width="614" Margin="0,57,0,0" Visibility="{Binding DeleteViewModel.IsRouteTableVisible}" />
+                                              Height="295" Width="614" Margin="0,60,0,0" Visibility="{Binding DeleteViewModel.IsRouteTableVisible}" />
 
                                     <DataGrid ItemsSource="{Binding DeleteViewModel.RateTable}"
                                               AutoGenerateColumns="True" SelectionMode="Single" SelectedItem="{Binding DeleteViewModel.SelectedRate}"
                                               MaxHeight="310" HorizontalAlignment="Center" VerticalAlignment="Top"
-                                              Height="320" Width="614" Margin="0,57,0,0" Visibility="{Binding DeleteViewModel.IsRateTableVisible}" />
+                                              Height="295" Width="614" Margin="0,60,0,0" Visibility="{Binding DeleteViewModel.IsRateTableVisible}" />
 
                                     <Button Content="Delete Selected Rows" Background="Azure" FontWeight="Bold"
                                             FontSize="15" Height="35" Width="200"
