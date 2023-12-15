@@ -122,11 +122,14 @@ namespace TMS_Project.ViewModel
 
         public PlannerViewModel()
         {
+            // binding commands
             CompleteOrderCommand = new RelayCommand(CallCompleteOrder);
             AddCarrierCommand = new RelayCommand(AddCarrier);
             ActiveOrdersTabCommand = new RelayCommand(RefreshActiveOrdersTab);
             OrdersTabCommand = new RelayCommand(RefreshOrdersTab);
             IncrementDayCommand = new RelayCommand(IncrementOneDay);
+
+
             _currentDate = DateTime.Today;
             GetOrderTable();
             DataService = new DataService();
@@ -155,6 +158,7 @@ namespace TMS_Project.ViewModel
         {
             //Use the method the populates the orders
             GetPendingOrders();
+
             //Update the data when it is changed
             GetOrderTable();
         }
@@ -171,6 +175,7 @@ namespace TMS_Project.ViewModel
            
             //Use the method the populates the orders in progress
             GetInProgressOrders();
+
             //Update the data when it is changed
             GetOrderInProgressTable();
         }

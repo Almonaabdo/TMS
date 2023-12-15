@@ -10,11 +10,13 @@ namespace TMS_Project.Model
 {
     public class PasswordHasher
     {
+        // default constructor
         public PasswordHasher() 
         {
             
         }
 
+        //initialized variables
         private const int KeySize = 256 / 8;
         private const int Iterations = 10000;
         private static readonly HashAlgorithmName _hashAlgorithmName = HashAlgorithmName.SHA256;

@@ -20,6 +20,8 @@ public class NavigationService
         }
     }
 
+    #region Admin
+
 
     /*
     * METHOD NAME: NavigateToAdmin
@@ -33,6 +35,10 @@ public class NavigationService
         adminWindow.Show();
         CloseCurrWindow();
     }
+
+    #endregion
+
+    #region Login
 
 
     /*
@@ -56,6 +62,10 @@ public class NavigationService
         }
     }
 
+    #endregion
+
+    #region Planner
+
 
     /*
     * METHOD NAME: NavigateToPlanner
@@ -70,6 +80,10 @@ public class NavigationService
         CloseCurrWindow();
     }
 
+    #endregion
+
+    #region Buyer
+
 
     /*
     * METHOD NAME: NavigateToBuyer
@@ -83,4 +97,6 @@ public class NavigationService
         buyerWindow.Show();
         CloseCurrWindow();
     }
+
+    #endregion
 }

@@ -13,6 +13,7 @@ namespace TMS_Project.Model;
 
 public class InvoiceGeneratorModel
 {
+
     private readonly TmsDbContext _dbContext = DbContextSingleton.Instance;
     private readonly LoggerModel _loggerModel = LoggerModel.Instance;
 
@@ -28,6 +29,13 @@ public class InvoiceGeneratorModel
     /// <param name="tripCost"></param>
     /// <param name="customerId"></param>
     /// <returns></returns>
+    /// 
+    /*
+    * METHOD NAME: GenerateInvoice
+    * DESCRIPTION: Creates an invoice
+    * PARAM: orderID
+    * RETURN: null
+    */
     public Invoice GenerateInvoice(string orderId)
     {
         try
@@ -63,9 +71,6 @@ public class InvoiceGeneratorModel
                 } 
             }
 
-
-               
-              
         }
         catch (Exception ex)
         {
@@ -80,6 +85,13 @@ public class InvoiceGeneratorModel
     /// Method to create a text file invoice with all details included
     /// </summary>
     /// <param name="invoice">The invoice to create file for</param>
+    /// 
+    /*
+    * METHOD NAME: GenerateTxt
+    * DESCRIPTION: Creates a text file invoice with all detials included
+    * PARAM: invoice
+    * RETURN: void
+    */
     public void GenerateTxt(Invoice? invoice)
     {
         if (invoice == null)

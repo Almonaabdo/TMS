@@ -11,6 +11,7 @@ public class PlannerModel
     private readonly TmsDbContext _db;
     private readonly LoggerModel _loggerModel = LoggerModel.Instance;
 
+    // default constructor
     public PlannerModel()
     {
         _db = new TmsDbContext();
@@ -45,6 +46,7 @@ public class PlannerModel
         }
         
     }
+
 
     /*
     * METHOD NAME: GetCarrier

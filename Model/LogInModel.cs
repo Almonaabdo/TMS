@@ -18,6 +18,13 @@ namespace TMS_Project.Model
         /// Initializes a new instance of the <see cref="LogInModel"/> class.
         /// </summary>
         /// <param name="dbContext">The database context.</param>
+        /// 
+        /*
+        * METHOD NAME: LogInModel
+        * DESCRIPTION: Initializes a new instance of the <see cref="LogInModel"/> class.
+        * PARAM: dbContext
+        * RETURN: void
+        */
         public LogInModel(TmsDbContext dbContext)
         {
             // Assign the provided database context to the private field.

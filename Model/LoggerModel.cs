@@ -26,7 +26,8 @@ public class LoggerModel
     /// </summary>
     public static LoggerModel Instance => LazyInstance.Value;
 
-   
+
+    #region Methods
     /*
     * METHOD NAME: ConfigLog
     * DESCRIPTION: Method to handle Nlog settings, logs all log levels to specified file
@@ -119,6 +120,8 @@ public class LoggerModel
     {
         Log(CustomLogLevel.Error, $"Exception details: {message}");
     }
+
+    #endregion
 }
 
 

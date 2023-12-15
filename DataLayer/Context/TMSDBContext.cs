@@ -17,6 +17,13 @@ namespace TMS_Project.DataLayer.Context
         public DbSet<Route>? Routes { get; set; }
         public DbSet<Invoice>? Invoice { get; set; }
 
+
+        /*
+        * METHOD NAME: OnConfiguring
+        * DESCRIPTION: Makes a connection with the CMP DB
+        * PARAM: optionsBuilder
+        * RETURN: void
+        */
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var configuration = new ConfigurationBuilder()
@@ -28,6 +35,13 @@ namespace TMS_Project.DataLayer.Context
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
 
+
+        /*
+        * METHOD NAME: OnModelCreating
+        * DESCRIPTION: Configures the 'Contract' entity
+        * PARAM: modelBuilder
+        * RETURN: void
+        */
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -44,7 +58,6 @@ namespace TMS_Project.DataLayer.Context
 
                 // Relationship: Each customer is associated with one invoice.
                 entity.HasMany(c => c.Invoices).WithOne(i => i.Customer).HasForeignKey(i => i.CustomerId);
-                
                 
                 // Relationship: A customer can have multiple orders
                 entity.HasMany(e => e.Orders)

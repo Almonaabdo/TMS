@@ -9,6 +9,12 @@ public class ContractMarketPlaceDbContext : DbContext
 {
     public DbSet<Contract>? Contracts { get; set; }
 
+    /*
+    * METHOD NAME: OnConfiguring
+    * DESCRIPTION: Makes a connection with the CMP DB
+    * PARAM: optionsBuilder
+    * RETURN: void
+    */
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -19,6 +25,13 @@ public class ContractMarketPlaceDbContext : DbContext
         optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
     }
 
+
+    /*
+    * METHOD NAME: OnModelCreating
+    * DESCRIPTION: Configures the 'Contract' entity
+    * PARAM: modelBuilder
+    * RETURN: void
+    */
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Configuration for the 'Contract' entity.
