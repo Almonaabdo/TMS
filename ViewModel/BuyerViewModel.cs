@@ -15,6 +15,7 @@ public class BuyerViewModel : ViewModelBase
 {
     #region Fields
 
+    private DateTime _currentDate;
     public IEnumerable<Contract>? ContractData { get; private set; }
     public ICommand CreateOrderCommand { get; }
     public ICommand ProcessInvoiceCommand { get; }
@@ -68,6 +69,7 @@ public class BuyerViewModel : ViewModelBase
     public BuyerViewModel()
     {
         _buyerModel = new BuyerModel();
+        _currentDate = DateTime.Today;
 
         CreateOrderCommand = new RelayCommand(CallCreateOrder);
         ProcessInvoiceCommand = new RelayCommand(CallProcessInvoice);
@@ -104,6 +106,16 @@ public class BuyerViewModel : ViewModelBase
     }
     #endregion
 
+    public DateTime CurrentDate
+    {
+        get => _currentDate;
+        set
+        {
+            _currentDate = value;
+            OnPropertyChanged(nameof(CurrentDate));
+
+        }
+    }
 
     /*
     * METHOD NAME: CallCreateOrder

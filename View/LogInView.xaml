@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMS_Project.View"
-        xmlns:viewModel="clr-namespace:TMS.ViewModel"
         xmlns:viewModel1="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
         Title="LogInView" Height="450" Width="800" WindowState="Maximized">

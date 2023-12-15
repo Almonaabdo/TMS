@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TMS_Project.View" xmlns:ViewModel="clr-namespace:TMS.ViewModel"
+        xmlns:local="clr-namespace:TMS_Project.View"
         xmlns:viewModel="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
         Title="BuyerView" Height="450" Width="800" WindowState="Maximized">
@@ -13,7 +13,7 @@
     </Window.DataContext>
     <Viewbox Stretch="Fill" StretchDirection="Both">
         <Grid Background="#304674">
-
+            <DatePicker FontSize="12" Text="{Binding CurrentDate}" Margin="574,0,0,394"/>
             <TabControl >
                 <!--HOME TAB-->
                 <TabItem Header="Home" Background="#304674" FontWeight="Medium">

@@ -1,26 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using TMS_Project.DataLayer.Context;
 using TMS_Project.DataLayer.Model;
 using TMS_Project.Helper;
 using TMS_Project.Model;
-using TMS_Project.ViewModel;
 
-namespace TMS.ViewModel
+namespace TMS_Project.ViewModel
 {
     public class PlannerViewModel : ViewModelBase
     {
         #region Properties
+
+        private DateTime _currentDate;
+        public DateTime CurrentDate
+        {
+            get => _currentDate;
+            set
+            {
+                _currentDate = value;
+                OnPropertyChanged(nameof(CurrentDate));
+
+            }
+        }
 
         private readonly LoggerModel _loggerModel = LoggerModel.Instance;
 
@@ -31,7 +36,7 @@ namespace TMS.ViewModel
         private Order _selectedOrder;
         public Order SelectedOrder
         {
-            get { return _selectedOrder; }
+            get => _selectedOrder;
             set
             {
                 _selectedOrder = value;
@@ -42,7 +47,7 @@ namespace TMS.ViewModel
         private Order _selectedInProgressOrder;
         public Order SelectedInProgressOrder
         {
-            get { return _selectedInProgressOrder; }
+            get => _selectedInProgressOrder;
             set
             {
                 _selectedInProgressOrder = value;
@@ -53,7 +58,7 @@ namespace TMS.ViewModel
         private string _selectedCarrier;
         public string SelectedCarrier
         {
-            get { return _selectedCarrier; }
+            get => _selectedCarrier;
             set
             {
                 _selectedCarrier = value;
@@ -64,7 +69,7 @@ namespace TMS.ViewModel
         private string _anotherselectedCarrier;
         public string AnotherSelectedCarrier
         {
-            get { return _anotherselectedCarrier; }
+            get => _anotherselectedCarrier;
             set
             {
                 _anotherselectedCarrier = value;
@@ -74,9 +79,9 @@ namespace TMS.ViewModel
 
 
         private List<string> _carrierNames;
-        public List<string> CarrierNames
+        public List<string?> CarrierNames
         {
-            get { return _carrierNames; }
+            get => _carrierNames;
             set
             {
                 _carrierNames = value;
@@ -94,18 +99,18 @@ namespace TMS.ViewModel
 
         public ICommand AllTimeCommand { get; }
 
-        private DataService _dataService { get; }
+        private DataService DataService { get; }
 
-        private TmsDbContext _TmsDbContext = DbContextSingleton.Instance;
-        private OrderModel _orderModel { get; }
+        private readonly TmsDbContext _tmsDbContext = DbContextSingleton.Instance;
+        private OrderModel OrderModel { get; }
 
-        private CarrierViewModel _carrierViewModel { get; }
+        private CarrierViewModel CarrierViewModel { get; }
         public ObservableCollection<Order> OrderData { get; private set; } = null!;
         public ObservableCollection<Invoice> Invoices { get; private set; } = null!;
 
-        public ObservableCollection<Carrier> CarrierData { get; private set; } = null!;
+        public ObservableCollection<Carrier> CarrierData { get; private set; }
 
-        private PlannerModel _plannerModel { get; }
+        private PlannerModel PlannerModel { get; }
 
         public ObservableCollection<Order> OrderDataInProgress { get; private set; } = null!;
 
@@ -119,13 +124,13 @@ namespace TMS.ViewModel
             AddCarrierCommand = new RelayCommand(AddCarrier);
             ActiveOrdersTabCommand = new RelayCommand(RefreshActiveOrdersTab);
             OrdersTabCommand = new RelayCommand(RefreshOrdersTab);
-            
+            _currentDate = DateTime.Today;
             GetOrderTable();
-            _dataService = new DataService();
-            _orderModel = new OrderModel();
-            _carrierViewModel = new CarrierViewModel();
-            CarrierData = _carrierViewModel.CarrierData;
-            _plannerModel = new PlannerModel();
+            DataService = new DataService();
+            OrderModel = new OrderModel();
+            CarrierViewModel = new CarrierViewModel();
+            CarrierData = CarrierViewModel.CarrierData;
+            PlannerModel = new PlannerModel();
             GetDistinctCarrierNames();
             GetPendingOrders();
             GetInProgressOrders();
@@ -143,7 +148,7 @@ namespace TMS.ViewModel
         * 
         * RETURN: void
         */
-        public void RefreshOrdersTab()
+        private void RefreshOrdersTab()
         {
             //Use the method the populates the orders
             GetPendingOrders();
@@ -158,7 +163,7 @@ namespace TMS.ViewModel
         * 
         * RETURN: void
         */
-        public void RefreshActiveOrdersTab()
+        private void RefreshActiveOrdersTab()
         {
            
             //Use the method the populates the orders in progress
@@ -174,10 +179,10 @@ namespace TMS.ViewModel
         * 
         * RETURN: void
         */
-        public void GetPendingOrders()
+        private void GetPendingOrders()
         {
             //Store the observable collection to OrderData
-            OrderData = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus == OrderStatus.Pending).ToList() ?? throw new InvalidOperationException());
+            OrderData = new ObservableCollection<Order>(_tmsDbContext.Orders?.Where(order => order.OrderStatus == OrderStatus.Pending).ToList() ?? throw new InvalidOperationException());
         }
 
         /*
@@ -186,10 +191,10 @@ namespace TMS.ViewModel
        * 
        * RETURN: void
        */
-        public void GetAllTimeInvoices()
+        private void GetAllTimeInvoices()
         {
             //Store the observable collection to OrderDataInProgress
-            Invoices = new ObservableCollection<Invoice>(_TmsDbContext.Invoice?.ToList() ?? throw new InvalidOperationException());
+            Invoices = new ObservableCollection<Invoice>(_tmsDbContext.Invoice?.ToList() ?? throw new InvalidOperationException());
         }
 
 
@@ -201,10 +206,10 @@ namespace TMS.ViewModel
         * 
         * RETURN: void
         */
-        public void GetInProgressOrders()
+        private void GetInProgressOrders()
         {
             //Store the observable collection to OrderDataInProgress
-            OrderDataInProgress = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus == OrderStatus.InProgress).ToList() ?? throw new InvalidOperationException());
+            OrderDataInProgress = new ObservableCollection<Order>(_tmsDbContext.Orders?.Where(order => order.OrderStatus == OrderStatus.InProgress).ToList() ?? throw new InvalidOperationException());
         }
 
 
@@ -214,11 +219,11 @@ namespace TMS.ViewModel
         * 
         * RETURN: void
         */
-        public void GetDistinctCarrierNames()
+        private void GetDistinctCarrierNames()
         {
-            // Only select disticnt names
-            CarrierNames = _TmsDbContext.Carriers.Select(c => c.CompanyName).Distinct().ToList();
-
+            // Only select distinct names
+            if (_tmsDbContext.Carriers != null)
+                CarrierNames = _tmsDbContext.Carriers.Select(c => c.CompanyName).Distinct().ToList();
         }
 
 
@@ -228,7 +233,7 @@ namespace TMS.ViewModel
         * 
         * RETURN: void
         */
-        public void GetOrderTable()
+        private void GetOrderTable()
         {
             OnPropertyChanged(nameof(OrderData));
         }
@@ -240,7 +245,7 @@ namespace TMS.ViewModel
         * 
         * RETURN: void
         */
-        public void GetOrderInProgressTable()
+        private void GetOrderInProgressTable()
         {
             OnPropertyChanged(nameof(OrderDataInProgress));
         }
@@ -252,14 +257,14 @@ namespace TMS.ViewModel
         * 
         * RETURN: void
         */
-        public void AddCarrier()
+        private void AddCarrier()
         {
             try
             {
                 //Check if an order is picked
                 if (SelectedOrder == null)
                 {
-                    MessageBox.Show($"Can't procede please pick an order");
+                    MessageBox.Show($"Can't proceed please pick an order");
                     return;
                 }
 
@@ -280,11 +285,11 @@ namespace TMS.ViewModel
                 if (SelectedCarrier != null)
                 {
                     //Get the source and destination by calling the order model method
-                    string? sourceCity = _orderModel.GetCityById(SelectedOrder.SourceCityId);
-                    string? destinationCity = _orderModel.GetCityById(SelectedOrder.DestinationCityId);
+                    string? sourceCity = OrderModel.GetCityById(SelectedOrder.SourceCityId);
+                    string? destinationCity = OrderModel.GetCityById(SelectedOrder.DestinationCityId);
 
-                    //Gets the carrier and checks wether the carrier picked is allowed
-                    var carrier = _plannerModel.GetCarrier(SelectedCarrier, sourceCity);
+                    //Gets the carrier and checks weather the carrier picked is allowed
+                    var carrier = PlannerModel.GetCarrier(SelectedCarrier, sourceCity);
                     if (carrier == null)
                     {
                         MessageBox.Show($"Can't assign {SelectedCarrier} as a carrier because it doesn't have the order's origin as a depot city", "Error");
@@ -295,14 +300,16 @@ namespace TMS.ViewModel
                         double totalCost = 0;
                         double[] kmAndHrs = new double[2];
                         //Create new trip for the order
-                        Trip trip = new Trip();
-                        trip.OrderId = SelectedOrder.OrderId;
-                        trip.Order = SelectedOrder;
-                        trip.Carrier = carrier;
-                        trip.CarrierId = carrier.CarrierId;
+                        Trip trip = new Trip
+                        {
+                            OrderId = SelectedOrder.OrderId,
+                            Order = SelectedOrder,
+                            Carrier = carrier,
+                            CarrierId = carrier.CarrierId
+                        };
 
                         //Gets the total Km and hours of the trip
-                        kmAndHrs = _orderModel.GetKmAndHrs(destinationCity, sourceCity);
+                        kmAndHrs = OrderModel.GetKmAndHrs(destinationCity, sourceCity);
 
                         //Parsing for job type and van type
                         int vanType = 0;
@@ -317,16 +324,16 @@ namespace TMS.ViewModel
                             vanType = 1;
                         }
 
-                        //Calculates the toal cost for the trip
+                        //Calculates the total cost for the trip
                         double[] totalCostArray = new double[2];
-                        totalCostArray = _orderModel.CalculateRate(carrier, kmAndHrs[0], vanType, SelectedOrder.Quantity, jobType);
+                        totalCostArray = OrderModel.CalculateRate(carrier, kmAndHrs[0], vanType, SelectedOrder.Quantity, jobType);
                         totalCost = totalCostArray[0] + totalCostArray[1];
 
                         //Store Total cost
                         trip.TripCost = totalCost;
 
                         //successful adding of trip to an order
-                        _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
+                        PlannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
                         MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
                         _loggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
                         RefreshOrdersTab();
@@ -337,7 +344,7 @@ namespace TMS.ViewModel
                 //Check if an order is picked
                 if (SelectedOrder == null)
                 {
-                    MessageBox.Show($"Can't procede please pick an order");
+                    MessageBox.Show($"Can't proceed please pick an order");
                     return;
                 }
 
@@ -358,11 +365,11 @@ namespace TMS.ViewModel
                 if (AnotherSelectedCarrier != null)
                 {
                     //Get the source and destination by calling the order model method
-                    string? sourceCity = _orderModel.GetCityById(SelectedOrder.SourceCityId);
-                    string? destinationCity = _orderModel.GetCityById(SelectedOrder.DestinationCityId);
+                    string? sourceCity = OrderModel.GetCityById(SelectedOrder.SourceCityId);
+                    string? destinationCity = OrderModel.GetCityById(SelectedOrder.DestinationCityId);
 
-                    //Gets the carrier and checks wether the carrier picked is allowed
-                    var carrier = _plannerModel.GetCarrier(AnotherSelectedCarrier, sourceCity);
+                    //Gets the carrier and checks weather the carrier picked is allowed
+                    var carrier = PlannerModel.GetCarrier(AnotherSelectedCarrier, sourceCity);
                     if (carrier == null)
                     {
                         MessageBox.Show($"Can't assign {AnotherSelectedCarrier} as a carrier because it doesn't have the order's origin as a depot city", "Error");
@@ -373,14 +380,16 @@ namespace TMS.ViewModel
                         double totalCost = 0;
                         double[] kmAndHrs = new double[2];
                         //Create new trip for the order
-                        Trip trip = new Trip();
-                        trip.OrderId = SelectedOrder.OrderId;
-                        trip.Order = SelectedOrder;
-                        trip.Carrier = carrier;
-                        trip.CarrierId = carrier.CarrierId;
+                        Trip trip = new Trip
+                        {
+                            OrderId = SelectedOrder.OrderId,
+                            Order = SelectedOrder,
+                            Carrier = carrier,
+                            CarrierId = carrier.CarrierId
+                        };
 
                         //Gets the total Km and hours of the trip
-                        kmAndHrs = _orderModel.GetKmAndHrs(destinationCity, sourceCity);
+                        kmAndHrs = OrderModel.GetKmAndHrs(destinationCity, sourceCity);
 
                         //Parsing for job type and van type
                         int vanType = 0;
@@ -395,16 +404,15 @@ namespace TMS.ViewModel
                             vanType = 1;
                         }
 
-                        //Calculates the toal cost for the trip
-                        double[] totalCostArray = new double[2];
-                        totalCostArray = _orderModel.CalculateRate(carrier, kmAndHrs[0], vanType, SelectedOrder.Quantity, jobType);
+                        //Calculates the total cost for the trip
+                        var totalCostArray = OrderModel.CalculateRate(carrier, kmAndHrs[0], vanType, SelectedOrder.Quantity, jobType);
                         totalCost = totalCostArray[0] + totalCostArray[1];
 
                         //Store Total cost
                         trip.TripCost = totalCost;
 
                         //successful adding of trip to an order
-                        _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
+                        PlannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
                         MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
                         _loggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
                         RefreshOrdersTab();
@@ -430,18 +438,18 @@ namespace TMS.ViewModel
         * 
         * RETURN: void
         */
-        public void CallCompleteOrder()
+        private void CallCompleteOrder()
         {
             try
             {
-                //Check wether the order is pending if pending dont procede
+                //Check weather the order is pending if pending dont proceed
                 if (SelectedInProgressOrder.OrderStatus == OrderStatus.Pending)
                 {
                     MessageBox.Show($"Order# {SelectedInProgressOrder.OrderId} is still pending. Attach a trip to complete it");
                     return;
                 }
                 //Calls Order model method that saves the completed order to database
-                _orderModel.CompleteOrder(SelectedInProgressOrder.OrderId);
+                OrderModel.CompleteOrder(SelectedInProgressOrder.OrderId);
                 MessageBox.Show($"Successfully Completed Order# {SelectedInProgressOrder.OrderId}");
                 _loggerModel.LogInfo($"Successfully Completed Order# {SelectedInProgressOrder.OrderId}");
                 //Refresh the page
@@ -451,11 +459,9 @@ namespace TMS.ViewModel
             {
 
                 MessageBox.Show("Completing an Order failed");
-                _loggerModel.LogError($" Completing Order# {SelectedInProgressOrder.OrderId} failed");
+                _loggerModel.LogError($" Completing Order# {SelectedInProgressOrder.OrderId} failed. {ex.Message}");
             }
         }
-
-
         #endregion
     }
 }

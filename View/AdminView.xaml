@@ -14,8 +14,7 @@
 
     <Viewbox Stretch="Fill" StretchDirection="Both">
         <Grid Background="#304674" Width="887" Height="482">
-
-
+            <DatePicker Text="{Binding CurrentDate}" Margin="783,0,0,459"/>
             <TabControl>
                 <!--HOME TAB-->
                 <TabItem Header="Home" FontWeight="Medium" Background="#304674">
@@ -35,10 +34,6 @@
                         <!--logo-->
                         <Ellipse HorizontalAlignment="Left" Height="150" Margin="45,186,0,0" VerticalAlignment="Top" Width="200" Fill="DarkBlue"/>
                         <TextBlock HorizontalAlignment="Left" Margin="69,221,0,0" TextWrapping="Wrap" Text="TMS" VerticalAlignment="Top" Foreground="Azure" FontFamily="Times New Roman" FontSize="70" FontWeight="bold"/>
-
-                        <!--date-->
-                        <Label Content="{Binding CurrentDate}" Foreground="#304674" FontSize="25" Background="#91BAD6" Margin="734,10,10,399"/>
-                        <Button Content="Increment time" Command="{Binding IncrementTimeCommand}" Margin="737,58,13,361" Background="AliceBlue" FontWeight="bold"/>
 
                         <Label Content="Welcome Admin" HorizontalAlignment="Left" Margin="57,75,0,0"
                                VerticalAlignment="Top" FontWeight="Bold" FontSize="50" Foreground="DarkBlue" />

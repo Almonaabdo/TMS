@@ -1,11 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Data;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Devart.Data.MySql;
 using TMS_Project.Helper;
+using TMS_Project.Model;
 
 namespace TMS_Project.ViewModel
 {
@@ -23,7 +25,8 @@ namespace TMS_Project.ViewModel
         // Private fields for Login and RateRoute view models
         private LogInViewModel _logInViewModel = new LogInViewModel();
         private RateRouteViewModel _rateRouteViewModel = new RateRouteViewModel();
-
+        private DateTime _currentDate;
+        private LoggerModel _loggerModel = LoggerModel.Instance;
         #endregion
 
         #region Properties
@@ -49,28 +52,21 @@ namespace TMS_Project.ViewModel
             }
         }
 
-
-        private string _adminNotification;
-        public string AdminNotification
+        public DateTime CurrentDate
         {
-            get => _adminNotification;
+            get => _currentDate;
             set
             {
-                _adminNotification = value;
-                OnPropertyChanged(nameof(AdminNotification));
+                _currentDate = value;
+                OnPropertyChanged(nameof(CurrentDate));
+
             }
         }
-        #endregion
 
-        #region Date
 
-        private DateTime _currentDate;
-
-        public ICommand IncrementTimeCommand { get; set; }
-
-        public string CurrentDate => _currentDate.ToString("MM-dd-yyyy");
 
         #endregion
+
 
         #region Constructor
 
@@ -79,23 +75,10 @@ namespace TMS_Project.ViewModel
         /// </summary>
         public AdminViewModel()
         {
-            _currentDate = DateTime.Now;
-            IncrementTimeCommand = new RelayCommand(IncrementDate);
-            TestDbCommand = new RelayCommand(TestConnection);
+            _currentDate = DateTime.Today;
+            TestDbCommand = new RelayCommand(TestConnection, CanTestConnection);
         }
-
-
-        /*
-        * METHOD NAME: IncrementDate
-        * DESCRIPTION: Increments the date
-        * 
-        * RETURN: void
-        */
-        private void IncrementDate()
-        {
-            _currentDate = _currentDate.AddDays(1);
-            OnPropertyChanged(nameof(CurrentDate));
-        }
+        
 
         #endregion
 
@@ -165,22 +148,39 @@ namespace TMS_Project.ViewModel
         */
         private void TestConnection()
         {
-            var connectionString = $"Server={Server};Port={Port};Database={Database};User ID={Username};Password={Password};";
-            using var connection = new MySqlConnection(connectionString);
             try
             {
+                var connectionString = $"Server={Server};Port={Port};Database={Database};User ID={Username};Password={Password};";
+                using var connection = new MySqlConnection(connectionString);
+
                 connection.Open();
-                MessageBox.Show("Connection successful");
+
+                if (connection.State == ConnectionState.Open)
+                {
+                    MessageBox.Show("Connection successful", "Connection result", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Connection failed. State: " + connection.State, "Connection result", MessageBoxButton.OK,MessageBoxImage.Error);
+                }
             }
-            catch (MySqlException ex)
+            catch (Exception ex)
             {
-                MessageBox.Show($"Connection failed. Error: {ex.Message}");
-            }
-            finally
-            {
-                connection.Close();
+                MessageBox.Show($"An error occurred. Please make sure to enter valid information.", "Connection result", MessageBoxButton.OK, MessageBoxImage.Error);
+                _loggerModel.LogException($"Error connecting to database. {ex.Message}");
             }
         }
 
+
+        /*
+        * METHOD NAME: CanTestConnection
+        * DESCRIPTION: Disables button if any of the fields are empty
+        * 
+        * RETURN: True if all fields are not empty
+        */
+        public bool CanTestConnection()
+        {
+            return !string.IsNullOrEmpty(Server) && !string.IsNullOrEmpty(Database) && !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Port) && !string.IsNullOrEmpty(Password);
+        }
     }
 }

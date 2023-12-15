@@ -3,16 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TMS_Project.View" xmlns:ViewModel="clr-namespace:TMS.ViewModel"
+        xmlns:local="clr-namespace:TMS_Project.View"
+        xmlns:viewModel="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
         Title="PlannerView" Height="450" Width="800" WindowState="Maximized">
     <Window.DataContext>
-        <ViewModel:PlannerViewModel/>
+        <viewModel:PlannerViewModel/>
     </Window.DataContext>
 
     <Viewbox Stretch="Fill" StretchDirection="Both">
         <Grid Background="#304674" Height="448">
-
+            <DatePicker Text="{Binding CurrentDate}" Margin="574,0,0,394"/>
             <TabControl HorizontalAlignment="Left" Width="830">
 
                 <!--HOME TAB-->
