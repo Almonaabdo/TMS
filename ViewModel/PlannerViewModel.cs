@@ -118,7 +118,7 @@ namespace TMS.ViewModel
             _TmsDbContext = new TmsDbContext();
             GetOrderTable();
             _dataService = new DataService();
-            _orderModel = new OrderModel(_TmsDbContext);
+            _orderModel = new OrderModel();
             _carrierViewModel = new CarrierViewModel();
             CarrierData = _carrierViewModel.CarrierData;
             _plannerModel = new PlannerModel();

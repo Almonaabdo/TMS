@@ -67,13 +67,13 @@ public class BuyerViewModel : ViewModelBase
 
     public BuyerViewModel()
     {
-        _buyerModel = new BuyerModel(_tmsDbContext);
+        _buyerModel = new BuyerModel();
 
         CreateOrderCommand = new RelayCommand(CallCreateOrder);
         ProcessInvoiceCommand = new RelayCommand(CallProcessInvoice);
 
 
-        _orderModelObject = new OrderModel(_tmsDbContext);
+        _orderModelObject = new OrderModel();
         _dataService = new DataService();
         _invoiceModel = new InvoiceGeneratorModel();
         LoadData();
