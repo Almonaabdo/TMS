@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
-        Title="AdminView" Height="450" Width="800">
+        Title="AdminView" Height="450" Width="800" WindowState="Maximized">
 
 
     <Window.DataContext>
@@ -127,61 +127,58 @@
 
                 <!--ALTER DATA TAB-->
                 <TabItem Header="Edit Tables" Background="#304674" FontWeight="Medium">
-                    <Grid Background="#91BAD6" Height="485">
+                    <Grid Background="#91BAD6">
                         <TabControl Margin="10,10,10,10">
 
                             <!-- Route Tab -->
                             <TabItem Header="Edit Route" Background="#304674">
-                                <Grid Background="#304674" Height="438">
+                                <Grid Background="#304674">
                                     <DataGrid Name="RouteTable" ItemsSource="{Binding RateRouteViewModel.RouteData}" Background="Azure"
                                               IsReadOnly="False"
-                                              HorizontalAlignment="Center" VerticalAlignment="Top"
-                                              Width="580" Height="366" Margin="0,16,0,0" />
+                                              HorizontalAlignment="Left" VerticalAlignment="Top"
+                                              Width="168" Height="240" Margin="321,32,0,0" />
                                     <Button Content="Save Changes" Command="{Binding RateRouteViewModel.SaveRouteCommand}" Height="30"
                                             Width="109"
                                             Background="Azure" FontWeight="Bold" FontSize="15"
                                             VerticalAlignment="Bottom" HorizontalAlignment="Left"
-                                            Margin="350,0,0,23" />
+                                            Margin="390,0,0,121" />
                                 </Grid>
                             </TabItem>
 
 
                             <!-- Rates Tab -->
                             <TabItem Header="Edit Rate/Fee" Background="#304674">
-                                <Grid Background="#304674" Height="437">
+                                <Grid Background="#304674">
                                     <DataGrid ItemsSource="{Binding RateRouteViewModel.RateData}" Background="Azure"
-                                              IsReadOnly="False" HorizontalAlignment="Center" VerticalAlignment="Top" Height="366" Width="672" Margin="0,5,0,0" />
+                                              IsReadOnly="False" HorizontalAlignment="Center" VerticalAlignment="Top" Height="324" Width="672" Margin="0,5,0,0" />
                                     <Button Content="Save" Command="{Binding RateRouteViewModel.SaveRouteCommand}" Height="31" Width="98"
-                                            Background="Azure" FontWeight="Bold" FontSize="15" Margin="378,382,379,24" />
+                                            Background="Azure" FontWeight="Bold" FontSize="15" Margin="378,365,379,10" />
                                 </Grid>
                             </TabItem>
 
                             <!-- Carrier Tab -->
                             <TabItem Header="Edit Carrier" Background="#304674">
                                 <Grid Background="#304674">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="109*" />
-                                        <ColumnDefinition Width="679*" />
-                                    </Grid.ColumnDefinitions>
+
                                     <DataGrid ItemsSource="{Binding CarrierViewModel.CarrierData}"
                                               Background="Azure" CanUserAddRows="False" HorizontalAlignment="Left"
-                                              VerticalAlignment="Top" IsReadOnly="False" Height="353" Width="717" Margin="78,10,0,0" Grid.ColumnSpan="2" />
+                                              VerticalAlignment="Top" IsReadOnly="False" Height="217" Width="717" Margin="78,10,0,0" />
 
-                                    <Button Content="Save" Command="{Binding CarrierViewModel.SaveCarrierCommand}" Background="Azure" FontWeight="Bold" FontSize="15"
-                                            Grid.Column="1" Margin="251,368,368,34" />
+                                    <Button Content="Save" Command="{Binding CarrierViewModel.SaveCarrierCommand}" Background="Azure" FontWeight="Bold" FontSize="15" Margin="286,312,333,55" />
                                 </Grid>
                             </TabItem>
 
                             <!-- Delete Tab -->
                             <TabItem Header="Delete" Background="#304674">
-                                <Grid Background="#304674" Margin="10,0,10,0" Height="427">
-                                    <StackPanel>
+                                <Grid Background="#304674">
+                                    <StackPanel Margin="0,10,0,0">
                                         <Label Content="Select a table to delete from:" FontWeight="Medium"
                                                Foreground="#b2cbde"
                                                HorizontalAlignment="Center" Margin="0,0,0,5" />
                                         <ComboBox ItemsSource="{Binding DeleteViewModel.DeleteOptions}"
                                                   SelectedItem="{Binding DeleteViewModel.SelectedDeleteOption}"
                                                   Width="200" />
+                                        
                                     </StackPanel>
 
                                     <DataGrid ItemsSource="{Binding DeleteViewModel.CarrierTable}"
@@ -202,7 +199,7 @@
                                     <Button Content="Delete Selected Rows" Background="Azure" FontWeight="Bold"
                                             FontSize="15" Height="35" Width="200"
                                             Command="{Binding DeleteViewModel.DeleteCommand}"
-                                            HorizontalAlignment="Center" Margin="0,372,0,10" />
+                                            HorizontalAlignment="Center" Margin="0,361,0,10" />
                                 </Grid>
                             </TabItem>
 
@@ -213,7 +210,7 @@
                                     <StackPanel Margin="61,0,41,71">
 
                                         <!-- Input Fields for Creating a New Carrier -->
-                                        <StackPanel x:Name="CarrierInputFields" Visibility="Visible">
+                                        <StackPanel x:Name="CarrierInputFields" Visibility="Visible" Margin="0,10,0,0">
                                             <Label Content="Company Name" />
                                             <TextBox Text="{Binding CarrierViewModel.CompanyName}"
                                                      RenderTransformOrigin="0.5,0.5" Height="22" />
@@ -236,7 +233,7 @@
                                     <Button Content="Add" Background="Azure" HorizontalAlignment="Center"
                                             VerticalAlignment="Top" FontWeight="Bold" FontSize="15"
                                             Command="{Binding CarrierViewModel.CreateCarrierCommand}" Height="50"
-                                            Width="140" Margin="0,349,0,0" />
+                                            Width="140" Margin="0,340,0,0" />
                                 </Grid>
                             </TabItem>
                         </TabControl>
