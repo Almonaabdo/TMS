@@ -46,6 +46,35 @@ public class PlannerModel
         
     }
 
+    /*
+    * METHOD NAME: GetCarrier
+    * DESCRIPTION: Gets carrier information from the DB
+    * 
+    * RETURN: carrier if found, null otherwise
+    */
+    public Carrier? GetCarrierUsingOriginCity(string originCityy)
+    {
+        try
+        {
+            var carrier = _db.Carriers?.FirstOrDefault(e => e.DepotCity == originCityy);
+            if (carrier != null)
+            {
+                _loggerModel.LogInfo($" Carrier {carrier.CompanyName} found");
+                return carrier;
+
+            }
+            return null;
+        }
+
+        catch
+        {
+            _loggerModel.LogError("Finding carrier failed");
+            MessageBox.Show("Finding carrier failed");
+            return null;
+        }
+
+    }
+
 
     /*
     * METHOD NAME: AddTripToOrder

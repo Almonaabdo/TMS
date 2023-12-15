@@ -135,7 +135,7 @@ public class OrderModel
             var newOrder = new Order();
 
             newOrder.OrderStatus = OrderStatus.Pending;
-            newOrder.DateInitiated = DateTime.Today;
+            newOrder.DateInitiated = DateTime.Now;
             newOrder.DestinationCity = destCity;
             newOrder.SourceCity = originCity;
             newOrder.CustomerId = customerId;
@@ -210,7 +210,7 @@ public class OrderModel
     *
     * RETURN: void
     */
-    public void CompleteOrder(int orderId)
+    public void CompleteOrder(int orderId, DateTime date)
     {
         try
         {
@@ -223,7 +223,7 @@ public class OrderModel
                 UpdateTripStatus(orderId, TripStatus.Completed);
                 order.OrderStatus = OrderStatus.Completed;
                 // changing dataCopleted to the current date of today.
-                order.DateCompleted = DateTime.Now;
+                order.DateCompleted = date;
 
                 _db.SaveChanges();
             }

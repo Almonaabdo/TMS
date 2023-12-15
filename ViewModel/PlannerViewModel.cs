@@ -99,6 +99,8 @@ namespace TMS_Project.ViewModel
 
         public ICommand AllTimeCommand { get; }
 
+        public ICommand IncrementDayCommand { get; }
+
         private DataService DataService { get; }
 
         private readonly TmsDbContext _tmsDbContext = DbContextSingleton.Instance;
@@ -124,6 +126,7 @@ namespace TMS_Project.ViewModel
             AddCarrierCommand = new RelayCommand(AddCarrier);
             ActiveOrdersTabCommand = new RelayCommand(RefreshActiveOrdersTab);
             OrdersTabCommand = new RelayCommand(RefreshOrdersTab);
+            IncrementDayCommand = new RelayCommand(IncrementOneDay);
             _currentDate = DateTime.Today;
             GetOrderTable();
             DataService = new DataService();
@@ -252,6 +255,69 @@ namespace TMS_Project.ViewModel
 
 
         /*
+        * METHOD NAME: IncrementOneDay
+        * DESCRIPTION: Completes all orders and add one day to date time
+        * 
+        * RETURN: void
+        */
+        private void IncrementOneDay()
+        {
+            if (OrderDataInProgress == null)
+            {
+                MessageBox.Show("There is no orders to complete refresh to load new orders", "Increment Date by one day");
+                return;
+            }
+
+            MessageBoxButton incrementDay = MessageBoxButton.OKCancel;
+            var choice = MessageBox.Show($"This will complete Orders. Do you want to procede", "Increment Date by one day", incrementDay);
+
+            if (choice == MessageBoxResult.Cancel)
+            {
+                return;
+            }
+
+            try
+            {
+                CurrentDate = DateTime.Now;
+                CurrentDate = CurrentDate.AddDays(1);
+                DateTime dayToday = DateTime.Now;
+                DateTime incrementedDay = dayToday.AddDays(1);
+
+                double result = incrementedDay.Subtract(dayToday).TotalHours;
+
+                
+                if (result >= 24)
+                {
+                    
+                    foreach (Order order in OrderDataInProgress)
+                    {
+
+                        //Calls Order model method that saves the completed order to database
+                        OrderModel.CompleteOrder(order.OrderId, incrementedDay);
+                        _loggerModel.LogInfo($"Automoatically completed {order.OrderId}");
+                    }
+                    RefreshActiveOrdersTab();
+                    
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            catch
+            {
+                
+                _loggerModel.LogError("Completing all orders by incrementing date by one day failed");
+                MessageBox.Show("Completing all orders by incrementing date by one day failed", "Error");
+            }
+            
+
+            
+
+        }
+
+        /*
         * METHOD NAME: AddCarrier
         * DESCRIPTION: Adds one or multiple carriers in the order for its trip(s)
         * 
@@ -261,10 +327,19 @@ namespace TMS_Project.ViewModel
         {
             try
             {
+
+                if(OrderData == null)
+                {
+                    MessageBox.Show("Cant add a trip. There is now orders refresh to get new orders, Error");
+                    return;
+
+                }
+
+
                 //Check if an order is picked
                 if (SelectedOrder == null)
                 {
-                    MessageBox.Show($"Can't proceed please pick an order");
+                    MessageBox.Show($"Can't proceed please pick an order, Error");
                     return;
                 }
 
@@ -284,6 +359,7 @@ namespace TMS_Project.ViewModel
                 //If first carrier not null do the following
                 if (SelectedCarrier != null)
                 {
+
                     //Get the source and destination by calling the order model method
                     string? sourceCity = OrderModel.GetCityById(SelectedOrder.SourceCityId);
                     string? destinationCity = OrderModel.GetCityById(SelectedOrder.DestinationCityId);
@@ -334,19 +410,14 @@ namespace TMS_Project.ViewModel
 
                         //successful adding of trip to an order
                         PlannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
-                        MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
+                        MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}", "Trip Added");
                         _loggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
                         RefreshOrdersTab();
 
                     }
 
                 }
-                //Check if an order is picked
-                if (SelectedOrder == null)
-                {
-                    MessageBox.Show($"Can't proceed please pick an order");
-                    return;
-                }
+                
 
                 //Can't pick order in progress
                 if (SelectedOrder.OrderStatus == OrderStatus.InProgress)
@@ -413,7 +484,7 @@ namespace TMS_Project.ViewModel
 
                         //successful adding of trip to an order
                         PlannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
-                        MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
+                        MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}", "Trip Added");
                         _loggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
                         RefreshOrdersTab();
 
@@ -449,7 +520,7 @@ namespace TMS_Project.ViewModel
                     return;
                 }
                 //Calls Order model method that saves the completed order to database
-                OrderModel.CompleteOrder(SelectedInProgressOrder.OrderId);
+                OrderModel.CompleteOrder(SelectedInProgressOrder.OrderId, DateTime.Now);
                 MessageBox.Show($"Successfully Completed Order# {SelectedInProgressOrder.OrderId}");
                 _loggerModel.LogInfo($"Successfully Completed Order# {SelectedInProgressOrder.OrderId}");
                 //Refresh the page
