@@ -18,8 +18,8 @@ namespace TMS_Project.ViewModel
         #region Fields
 
         private readonly LoggerModel _loggerModel = LoggerModel.Instance;
-
-        private readonly DataService _dataService;
+        private readonly ConfigService _configService;
+        private readonly AdminServices _adminServices;
         private string? _selectedLogFile;
         private string? _selectedBackupFile;
         private int _backUpProgress;
@@ -124,7 +124,8 @@ namespace TMS_Project.ViewModel
         /// </summary>
         public FileViewModel()
         {
-            _dataService = new DataService();
+            _adminServices = new AdminServices();
+            _configService = new ConfigService();
             BackUpDbCommand = new RelayCommand(BackUp);
             OpenSelectedBackupCommand = new RelayCommand(OpenSelectedBackup);
             OpenSelectedFileCommand = new RelayCommand(OpenSelectedLog, CanOpenLog);
@@ -178,14 +179,13 @@ namespace TMS_Project.ViewModel
             {
                 try
                 {
-                    _dataService.BackUpDatabase();
+                    _adminServices.BackUpDatabase();
                     Application.Current.Dispatcher.Invoke(() => { BackUpProgress = 100; });
                     
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
-                   _loggerModel.LogException("Error performing backup.");
+                   _loggerModel.LogException($"Error performing backup.{e.Message}");
                 }
                 finally
                 {
@@ -205,12 +205,12 @@ namespace TMS_Project.ViewModel
         */
         private void OpenSelectedBackup()
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json")
-                .Build();
+            // IConfigurationRoot configuration = new ConfigurationBuilder()
+            //     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            //     .AddJsonFile("appsettings.json")
+            //     .Build();
 
-            var backupFolderPath = configuration["Backups:BackupFolder"];
+            var backupFolderPath = _configService.GetBackupPath();
             
             if (string.IsNullOrEmpty(SelectedBackupFile)) return;
             
@@ -228,8 +228,7 @@ namespace TMS_Project.ViewModel
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error opening file: {ex.Message}");
-                _loggerModel.LogException($"Error opening SQL file.");
+                _loggerModel.LogException($"Error opening SQL file.{ex.Message}");
             }
         }
 
@@ -243,12 +242,12 @@ namespace TMS_Project.ViewModel
         private void LoadBackupFiles()
         {
             // Specify path for storing backups
-            IConfigurationRoot backUpFolder = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json")
-                .Build();
+            // IConfigurationRoot backUpFolder = new ConfigurationBuilder()
+            //     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            //     .AddJsonFile("appsettings.json")
+            //     .Build();
 
-            var path = backUpFolder["Backups:BackupFolder"];
+            var path = _configService.GetBackupPath();
             BackupFiles = new ObservableCollection<string?>();
             if (path != null) LoadFiles(path, BackupFiles, ref _selectedBackupFile);
         }
@@ -279,8 +278,7 @@ namespace TMS_Project.ViewModel
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error opening file: {ex.Message}");
-                _loggerModel.LogException("Error opening log file.");
+                _loggerModel.LogException($"Error opening log file.{ex.Message}");
             }
         }
 
@@ -326,8 +324,7 @@ namespace TMS_Project.ViewModel
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                _loggerModel.LogException("Error loading files.");
+                _loggerModel.LogException($"Error loading files.{e.Message}");
             }
         }
 

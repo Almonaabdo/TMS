@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using NLog;
 using TMS_Project.View;
 
 namespace TMS_Project.Model;
@@ -14,9 +16,16 @@ public class NavigationService
     */
     private static void CloseCurrWindow()
     {
-        if (Application.Current.MainWindow != null)
+        try
         {
-            Application.Current.MainWindow.Close();
+            if (Application.Current.MainWindow != null)
+            {
+                Application.Current.MainWindow.Close();
+            }
+        }
+        catch (Exception e)
+        {
+            LoggerModel.Instance.LogException($"{e.Message}");
         }
     }
 
@@ -31,9 +40,16 @@ public class NavigationService
     */
     public void NavigateToAdmin()
     {
-        var adminWindow = new AdminView();
-        adminWindow.Show();
-        CloseCurrWindow();
+        try
+        {
+            var adminWindow = new AdminView();
+            adminWindow.Show();
+            CloseCurrWindow();
+        }
+        catch (Exception e)
+        {
+            LoggerModel.Instance.LogException($"{e.Message}");
+        }
     }
 
     #endregion
@@ -49,16 +65,23 @@ public class NavigationService
     */
     public void NavigateToLogin()
     {
-        var loginWindow = new LogInView();
-        loginWindow.Show();
-
-        // Close the previous window (assuming it's not the main window)
-        foreach (var window in Application.Current.Windows)
+        try
         {
-            if (window != loginWindow)
+            var loginWindow = new LogInView();
+            loginWindow.Show();
+
+            // Close the previous window (assuming it's not the main window)
+            foreach (var window in Application.Current.Windows)
             {
-                ((Window)window).Close();
+                if (window != loginWindow)
+                {
+                    ((Window)window).Close();
+                }
             }
+        }
+        catch (Exception e)
+        {
+            LoggerModel.Instance.LogException($"{e.Message}");
         }
     }
 
@@ -75,9 +98,16 @@ public class NavigationService
     */
     public void NavigateToPlanner()
     {
-        var plannerWindow = new PlannerView();
-        plannerWindow.Show();
-        CloseCurrWindow();
+        try
+        {
+            var plannerWindow = new PlannerView();
+            plannerWindow.Show();
+            CloseCurrWindow();
+        }
+        catch (Exception e)
+        {
+            LoggerModel.Instance.LogException($"{e.Message}");
+        }
     }
 
     #endregion
@@ -93,9 +123,16 @@ public class NavigationService
     */
     public void NavigateToBuyer()
     {
-        var buyerWindow = new BuyerView();
-        buyerWindow.Show();
-        CloseCurrWindow();
+        try
+        {
+            var buyerWindow = new BuyerView();
+            buyerWindow.Show();
+            CloseCurrWindow();
+        }
+        catch (Exception e)
+        {
+            LoggerModel.Instance.LogException($"{e.Message}");
+        }
     }
 
     #endregion

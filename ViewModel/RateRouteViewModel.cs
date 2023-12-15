@@ -12,12 +12,12 @@ namespace TMS_Project.ViewModel;
 
 public class RateRouteViewModel: ViewModelBase
 {
-    private readonly DataService _dataService;
+    private readonly AdminServices _adminServices;
 
 
     public RateRouteViewModel()
     {
-        _dataService = new DataService();
+        _adminServices = new AdminServices();
         SaveRateCommand = new RelayCommand(SaveRateChanges);
         SaveRouteCommand = new RelayCommand(SaveRouteChanges);
         LoadData();
@@ -45,8 +45,8 @@ public class RateRouteViewModel: ViewModelBase
     private void LoadData()
     {
         // Load Carrier data
-        RateData = new ObservableCollection<Rate>(_dataService.RetrieveTable<Rate>() ?? throw new InvalidOperationException());
-        RouteData = new ObservableCollection<JoinedRouteTable>(_dataService.GetJoinedRouteData() ?? throw new InvalidOperationException());
+        RateData = new ObservableCollection<Rate>(_adminServices.RetrieveTable<Rate>() ?? throw new InvalidOperationException());
+        RouteData = new ObservableCollection<JoinedRouteTable>(_adminServices.GetJoinedRouteData() ?? throw new InvalidOperationException());
         OnPropertyChanged(nameof(RateData));
     }
 
@@ -65,7 +65,7 @@ public class RateRouteViewModel: ViewModelBase
 
             foreach (var rate in updatedRate)
             {
-                _dataService.SaveChanges(rate);
+                _adminServices.SaveChanges(rate);
             }
 
             MessageBox.Show("Changes saved successfully!","Database operation", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -91,7 +91,7 @@ public class RateRouteViewModel: ViewModelBase
 
             foreach (var routeData in updatedRoute)
             {
-                _dataService.SaveChanges(routeData);
+                _adminServices.SaveChanges(routeData);
             }
 
             MessageBox.Show("Changes saved successfully!", "Database operation", MessageBoxButton.OK,

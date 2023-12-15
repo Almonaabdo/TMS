@@ -1,5 +1,4 @@
 ﻿using System;
-using TMS_Project.DataLayer.Context;
 using TMS_Project.DataLayer.Model;
 using System.Linq;
 // ReSharper disable UnusedType.Global
@@ -8,19 +7,13 @@ namespace TMS_Project.Model;
 
 public class OrderModel
 {
-    const double Ftlmarkup = 0.08;
-    const double Ltlmarkup = 0.05;
-    //private readonly TmsDbContext _db;
-    private readonly TmsDbContext _db = DbContextSingleton.Instance;
-    private readonly LoggerModel _loggerModel = LoggerModel.Instance;
+    #region Fields
 
+    private const double Ftlmarkup = 0.08;
+    private const double Ltlmarkup = 0.05;
 
-
-    // deault constructor.
-    public OrderModel()
-    { 
-    }
-
+    #endregion
+   
 
     #region Methods
 
@@ -32,7 +25,7 @@ public class OrderModel
     */
     public Customer? FindCustomerByName(string customerName)
     {
-        return _db.Customers?.SingleOrDefault(c => c.Name == customerName);
+        return DbContextSingleton.Instance.Customers?.SingleOrDefault(c => c != null && c.Name == customerName);
     }
 
 
@@ -42,7 +35,7 @@ public class OrderModel
     *
     * RETURN: newCustomer
     */
-    public Customer CreateCustomer(string name)
+    public Customer? CreateCustomer(string name)
     {
         try
         {
@@ -51,14 +44,14 @@ public class OrderModel
                 Name = name
             };
 
-            _db.Customers?.Add(newCustomer);
-            _db.SaveChanges();
+            DbContextSingleton.Instance.Customers?.Add(newCustomer);
+            DbContextSingleton.Instance.SaveChanges();
 
             return newCustomer;
         }
-        catch
+        catch(Exception e)
         {
-
+            LoggerModel.Instance.LogException($"{e.Message}");
         }
 
         return null;
@@ -75,12 +68,12 @@ public class OrderModel
     {
         try
         {
-            string city = "";
-            if (_db.Cities != null)
+            string? city = "";
+            if (DbContextSingleton.Instance.Cities != null)
             {
-                var cityFound = _db.Cities.FirstOrDefault(c => c.CityId == cityId);
-                city = cityFound.CityName.ToString();
-                _loggerModel.LogInfo($"{city} Found");
+                var cityFound = DbContextSingleton.Instance.Cities.FirstOrDefault(c => c.CityId == cityId);
+                city = cityFound?.CityName;
+                LoggerModel.Instance.LogInfo($"{city} Found");
                 return city;
             }
 
@@ -88,11 +81,10 @@ public class OrderModel
         }
         catch
         {
-            _loggerModel.LogError("Finding the city by id failed");
+            LoggerModel.Instance.LogError("Finding the city by id failed");
             return null;
            
         }
-        
     }
 
 
@@ -106,18 +98,18 @@ public class OrderModel
     {
         try
         {
-            if (_db.Cities != null)
+            if (DbContextSingleton.Instance.Cities != null)
             {
-                var city = _db.Cities.FirstOrDefault(c => c.CityName == cityName);
+                var city = DbContextSingleton.Instance.Cities.FirstOrDefault(c => c.CityName == cityName);
                 return city;
             }
         }
-        catch
+        catch (Exception e)
         {
-
+            LoggerModel.Instance.LogException($"{e.Message}");
         }
+        
         return null;
-
     }
 
 
@@ -132,14 +124,15 @@ public class OrderModel
         try
         {
             //Creates a new order with new properties
-            var newOrder = new Order();
-
-            newOrder.OrderStatus = OrderStatus.Pending;
-            newOrder.DateInitiated = DateTime.Now;
-            newOrder.DestinationCity = destCity;
-            newOrder.SourceCity = originCity;
-            newOrder.CustomerId = customerId;
-            newOrder.Quantity = quantity;
+            var newOrder = new Order
+            {
+                OrderStatus = OrderStatus.Pending,
+                DateInitiated = DateTime.Now,
+                DestinationCity = destCity,
+                SourceCity = originCity,
+                CustomerId = customerId,
+                Quantity = quantity
+            };
 
             //Job type and van type parsing
             if(jobType == 0)
@@ -159,15 +152,15 @@ public class OrderModel
             {
                 newOrder.VanType = VanType.Reefer;
             }
-            
 
-            _db.Orders?.Add(newOrder);
-            _db.SaveChanges();
-            _loggerModel.LogInfo($"{newOrder.OrderId} Succesfully created");
+
+            DbContextSingleton.Instance.Orders?.Add(newOrder);
+            DbContextSingleton.Instance.SaveChanges();
+            LoggerModel.Instance.LogInfo($"{newOrder.OrderId} Successfully created");
         }
         catch (Exception ex)
         {
-            _loggerModel.LogError($"Order creating error: {ex.Message}");
+            LoggerModel.Instance.LogError($"Order creating error: {ex.Message}");
         }
     }
 
@@ -183,22 +176,22 @@ public class OrderModel
         try
         {
             // searching for the entered order
-            var order = _db.Orders?.Find(orderId);
+            var order = DbContextSingleton.Instance.Orders?.Find(orderId);
 
             if (order != null)
             {
                 // remove order and save changes
-                _db.Orders?.Remove(order);
-                _db.SaveChanges();
+                DbContextSingleton.Instance.Orders?.Remove(order);
+                DbContextSingleton.Instance.SaveChanges();
             }
             else
             {
-                _loggerModel.LogError("Info: Specified Order Wasn't Found In Database.");
+                LoggerModel.Instance.LogError("Info: Specified Order Wasn't Found In Database.");
             }
         }
-        catch
+        catch(Exception e)
         {
-
+            LoggerModel.Instance.LogException($"{e.Message}");
         }
         
     }
@@ -206,7 +199,7 @@ public class OrderModel
 
     /*
     * METHOD NAME: CompleteOrder
-    * DESCRIPTION: Changes status of specified order, and completed order data as todays date.
+    * DESCRIPTION: Changes status of specified order, and completed order data as today's date.
     *
     * RETURN: void
     */
@@ -215,28 +208,27 @@ public class OrderModel
         try
         {
             // searching for the entered order
-            var order = _db.Orders?.Find(orderId);
+            var order = DbContextSingleton.Instance.Orders?.Find(orderId);
 
             if (order != null)
             {
                 // updating the status of the found order by changing status and dateCompleted.
                 UpdateTripStatus(orderId, TripStatus.Completed);
                 order.OrderStatus = OrderStatus.Completed;
-                // changing dataCopleted to the current date of today.
+                // changing dataCompleted to the current date of today.
                 order.DateCompleted = date;
 
-                _db.SaveChanges();
+                DbContextSingleton.Instance.SaveChanges();
             }
             else
             {
-                _loggerModel.LogError("Info: Can't Complete order! Specified Order Wasn't Found In Database.");
+                LoggerModel.Instance.LogError("Info: Can't Complete order! Specified Order Wasn't Found In Database.");
             }
         }
-        catch
+        catch (Exception e)
         {
-
+            LoggerModel.Instance.LogException($"{e.Message}");
         }
-        
     }
 
 
@@ -246,12 +238,12 @@ public class OrderModel
     * 
     * RETURN: void
     */
-    public void UpdateTripStatus(int tripId, TripStatus newStatus)
+    private void UpdateTripStatus(int tripId, TripStatus newStatus)
     {
         try
         {
             // find specified trip.
-            var trip = _db.Trips?.Find(tripId);
+            var trip = DbContextSingleton.Instance.Trips?.Find(tripId);
 
 
             if (trip != null)
@@ -261,24 +253,22 @@ public class OrderModel
                 {
                     // update trip if it's found and doesn't match
                     trip.TripStatus = newStatus;
-                    _db.SaveChanges();
+                    DbContextSingleton.Instance.SaveChanges();
                 }
                 else
                 {
-                    _loggerModel.LogError("Info: Trip Status Wasn't change as new status remains the same");
+                    LoggerModel.Instance.LogError("Info: Trip Status Wasn't change as new status remains the same");
                 }
             }
             else
             {
-                _loggerModel.LogError("Info: Can't Change Trip Status! Specified trip Wasn't Found In Database.");
+                LoggerModel.Instance.LogError("Info: Can't Change Trip Status! Specified trip Wasn't Found In Database.");
             }
         }
-        catch
+        catch(Exception e)
         {
-
+            LoggerModel.Instance.LogException($"{e.Message}");
         }
-       
-
     }
 
 
@@ -288,20 +278,20 @@ public class OrderModel
     * 
     * RETURN: double[], [0] = totalKm, [1] = totalHrs
     */
-    public double[] GetKmAndHrs(string destination, string origin)
+    public double[]? GetKmAndHrs(string destination, string origin)
     {
         try
         {
-            double[] totalKmAndHrs = new double[2];
+            var totalKmAndHrs = new double[2];
 
-            var route = _db?.Routes?.FirstOrDefault(e =>
+            var route = DbContextSingleton.Instance.Routes?.FirstOrDefault(e =>
                 e.SourceCity.CityName == origin && e.DestinationCity.CityName == destination);
 
             if (route != null)
             {
                 totalKmAndHrs[0] = Math.Round(route.Distance, 3);
                 totalKmAndHrs[1] = Math.Round(route.Duration, 3);
-                _loggerModel.LogInfo($"Succesfully found total km and hrs. Total Km: {totalKmAndHrs[0]} Total hours: {totalKmAndHrs[1]}");
+                LoggerModel.Instance.LogInfo($"Successfully found total km and hrs. Total Km: {totalKmAndHrs[0]} Total hours: {totalKmAndHrs[1]}");
             }
 
 
@@ -309,7 +299,7 @@ public class OrderModel
         }
         catch
         {
-            _loggerModel.LogError("Getting the km and hours of the specifc route failed");
+            LoggerModel.Instance.LogError("Getting the km and hours of the specific route failed");
         }
         return null;
     }
@@ -321,7 +311,7 @@ public class OrderModel
     *
     * RETURN: double[] profit for TMS and carrier
     */
-    public double[] CalculateRate(Carrier carrier, double totalKm, int vanType, double quantity, int job_type)
+    public double[] CalculateRate(Carrier carrier, double totalKm, int vanType, double quantity, int jobType)
     {
         double[] totalAmount = new double[2];
         try
@@ -334,7 +324,7 @@ public class OrderModel
             
 
             //ftl
-            if (job_type == 0)
+            if (jobType == 0)
             {
                 //reefer van
                 if (vanType == 1)
@@ -344,7 +334,7 @@ public class OrderModel
                     totalAmount[0] = amount * Ftlmarkup;
                     // Money gain for TMS
                     totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
-                    _loggerModel.LogInfo($"Succesfully calculated the amount Tms money: {totalAmount[0]} Truck money: {totalAmount[1]}");
+                    LoggerModel.Instance.LogInfo($"Successfully calculated the amount Tms money: {totalAmount[0]} Truck money: {totalAmount[1]}");
                     return totalAmount;
                     
                 }
@@ -354,13 +344,13 @@ public class OrderModel
                     double amount = ftlRate * totalKm;
                     totalAmount[0] = amount * Ftlmarkup;             // Money gain for TMS
                     totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
-                    _loggerModel.LogInfo($"Succesfully calculated the amount Tms money: {totalAmount[0]} Truck money: {totalAmount[1]}");
+                    LoggerModel.Instance.LogInfo($"Successfully calculated the amount Tms money: {totalAmount[0]} Truck money: {totalAmount[1]}");
                     return totalAmount;
                 }
                 
             }
             //ltl
-            else if (job_type == 1)
+            else if (jobType == 1)
             {
                 //reefer van
                 if (vanType == 1)
@@ -370,7 +360,7 @@ public class OrderModel
 
                     totalAmount[0] = amount * Ltlmarkup;             // Money gain for TMS
                     totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
-                    _loggerModel.LogInfo($"Succesfully calculated the amount Tms money: {totalAmount[0]} Truck money: {totalAmount[1]}");
+                    LoggerModel.Instance.LogInfo($"Successfully calculated the amount Tms money: {totalAmount[0]} Truck money: {totalAmount[1]}");
                     return totalAmount;
 
                 }
@@ -380,20 +370,18 @@ public class OrderModel
                     double amount = (ltlRate * totalKm) * quantity;
                     totalAmount[0] = amount * Ltlmarkup;             // Money gain for TMS
                     totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
-                    _loggerModel.LogInfo($"Succesfully calculated the amount Tms money: {totalAmount[0]} Truck money: {totalAmount[1]}");
+                    LoggerModel.Instance.LogInfo($"Successfully calculated the amount Tms money: {totalAmount[0]} Truck money: {totalAmount[1]}");
                     return totalAmount;
                 }
                
             }
             return totalAmount;
         }
-
-        catch
+        catch(Exception e)
         {
-            _loggerModel.LogError("Calculating the total cost failed. The arguements values might be wrong");
+            LoggerModel.Instance.LogException($"Calculating the total cost failed. The arguments values might be wrong. {e.Message}");
             return totalAmount;
         }
-        
 
     }
 

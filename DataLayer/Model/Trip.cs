@@ -15,8 +15,8 @@ namespace TMS_Project.DataLayer.Model
         public double TripCost { get; set; }
 
         // Navigation properties
-        [ForeignKey("OrderId")] public Order Order { get; set; }
-        public Carrier Carrier { get; set; }
+        [ForeignKey("OrderId")] public Order? Order { get; set; }
+        public Carrier? Carrier { get; set; }
     }
 
     public enum TripStatus

@@ -14,16 +14,16 @@ namespace TMS_Project.ViewModel
     {
         #region Fields
 
-        private string _selectedDeleteOption;
-        private List<string> _deleteOptions;
-        private readonly DataService _dataService;
-        private ObservableCollection<JoinedRouteTable> _routeTable;
-        private ObservableCollection<Rate> _rateTable;
-        private ObservableCollection<Carrier> _carrierTable;
-
-        private Carrier _selectedCarrier;
-        private JoinedRouteTable _selectedRoute;
-        private Rate _selectedRate;
+        private string? _selectedDeleteOption;
+        private List<string>? _deleteOptions;
+        private readonly AdminServices _adminServices;
+        private ObservableCollection<JoinedRouteTable>? _routeTable;
+        private ObservableCollection<Rate>? _rateTable;
+        private ObservableCollection<Carrier>? _carrierTable;
+        private readonly LoggerModel _loggerModel = LoggerModel.Instance;
+        private Carrier? _selectedCarrier;
+        private JoinedRouteTable? _selectedRoute;
+        private Rate? _selectedRate;
 
         private Visibility _isRouteTableVisible = Visibility.Hidden;
         private Visibility _isRateTableVisible = Visibility.Hidden;
@@ -33,7 +33,7 @@ namespace TMS_Project.ViewModel
 
         #region Properties
 
-        public List<string> DeleteOptions
+        public List<string>? DeleteOptions
         {
             get => _deleteOptions;
             set
@@ -43,7 +43,7 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        public string SelectedDeleteOption
+        public string? SelectedDeleteOption
         {
             get => _selectedDeleteOption;
             set
@@ -54,7 +54,7 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        public ObservableCollection<JoinedRouteTable> RouteTable
+        public ObservableCollection<JoinedRouteTable>? RouteTable
         {
             get => _routeTable;
             set
@@ -64,7 +64,7 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        public ObservableCollection<Rate> RateTable
+        public ObservableCollection<Rate>? RateTable
         {
             get => _rateTable;
             set
@@ -74,7 +74,7 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        public ObservableCollection<Carrier> CarrierTable
+        public ObservableCollection<Carrier>? CarrierTable
         {
             get => _carrierTable;
             set
@@ -128,7 +128,7 @@ namespace TMS_Project.ViewModel
 
         #region Selected Item Properties
 
-        public Carrier SelectedCarrier
+        public Carrier? SelectedCarrier
         {
             get => _selectedCarrier;
             set
@@ -138,7 +138,7 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        public Rate SelectedRate
+        public Rate? SelectedRate
         {
             get => _selectedRate;
             set
@@ -148,7 +148,7 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        public JoinedRouteTable SelectedRoute
+        public JoinedRouteTable? SelectedRoute
         {
             get => _selectedRoute;
             set
@@ -164,7 +164,7 @@ namespace TMS_Project.ViewModel
 
         public DeleteViewModel()
         {
-            _dataService = new DataService();
+            _adminServices = new AdminServices();
             DeleteOptions = new List<string> { "Route", "Rate", "Carrier" }; // Add other options as needed
             DeleteCommand = new RelayCommand(DeleteData);
         }
@@ -185,14 +185,14 @@ namespace TMS_Project.ViewModel
             switch (SelectedDeleteOption)
             {
                 case "Route":
-                    RouteTable = new ObservableCollection<JoinedRouteTable>(_dataService.GetJoinedRouteData()?.Cast<JoinedRouteTable>() ??
+                    RouteTable = new ObservableCollection<JoinedRouteTable>(_adminServices.GetJoinedRouteData()?.Cast<JoinedRouteTable>() ??
                                                                              throw new InvalidOperationException());
                     IsRouteTableVisible = Visibility.Visible;
                     IsRateTableVisible = Visibility.Hidden; // Ensure other tables are hidden
                     IsCarrierTableVisible = Visibility.Hidden;
                     break;
                 case "Rate":
-                    RateTable = new ObservableCollection<Rate>(_dataService.RetrieveTable<Rate>()?.Cast<Rate>() ??
+                    RateTable = new ObservableCollection<Rate>(_adminServices.RetrieveTable<Rate>()?.Cast<Rate>() ??
                                                                throw new InvalidOperationException());
                     IsRateTableVisible = Visibility.Visible;
                     IsRouteTableVisible = Visibility.Hidden; // Ensure other tables are hidden
@@ -200,7 +200,7 @@ namespace TMS_Project.ViewModel
                     break;
                 case "Carrier":
                     CarrierTable = new ObservableCollection<Carrier>(
-                        _dataService.RetrieveTable<Carrier>()?.Cast<Carrier>() ?? throw new InvalidOperationException());
+                        _adminServices.RetrieveTable<Carrier>()?.Cast<Carrier>() ?? throw new InvalidOperationException());
                     IsCarrierTableVisible = Visibility.Visible;
                     IsRouteTableVisible = Visibility.Hidden; // Ensure other tables are hidden
                     IsRateTableVisible = Visibility.Hidden;
@@ -222,19 +222,19 @@ namespace TMS_Project.ViewModel
         {
             try
             {
-                string tableId;
+                string? tableId;
                 switch (SelectedDeleteOption)
                 {
                     case "Route":
-                        tableId = SelectedRoute.RouteId.ToString();
+                        tableId = SelectedRoute?.RouteId.ToString();
                         DeleteRows<Route>(tableId);
                         break;
                     case "Rate":
-                        tableId = SelectedRate.RateId.ToString();
+                        tableId = SelectedRate?.RateId.ToString();
                         DeleteRows<Rate>(tableId);
                         break;
                     case "Carrier":
-                        tableId = SelectedCarrier.CarrierId.ToString();
+                        tableId = SelectedCarrier?.CarrierId.ToString();
                         DeleteRows<Carrier>(tableId);
                         break;
                     default:
@@ -244,9 +244,9 @@ namespace TMS_Project.ViewModel
                 }
             }
             catch (Exception e)
-            {
-                Console.WriteLine(e);
-                MessageBox.Show("Error deleting data.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            { 
+                _loggerModel.LogException($"{e.Message}");
+                MessageBox.Show("Error deleting selected row. Please try again later.", "Error saving changes", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -257,7 +257,7 @@ namespace TMS_Project.ViewModel
         * PARAM: tableID - uses tableID to locate the row to be deleted
         * RETURN: void
         */
-        private void DeleteRows<T>(string tableId) where T : class
+        private void DeleteRows<T>(string? tableId) where T : class
         {
             try
             {
@@ -268,7 +268,7 @@ namespace TMS_Project.ViewModel
                 {
                     if (int.TryParse(tableId, out var id))
                     {
-                        _dataService.DeleteData<T>(id);
+                        _adminServices.DeleteData<T>(id);
                     }
                     // Refresh the data after deletion
                     LoadTableData();
@@ -278,7 +278,7 @@ namespace TMS_Project.ViewModel
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _loggerModel.LogException($"{e.Message}");
                 MessageBox.Show("Error deleting row", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

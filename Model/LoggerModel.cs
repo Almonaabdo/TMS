@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Extensions.Configuration;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -11,47 +10,55 @@ namespace TMS_Project.Model;
 /// </summary>
 public class LoggerModel
 {
+    #region Fields
+
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger(); // Create Nlog instance
 
     // Create lazy instance for Singleton
     private static readonly Lazy<LoggerModel> LazyInstance = new(() => new LoggerModel());
+    private readonly ConfigService _configService;
 
+    #endregion
+
+    #region Constructor
+
+    /*
+     * METHOD NAME: LoggerModel
+     * DESCRIPTION: Initialize the config
+     *
+     * RETURN: void
+     */
     private LoggerModel()
     {
+        _configService = new ConfigService();
         ConfigLog(); // Initialize Nlog config when instance is created
     }
 
-    /// <summary>
-    ///     Property to access singleton instance
-    /// </summary>
     public static LoggerModel Instance => LazyInstance.Value;
+
+    #endregion
 
 
     #region Methods
+
     /*
-    * METHOD NAME: ConfigLog
-    * DESCRIPTION: Method to handle Nlog settings, logs all log levels to specified file
-    *
-    * RETURN: void
-    */
+     * METHOD NAME: ConfigLog
+     * DESCRIPTION: Method to handle Nlog settings, logs all log levels to specified file
+     *
+     * RETURN: void
+     */
     public void ConfigLog()
     {
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-        var logFilePath = configuration["Logging:LogFilePath"];
+        var logFilePath = _configService.GetLogFilePath();
         var dynamicFileName = $"{logFilePath}\\Logs_{DateTime.Now:yyyy-MM-dd}.log";
-        var config = new NLog.Config.LoggingConfiguration();
+        var config = new LoggingConfiguration();
 
 #pragma warning disable CA2000
-        var logToFile = new NLog.Targets.FileTarget("filelog")
+        var logToFile = new FileTarget("filelog")
         {
             FileName = dynamicFileName,
             KeepFileOpen = false, // Ensure the log file is closed after each write
             Layout = "${longdate}|${level:uppercase=true}|${message}" // Configure layout without class name
-
         };
 #pragma warning restore CA2000
 
@@ -62,11 +69,11 @@ public class LoggerModel
 
 
     /*
-    * METHOD NAME: Log
-    * DESCRIPTION: Method to log all levels to file
-    *
-    * RETURN: void
-    */
+     * METHOD NAME: Log
+     * DESCRIPTION: Method to log all levels to file
+     *
+     * RETURN: void
+     */
     private void Log(CustomLogLevel logLevel, string message)
     {
         var logEntry = $"{message}";
@@ -75,11 +82,11 @@ public class LoggerModel
 
 
     /*
-    * METHOD NAME: LogInfo
-    * DESCRIPTION: Method to log informational message with timestamp
-    *
-    * RETURN: void
-    */
+     * METHOD NAME: LogInfo
+     * DESCRIPTION: Method to log informational message with timestamp
+     *
+     * RETURN: void
+     */
     public void LogInfo(string message)
     {
         Log(CustomLogLevel.Info, message);
@@ -87,11 +94,11 @@ public class LoggerModel
 
 
     /*
-    * METHOD NAME: LogWarning
-    * DESCRIPTION: Method to log warning messages with timestamp
-    *
-    * RETURN: void
-    */
+     * METHOD NAME: LogWarning
+     * DESCRIPTION: Method to log warning messages with timestamp
+     *
+     * RETURN: void
+     */
     public void LogWarning(string message)
     {
         Log(CustomLogLevel.Warn, message);
@@ -99,11 +106,11 @@ public class LoggerModel
 
 
     /*
-    * METHOD NAME: LogError
-    * DESCRIPTION: Method to log error messages
-    *
-    * RETURN: void
-    */
+     * METHOD NAME: LogError
+     * DESCRIPTION: Method to log error messages
+     *
+     * RETURN: void
+     */
     public void LogError(string message)
     {
         Log(CustomLogLevel.Error, message);
@@ -111,11 +118,11 @@ public class LoggerModel
 
 
     /*
-    * METHOD NAME: LogException
-    * DESCRIPTION: Method to log exceptions
-    *
-    * RETURN: void
-    */
+     * METHOD NAME: LogException
+     * DESCRIPTION: Method to log exceptions
+     *
+     * RETURN: void
+     */
     public void LogException(string message)
     {
         Log(CustomLogLevel.Error, $"Exception details: {message}");
@@ -124,13 +131,14 @@ public class LoggerModel
     #endregion
 }
 
+#region Enums
 
 /*
-* METHOD NAME: CustomLogLevel
-* DESCRIPTION: Enum of the possible log levels
-*
-* RETURN: void
-*/
+ * METHOD NAME: CustomLogLevel
+ * DESCRIPTION: Enum of the possible log levels
+ *
+ * RETURN: void
+ */
 public enum CustomLogLevel
 {
     Info,
@@ -138,6 +146,9 @@ public enum CustomLogLevel
     Error
 }
 
+#endregion
+
+#region Customer Nlog convert class
 
 /// <summary>
 ///     Class to handle conversion of Custom log levels to Nlog levels
@@ -145,11 +156,11 @@ public enum CustomLogLevel
 internal static class LogLevelExt
 {
     /*
-    * METHOD NAME: ToNlogLevel
-    * DESCRIPTION: Convert custom log level to Nlog equivalent log level
-    *
-    * RETURN: loglevel 
-    */
+     * METHOD NAME: ToNlogLevel
+     * DESCRIPTION: Convert custom log level to Nlog equivalent log level
+     *
+     * RETURN: loglevel
+     */
     public static LogLevel ToNlogLevel(this CustomLogLevel logLevel)
     {
         return logLevel switch
@@ -159,5 +170,7 @@ internal static class LogLevelExt
             CustomLogLevel.Warn => LogLevel.Warn,
             _ => throw new ArgumentException($@"Unknown log level: {logLevel}", nameof(logLevel))
         };
+
     }
 }
+#endregion

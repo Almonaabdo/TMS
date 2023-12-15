@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows.Input;
-using TMS_Project.DataLayer.Context;
 using TMS_Project.Helper;
 using TMS_Project.Model;
 
@@ -12,9 +10,6 @@ namespace TMS_Project.ViewModel
         #region Fields
 
         private readonly LogInModel _logInModel;
-        private readonly TmsDbContext _dbContext;
-        private readonly LoggerModel _loggerModel = LoggerModel.Instance;
-
         private readonly NavigationService _navigation;
 
         #endregion
@@ -24,8 +19,7 @@ namespace TMS_Project.ViewModel
         public LogInViewModel()
         {
             _navigation = new NavigationService();
-            _dbContext = new TmsDbContext(); // Initialize _dbContext with a valid instance
-            _logInModel = new LogInModel(_dbContext);
+            _logInModel = new LogInModel();
             LoginCommand = new RelayCommand(Login, CanLogin);
             LogoutCommand = new RelayCommand(Logout);
 
@@ -38,31 +32,27 @@ namespace TMS_Project.ViewModel
         #region Properties
 
         // Properties bound to the UI
-        private string _username;
-        public string Username
+        private string? _username;
+        public string? Username
         {
-            get { return _username; }
+            get => _username;
             set
             {
-                if (_username != value)
-                {
-                    _username = value;
-                    OnPropertyChanged(nameof(Username));
-                }
+                if (_username == value) return;
+                _username = value;
+                OnPropertyChanged(nameof(Username));
             }
         }
 
-        private string _password;
-        public string Password
+        private string? _password;
+        public string? Password
         {
-            get { return _password; }
+            get => _password;
             set
             {
-                if (_password != value)
-                {
-                    _password = value;
-                    OnPropertyChanged(nameof(Password));
-                }
+                if (_password == value) return;
+                _password = value;
+                OnPropertyChanged(nameof(Password));
             }
         }
 
@@ -74,14 +64,12 @@ namespace TMS_Project.ViewModel
         private string _loginMessage;
         public string LoginMessage
         {
-            get { return _loginMessage; }
+            get => _loginMessage;
             set
             {
-                if (_loginMessage != value)
-                {
-                    _loginMessage = value;
-                    OnPropertyChanged(nameof(LoginMessage));
-                }
+                if (_loginMessage == value) return;
+                _loginMessage = value;
+                OnPropertyChanged(nameof(LoginMessage));
             }
         }
 
@@ -133,18 +121,18 @@ namespace TMS_Project.ViewModel
                 {
                     // Authentication successful, set the success message
                     LoginMessage = "Login successful! Welcome!";
-                    _loggerModel.LogInfo("Successful login");
+                    LoggerModel.Instance.LogInfo("Successful login");
 
                     // Based on the user, show the appropriate window
-                    if (Username.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+                    if (Username != null && Username.Equals("Admin", StringComparison.OrdinalIgnoreCase))
                     {
                         _navigation.NavigateToAdmin();
                     }
-                    else if (Username.Equals("Buyer", StringComparison.OrdinalIgnoreCase))
+                    else if (Username != null && Username.Equals("Buyer", StringComparison.OrdinalIgnoreCase))
                     {
                         _navigation.NavigateToBuyer();
                     }
-                    else if (Username.Equals("Planner", StringComparison.OrdinalIgnoreCase))
+                    else if (Username != null && Username.Equals("Planner", StringComparison.OrdinalIgnoreCase))
                     {
                         _navigation.NavigateToPlanner();
                     }
@@ -158,7 +146,7 @@ namespace TMS_Project.ViewModel
             catch (Exception ex)
             {
                 // Log the exception
-                _loggerModel.LogError($"An error occurred during login: {ex.Message}");
+                LoggerModel.Instance.LogError($"An error occurred during login: {ex.Message}");
                 // Optionally: Show a user-friendly error message
                 LoginMessage = "An unexpected error occurred during login. Please try again.";
             }
