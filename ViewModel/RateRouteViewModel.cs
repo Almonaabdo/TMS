@@ -22,13 +22,26 @@ public class RateRouteViewModel: ViewModelBase
         SaveRouteCommand = new RelayCommand(SaveRouteChanges);
         LoadData();
     }
+
     public ObservableCollection<Rate> RateData { get; private set; } = null!;
     public ObservableCollection<Route> JoinedRouteData { get; private set; } = null!;
     public ObservableCollection<JoinedRouteTable> RouteData { get; private set; } = null!;
 
+    #region Commands
+
     public ICommand SaveRateCommand { get; }
     public ICommand SaveRouteCommand { get; }
 
+    #endregion
+
+    #region Methods
+
+    /*
+    * METHOD NAME: LoadData
+    * DESCRIPTION: Loads carrier data 
+    * 
+    * RETURN: void
+    */
     private void LoadData()
     {
         // Load Carrier data
@@ -37,6 +50,13 @@ public class RateRouteViewModel: ViewModelBase
         OnPropertyChanged(nameof(RateData));
     }
 
+
+    /*
+    * METHOD NAME: SaveRateChanges
+    * DESCRIPTION: Saves the changes made in Rate table
+    * 
+    * RETURN: void
+    */
     private void SaveRateChanges()
     {
         try
@@ -57,6 +77,12 @@ public class RateRouteViewModel: ViewModelBase
     }
 
 
+    /*
+    * METHOD NAME: SaveRouteChanges
+    * DESCRIPTION: Saves the changes made in Route table
+    * 
+    * RETURN: void
+    */
     private void SaveRouteChanges()
     {
         try
@@ -76,4 +102,6 @@ public class RateRouteViewModel: ViewModelBase
             Console.WriteLine(e);
         }
     }
+
+    #endregion
 }

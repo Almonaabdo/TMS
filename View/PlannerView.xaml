@@ -116,9 +116,9 @@
                         <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="20,54,20,99" Grid.ColumnSpan="2"/>
 
                         <!--buttons for generating summary reports-->
-                        <TextBlock HorizontalAlignment="Left" Margin="130,381,0,0" Text="All Time Summary Report" VerticalAlignment="Top" Foreground="Azure" FontWeight="Medium" Grid.Column="1"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="142,381,0,0" Text="All Time Summary Report" VerticalAlignment="Top" Foreground="Azure" FontWeight="Medium" FontSize="10"/>
                         <Button Content="All Time" HorizontalAlignment="Left" Margin="136,337,0,0" VerticalAlignment="Top" Background="azure" FontSize="15" Height="39" Width="129" FontWeight="Bold" Grid.Column="1"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="402,381,0,0" Text="Two Weeks Time Summary Report" VerticalAlignment="Top" Foreground="Azure" FontWeight="Medium" Grid.Column="1"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="482,381,0,0" Text="Two Weeks Time Summary Report" VerticalAlignment="Top" Foreground="Azure" FontWeight="Medium" FontSize="10"/>
                         <Button Content="Two Weeks Time" HorizontalAlignment="Right" Margin="0,337,200,0" VerticalAlignment="Top" Background="azure" FontSize="15" Height="39" Width="129" FontWeight="Bold" Grid.Column="1"/>
 
                     </Grid>

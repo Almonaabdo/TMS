@@ -125,20 +125,32 @@ namespace TMS.ViewModel
             GetDistinctCarrierNames();
             GetPendingOrders();
             GetInProgressOrders();
-
-
         }
 
         #endregion
 
         #region Methods
 
+
+        /*
+        * METHOD NAME: RefreshOrdersTab
+        * DESCRIPTION: Refreshes the Orders tab
+        * 
+        * RETURN: void
+        */
         public void RefreshOrdersTab()
         {
             GetPendingOrders();
             GetOrderTable();
         }
 
+
+        /*
+        * METHOD NAME: RefreshActiveOrdersTab
+        * DESCRIPTION: Refreshes the Active Orders tab
+        * 
+        * RETURN: void
+        */
         public void RefreshActiveOrdersTab()
         {
             
@@ -146,15 +158,37 @@ namespace TMS.ViewModel
             GetOrderInProgressTable();
         }
 
+
+        /*
+        * METHOD NAME: GetPendingOrders
+        * DESCRIPTION: Gets the pending orders 
+        * 
+        * RETURN: void
+        */
         public void GetPendingOrders()
         {
             OrderData = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus == OrderStatus.Pending).ToList() ?? throw new InvalidOperationException());
         }
 
+
+        /*
+        * METHOD NAME: GetInProgressOrders
+        * DESCRIPTION: Gets the in progress orders 
+        * 
+        * RETURN: void
+        */
         public void GetInProgressOrders()
         {
             OrderDataInProgress = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus == OrderStatus.InProgress).ToList() ?? throw new InvalidOperationException());
         }
+
+
+        /*
+        * METHOD NAME: GetDistinctCarrierNames
+        * DESCRIPTION: Gets distinct carrier names for no repeats
+        * 
+        * RETURN: void
+        */
         public void GetDistinctCarrierNames()
         {
 
@@ -162,16 +196,37 @@ namespace TMS.ViewModel
 
         }
 
+
+        /*
+        * METHOD NAME: GetOrderTable
+        * DESCRIPTION: Displays order data in the table
+        * 
+        * RETURN: void
+        */
         public void GetOrderTable()
         {
             OnPropertyChanged(nameof(OrderData));
         }
 
+
+        /*
+        * METHOD NAME: GetOrderInProgressTable
+        * DESCRIPTION: Displays in progress order data in the table
+        * 
+        * RETURN: void
+        */
         public void GetOrderInProgressTable()
         {
             OnPropertyChanged(nameof(OrderDataInProgress));
         }
 
+
+        /*
+        * METHOD NAME: AddCarrier
+        * DESCRIPTION: Adds one or multiple carriers in the order for its trip(s)
+        * 
+        * RETURN: void
+        */
         public void AddCarrier()
         {
             try
@@ -193,7 +248,6 @@ namespace TMS.ViewModel
                         return;
                     }
                 }
-
                 if (SelectedCarrier != null)
                 {
                     
@@ -203,7 +257,7 @@ namespace TMS.ViewModel
                     var carrier = _plannerModel.GetCarrier(SelectedCarrier, sourceCity);
                     if (carrier == null)
                     {
-                        MessageBox.Show($"Can't assign {SelectedCarrier} as a carrier because it doesn't have the order's origin as a depot city");
+                        MessageBox.Show($"Can't assign {SelectedCarrier} as a carrier because it doesn't have the order's origin as a depot city", "Error");
                     }
 
                     else
@@ -236,27 +290,25 @@ namespace TMS.ViewModel
                        totalCost = totalCostArray[0] + totalCostArray[1];
 
                        trip.TripCost = totalCost;
-                        
+
+                        //successful adding of trip to an order
                         _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
                         MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
                         _loggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
                         RefreshOrdersTab();
 
-
                     }
 
                 }
-
                 if (AnotherSelectedCarrier != null)
                 {
-                    
                     string? sourceCity = _orderModel.GetCityById(SelectedOrder.SourceCityId);
                     string? destinationCity = _orderModel.GetCityById(SelectedOrder.DestinationCityId);
                     
                     var carrier = _plannerModel.GetCarrier(AnotherSelectedCarrier, sourceCity);
                     if (carrier == null)
                     {
-                        MessageBox.Show($"Can't assign {AnotherSelectedCarrier} as a carrier because it doesn't have the order's origin as a depot city");
+                        MessageBox.Show($"Can't assign {AnotherSelectedCarrier} as a carrier because it doesn't have the order's origin as a depot city", "Error");
                     }
 
                     else
@@ -272,9 +324,6 @@ namespace TMS.ViewModel
 
 
                         kmAndHrs = _orderModel.GetKmAndHrs(destinationCity, sourceCity);
-                        
-                        
-
                         int vanType = 0;
                         int jobType = 0;
 
@@ -288,15 +337,15 @@ namespace TMS.ViewModel
                             vanType = 1;
                         }
 
-
                         double[] totalCostArray = new double[2];
                         totalCostArray = _orderModel.CalculateRate(carrier, kmAndHrs[0], vanType, SelectedOrder.Quantity, jobType);
                         totalCost = totalCostArray[0] + totalCostArray[1];
 
                         trip.TripCost = totalCost;
                         
+                        //successful adding of trip to an order
                         _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
-                        MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
+                        MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}", "Successful");
                         _loggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
                         RefreshOrdersTab();
 
@@ -305,19 +354,23 @@ namespace TMS.ViewModel
 
                 }
             }
-
-
-
             catch
             {
-                MessageBox.Show("Adding a carrier to a trip to attach to the order failed");
+                //failed adding of trip to an order
+                MessageBox.Show("Adding a carrier to a trip to attach to the order failed", "Failed");
                 _loggerModel.LogError("Adding carrier to a trip for the selected order failed");
 
             }
 
-
         }
 
+
+        /*
+        * METHOD NAME: CallCompleteOrder
+        * DESCRIPTION: Completed an order
+        * 
+        * RETURN: void
+        */
         public void CallCompleteOrder()
         {
             try

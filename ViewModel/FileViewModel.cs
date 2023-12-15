@@ -133,19 +133,30 @@ namespace TMS_Project.ViewModel
             LoadBackupFiles();
         }
 
+
+        /*
+        * METHOD NAME: CanOpenLog
+        * DESCRIPTION: Checks whether to open log fie or not
+        * 
+        * RETURN: bool
+        */
         private bool CanOpenLog()
         {
             return !string.IsNullOrEmpty(SelectedLogFile);
         }
 
         #endregion
-        
-        
+
+
         #region Backup
-        
-        /// <summary>
-        /// Initiates the backup process.
-        /// </summary>
+
+       
+        /*
+        * METHOD NAME: BackUp
+        * DESCRIPTION: Initiates the backup process
+        * 
+        * RETURN: void
+        */
         public void BackUp()
         {
             const int numOfIterations = 100;
@@ -185,9 +196,13 @@ namespace TMS_Project.ViewModel
             });
         }
 
-        /// <summary>
-        /// Opens the selected backup file using the default application.
-        /// </summary>
+
+        /*
+        * METHOD NAME: OpenSelectedBackup
+        * DESCRIPTION: Opens the selected backup file using the default application.
+        * 
+        * RETURN: void
+        */
         private void OpenSelectedBackup()
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -218,9 +233,13 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        /// <summary>
-        /// Loads the backup files.
-        /// </summary>
+
+        /*
+        * METHOD NAME: LoadBackupFiles
+        * DESCRIPTION: Loads the backup files.
+        * 
+        * RETURN: void
+        */
         private void LoadBackupFiles()
         {
             // Specify path for storing backups
@@ -235,12 +254,16 @@ namespace TMS_Project.ViewModel
         }
 
         #endregion
-        
-        
+
+
         #region  Log files
-        /// <summary>
-        /// Opens the selected log file using the default application.
-        /// </summary>
+
+        /*
+        * METHOD NAME: OpenSelectedLog
+        * DESCRIPTION: Opens the selected log file using the default application
+        * 
+        * RETURN: void
+        */
         private void OpenSelectedLog()
         {
             try
@@ -261,21 +284,28 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        /// <summary>
-        /// Loads the log files.
-        /// </summary>
+
+        /*
+        * METHOD NAME: LoadLogFiles
+        * DESCRIPTION: Loads the log files
+        * 
+        * RETURN: void
+        */
         private void LoadLogFiles()
         {
             LogFiles = new ObservableCollection<string?>();
             LoadFiles(LogFilesPath, LogFiles, ref _selectedLogFile);
         }
 
-        /// <summary>
-        /// Method to load files from the directory into the target collection.
-        /// </summary>
-        /// <param name="directoryPath">Where to load files from.</param>
-        /// <param name="targetCollection">Where loaded filenames will be stored.</param>
-        /// <param name="selectedFile">Reference to the string variable that will be updated with the first line in targetCollection.</param>
+
+        /*
+        * METHOD NAME: LoadFiles
+        * DESCRIPTION: Method to load files from the directory into the target collection.
+        * PARAM: directoryPath - Where to load files from, 
+        *        targetCollection - Where loaded filenames will be stored, 
+        *        selectedFile - Reference to the string variable that will be updated with the first line in targetCollection
+        * RETURN: void
+        */
         private void LoadFiles(string directoryPath, ObservableCollection<string?> targetCollection, ref string? selectedFile)
         {
             try
@@ -301,9 +331,14 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        /// <summary>
-        /// Opens the file browser dialog to select log files.
-        /// </summary>
+       
+
+        /*
+        * METHOD NAME: OpenFileBrowser
+        * DESCRIPTION: Opens the file browser dialog to select log files.
+        * 
+        * RETURN: void
+        */
         public void OpenFileBrowser()
         {
             var openFileDialog = new OpenFileDialog

@@ -10,12 +10,15 @@ public class OrderModel
 {
     const double Ftlmarkup = 0.08;
     const double Ltlmarkup = 0.05;
+    //private readonly TmsDbContext _db;
     private readonly TmsDbContext _db = DbContextSingleton.Instance;
     private readonly LoggerModel _loggerModel = LoggerModel.Instance;
 
+
+
+    // deault constructor.
     public OrderModel()
     { 
-        
     }
 
 

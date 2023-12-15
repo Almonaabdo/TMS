@@ -89,6 +89,13 @@ namespace TMS_Project.ViewModel
 
         #region Methods
 
+
+        /*
+        * METHOD NAME: Logout
+        * DESCRIPTION: Logs out the current user and to navigate to the login window
+        * 
+        * RETURN: void
+        */
         private void Logout()
         {
             _navigation.NavigateToLogin();
@@ -96,19 +103,26 @@ namespace TMS_Project.ViewModel
 
         #region Login methods
 
-        /// <summary>
-        /// Sets Execute method to true
-        /// </summary>
-        /// <returns>True if text boxes are not empty</returns>
+       
+        /*
+        * METHOD NAME: CanLogin
+        * DESCRIPTION: Sets Execute method to true
+        * 
+        * RETURN: bool - true ig not empty, otherwise false
+        */
         private bool CanLogin()
         {
             // Add any additional validation logic here
             return !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
         }
 
-        /// <summary>
-        /// Method associated with command to validate login info
-        /// </summary>
+
+        /*
+        * METHOD NAME: Login
+        * DESCRIPTION:  Method associated with command to validate login info
+        * 
+        * RETURN: void
+        */
         private void Login()
         {
             try

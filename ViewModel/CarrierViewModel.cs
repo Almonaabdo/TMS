@@ -142,13 +142,18 @@ namespace TMS_Project.ViewModel
             LoadData();
         }
 
-       
+
 
         #endregion
 
         #region Methods
 
-        // Method for creating a new Carrier
+        /*
+        * METHOD NAME: CreateCarrier
+        * DESCRIPTION: Creates a new Carrier
+        * 
+        * RETURN: void
+        */
         private void CreateCarrier()
         {
             try
@@ -177,7 +182,13 @@ namespace TMS_Project.ViewModel
             }
         }
 
-        // Method for loading data
+
+        /*
+        * METHOD NAME: LoadData
+        * DESCRIPTION: Loads data
+        * 
+        * RETURN: void
+        */
         private void LoadData()
         {
             // Load Carrier data
@@ -185,7 +196,13 @@ namespace TMS_Project.ViewModel
             OnPropertyChanged(nameof(CarrierData));
         }
 
-        // Method for saving Carrier changes
+
+        /*
+        * METHOD NAME: SaveCarrierChanges
+        * DESCRIPTION: Saves the changes done in the Carrier
+        * 
+        * RETURN: void
+        */
         private void SaveCarrierChanges()
         {
             try
