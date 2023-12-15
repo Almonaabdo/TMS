@@ -1,13 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Data;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Devart.Data.MySql;
 using TMS_Project.Helper;
-using TMS_Project.Model;
 
 namespace TMS_Project.ViewModel
 {
@@ -25,8 +23,7 @@ namespace TMS_Project.ViewModel
         // Private fields for Login and RateRoute view models
         private LogInViewModel _logInViewModel = new LogInViewModel();
         private RateRouteViewModel _rateRouteViewModel = new RateRouteViewModel();
-        private DateTime _currentDate;
-        private LoggerModel _loggerModel = LoggerModel.Instance;
+
         #endregion
 
         #region Properties
@@ -52,6 +49,12 @@ namespace TMS_Project.ViewModel
             }
         }
 
+        #endregion
+
+        #region Date
+
+        private DateTime _currentDate;
+
         public DateTime CurrentDate
         {
             get => _currentDate;
@@ -63,10 +66,7 @@ namespace TMS_Project.ViewModel
             }
         }
 
-
-
         #endregion
-
 
         #region Constructor
 
@@ -76,9 +76,12 @@ namespace TMS_Project.ViewModel
         public AdminViewModel()
         {
             _currentDate = DateTime.Today;
-            TestDbCommand = new RelayCommand(TestConnection, CanTestConnection);
+            TestDbCommand = new RelayCommand(TestConnection);
         }
-        
+
+        public ICommand Increase { get; set; }
+
+
 
         #endregion
 
@@ -148,39 +151,22 @@ namespace TMS_Project.ViewModel
         */
         private void TestConnection()
         {
+            var connectionString = $"Server={Server};Port={Port};Database={Database};User ID={Username};Password={Password};";
+            using var connection = new MySqlConnection(connectionString);
             try
             {
-                var connectionString = $"Server={Server};Port={Port};Database={Database};User ID={Username};Password={Password};";
-                using var connection = new MySqlConnection(connectionString);
-
                 connection.Open();
-
-                if (connection.State == ConnectionState.Open)
-                {
-                    MessageBox.Show("Connection successful", "Connection result", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Connection failed. State: " + connection.State, "Connection result", MessageBoxButton.OK,MessageBoxImage.Error);
-                }
+                MessageBox.Show("Connection successful");
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                MessageBox.Show($"An error occurred. Please make sure to enter valid information.", "Connection result", MessageBoxButton.OK, MessageBoxImage.Error);
-                _loggerModel.LogException($"Error connecting to database. {ex.Message}");
+                MessageBox.Show($"Connection failed. Error: {ex.Message}");
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 
-
-        /*
-        * METHOD NAME: CanTestConnection
-        * DESCRIPTION: Disables button if any of the fields are empty
-        * 
-        * RETURN: True if all fields are not empty
-        */
-        public bool CanTestConnection()
-        {
-            return !string.IsNullOrEmpty(Server) && !string.IsNullOrEmpty(Database) && !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Port) && !string.IsNullOrEmpty(Password);
-        }
     }
 }
