@@ -140,7 +140,9 @@ namespace TMS.ViewModel
         */
         public void RefreshOrdersTab()
         {
+            //Use the method the populates the orders
             GetPendingOrders();
+            //Update the data when it is changed
             GetOrderTable();
         }
 
@@ -153,8 +155,10 @@ namespace TMS.ViewModel
         */
         public void RefreshActiveOrdersTab()
         {
-            
+           
+            //Use the method the populates the orders in progress
             GetInProgressOrders();
+            //Update the data when it is changed
             GetOrderInProgressTable();
         }
 
@@ -167,6 +171,7 @@ namespace TMS.ViewModel
         */
         public void GetPendingOrders()
         {
+            //Store the observable collection to OrderData
             OrderData = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus == OrderStatus.Pending).ToList() ?? throw new InvalidOperationException());
         }
 
@@ -179,6 +184,7 @@ namespace TMS.ViewModel
         */
         public void GetInProgressOrders()
         {
+            //Store the observable collection to OrderDataInProgress
             OrderDataInProgress = new ObservableCollection<Order>(_TmsDbContext.Orders?.Where(order => order.OrderStatus == OrderStatus.InProgress).ToList() ?? throw new InvalidOperationException());
         }
 
@@ -191,7 +197,7 @@ namespace TMS.ViewModel
         */
         public void GetDistinctCarrierNames()
         {
-
+            // Only select disticnt names
             CarrierNames = _TmsDbContext.Carriers.Select(c => c.CompanyName).Distinct().ToList();
 
         }
@@ -199,7 +205,7 @@ namespace TMS.ViewModel
 
         /*
         * METHOD NAME: GetOrderTable
-        * DESCRIPTION: Displays order data in the table
+        * DESCRIPTION: On property change up data OrderData
         * 
         * RETURN: void
         */
@@ -211,7 +217,7 @@ namespace TMS.ViewModel
 
         /*
         * METHOD NAME: GetOrderInProgressTable
-        * DESCRIPTION: Displays in progress order data in the table
+        * DESCRIPTION: On property change up data OrderDataInProgress
         * 
         * RETURN: void
         */
@@ -231,12 +237,14 @@ namespace TMS.ViewModel
         {
             try
             {
+                //Check if an order is picked
                 if (SelectedOrder == null)
                 {
                     MessageBox.Show($"Can't procede please pick an order");
                     return;
                 }
 
+                //Can't pick order in progress
                 if (SelectedOrder.OrderStatus == OrderStatus.InProgress)
                 {
                     MessageBoxButton addTrip = MessageBoxButton.OKCancel;
@@ -248,12 +256,15 @@ namespace TMS.ViewModel
                         return;
                     }
                 }
+
+                //If first carrier not null do the following
                 if (SelectedCarrier != null)
                 {
-                    
+                    //Get the source and destination by calling the order model method
                     string? sourceCity = _orderModel.GetCityById(SelectedOrder.SourceCityId);
                     string? destinationCity = _orderModel.GetCityById(SelectedOrder.DestinationCityId);
-                   
+
+                    //Gets the carrier and checks wether the carrier picked is allowed
                     var carrier = _plannerModel.GetCarrier(SelectedCarrier, sourceCity);
                     if (carrier == null)
                     {
@@ -264,32 +275,36 @@ namespace TMS.ViewModel
                     {
                         double totalCost = 0;
                         double[] kmAndHrs = new double[2];
+                        //Create new trip for the order
                         Trip trip = new Trip();
-
                         trip.OrderId = SelectedOrder.OrderId;
                         trip.Order = SelectedOrder;
                         trip.Carrier = carrier;
                         trip.CarrierId = carrier.CarrierId;
 
-                        kmAndHrs =  _orderModel.GetKmAndHrs(destinationCity, sourceCity);
-                       
+                        //Gets the total Km and hours of the trip
+                        kmAndHrs = _orderModel.GetKmAndHrs(destinationCity, sourceCity);
+
+                        //Parsing for job type and van type
                         int vanType = 0;
                         int jobType = 0;
                         if (SelectedOrder.JobType == JobType.Ltl)
                         {
                             jobType = 1;
                         }
-                        
+
                         if (SelectedOrder.VanType == VanType.Reefer)
                         {
                             vanType = 1;
                         }
 
-                       double[] totalCostArray = new double[2];
-                       totalCostArray =  _orderModel.CalculateRate(carrier, kmAndHrs[0], vanType, SelectedOrder.Quantity, jobType);
-                       totalCost = totalCostArray[0] + totalCostArray[1];
+                        //Calculates the toal cost for the trip
+                        double[] totalCostArray = new double[2];
+                        totalCostArray = _orderModel.CalculateRate(carrier, kmAndHrs[0], vanType, SelectedOrder.Quantity, jobType);
+                        totalCost = totalCostArray[0] + totalCostArray[1];
 
-                       trip.TripCost = totalCost;
+                        //Store Total cost
+                        trip.TripCost = totalCost;
 
                         //successful adding of trip to an order
                         _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
@@ -300,11 +315,34 @@ namespace TMS.ViewModel
                     }
 
                 }
+                //Check if an order is picked
+                if (SelectedOrder == null)
+                {
+                    MessageBox.Show($"Can't procede please pick an order");
+                    return;
+                }
+
+                //Can't pick order in progress
+                if (SelectedOrder.OrderStatus == OrderStatus.InProgress)
+                {
+                    MessageBoxButton addTrip = MessageBoxButton.OKCancel;
+                    var choice = MessageBox.Show($"Order# {SelectedOrder.OrderId} is already in progress are you sure you want to add another trip", "Planner", addTrip);
+
+
+                    if (choice == MessageBoxResult.Cancel)
+                    {
+                        return;
+                    }
+                }
+
+                //If second carrier not null do the following
                 if (AnotherSelectedCarrier != null)
                 {
+                    //Get the source and destination by calling the order model method
                     string? sourceCity = _orderModel.GetCityById(SelectedOrder.SourceCityId);
                     string? destinationCity = _orderModel.GetCityById(SelectedOrder.DestinationCityId);
-                    
+
+                    //Gets the carrier and checks wether the carrier picked is allowed
                     var carrier = _plannerModel.GetCarrier(AnotherSelectedCarrier, sourceCity);
                     if (carrier == null)
                     {
@@ -315,18 +353,19 @@ namespace TMS.ViewModel
                     {
                         double totalCost = 0;
                         double[] kmAndHrs = new double[2];
+                        //Create new trip for the order
                         Trip trip = new Trip();
-
                         trip.OrderId = SelectedOrder.OrderId;
                         trip.Order = SelectedOrder;
                         trip.Carrier = carrier;
                         trip.CarrierId = carrier.CarrierId;
 
-
+                        //Gets the total Km and hours of the trip
                         kmAndHrs = _orderModel.GetKmAndHrs(destinationCity, sourceCity);
+
+                        //Parsing for job type and van type
                         int vanType = 0;
                         int jobType = 0;
-
                         if (SelectedOrder.JobType == JobType.Ltl)
                         {
                             jobType = 1;
@@ -337,18 +376,19 @@ namespace TMS.ViewModel
                             vanType = 1;
                         }
 
+                        //Calculates the toal cost for the trip
                         double[] totalCostArray = new double[2];
                         totalCostArray = _orderModel.CalculateRate(carrier, kmAndHrs[0], vanType, SelectedOrder.Quantity, jobType);
                         totalCost = totalCostArray[0] + totalCostArray[1];
 
+                        //Store Total cost
                         trip.TripCost = totalCost;
-                        
+
                         //successful adding of trip to an order
                         _plannerModel.AddTripToOrder(SelectedOrder.OrderId, trip);
-                        MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}", "Successful");
+                        MessageBox.Show($"Attached one trip to order {SelectedOrder.OrderId} with carrier {SelectedCarrier}");
                         _loggerModel.LogInfo($"Attached one trip to order {SelectedOrder.OrderId} with carrier {AnotherSelectedCarrier}");
                         RefreshOrdersTab();
-
 
                     }
 
@@ -367,7 +407,7 @@ namespace TMS.ViewModel
 
         /*
         * METHOD NAME: CallCompleteOrder
-        * DESCRIPTION: Completed an order
+        * DESCRIPTION: Completes an Order
         * 
         * RETURN: void
         */
@@ -375,18 +415,24 @@ namespace TMS.ViewModel
         {
             try
             {
+                //Check wether the order is pending if pending dont procede
                 if (SelectedInProgressOrder.OrderStatus == OrderStatus.Pending)
                 {
                     MessageBox.Show($"Order# {SelectedInProgressOrder.OrderId} is still pending. Attach a trip to complete it");
                     return;
                 }
+                //Calls Order model method that saves the completed order to database
                 _orderModel.CompleteOrder(SelectedInProgressOrder.OrderId);
                 MessageBox.Show($"Successfully Completed Order# {SelectedInProgressOrder.OrderId}");
+                _loggerModel.LogInfo($"Successfully Completed Order# {SelectedInProgressOrder.OrderId}");
+                //Refresh the page
                 RefreshActiveOrdersTab();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+
+                MessageBox.Show("Completing an Order failed");
+                _loggerModel.LogError($" Completing Order# {SelectedInProgressOrder.OrderId} failed");
             }
         }
 

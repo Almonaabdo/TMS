@@ -25,12 +25,25 @@ public class PlannerModel
     */
     public Carrier? GetCarrier(string companyName, string originCityy)
     {
-        var carrier = _db.Carriers?.FirstOrDefault(e => e.CompanyName == companyName && e.DepotCity == originCityy);
-        if (carrier != null)
+        try
         {
-            return carrier;
+            var carrier = _db.Carriers?.FirstOrDefault(e => e.CompanyName == companyName && e.DepotCity == originCityy);
+            if (carrier != null)
+            {
+                _loggerModel.LogInfo($" Carrier {carrier.CompanyName} found");
+                return carrier;
+
+            }
+            return null;
         }
-        return null;
+
+        catch
+        {
+            _loggerModel.LogError("Finding carrier failed");
+            MessageBox.Show("Finding carrier failed");
+            return null;
+        }
+        
     }
 
 
@@ -49,9 +62,10 @@ public class PlannerModel
         {
             try
             {
+                //Change order status and add the new trip to order
                 order.OrderStatus = OrderStatus.InProgress;
                 order.Trips.Add(newTrip);
-                
+                //Save changes from database
                 _db.SaveChanges();
                 _loggerModel.LogInfo("Succesfully attached a trip to the order");
             }

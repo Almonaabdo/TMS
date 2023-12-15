@@ -78,6 +78,7 @@ public class OrderModel
             {
                 var cityFound = _db.Cities.FirstOrDefault(c => c.CityId == cityId);
                 city = cityFound.CityName.ToString();
+                _loggerModel.LogInfo($"{city} Found");
                 return city;
             }
 
@@ -85,10 +86,12 @@ public class OrderModel
         }
         catch
         {
-
+            _loggerModel.LogError("Finding the city by id failed");
+            return null;
+           
         }
 
-        return null;
+        
         
     }
 
@@ -128,6 +131,7 @@ public class OrderModel
     {
         try
         {
+            //Creates a new order with new properties
             var newOrder = new Order();
 
             newOrder.OrderStatus = OrderStatus.Pending;
@@ -137,6 +141,7 @@ public class OrderModel
             newOrder.CustomerId = customerId;
             newOrder.Quantity = quantity;
 
+            //Job type and van type parsing
             if(jobType == 0)
             {
                 newOrder.JobType = JobType.Ftl;
@@ -158,6 +163,7 @@ public class OrderModel
 
             _db.Orders?.Add(newOrder);
             _db.SaveChanges();
+            _loggerModel.LogInfo($"{newOrder.OrderId} Succesfully created");
         }
         catch (Exception ex)
         {
@@ -295,13 +301,15 @@ public class OrderModel
             {
                 totalKmAndHrs[0] = Math.Round(route.Distance, 3);
                 totalKmAndHrs[1] = Math.Round(route.Duration, 3);
+                _loggerModel.LogInfo($"Succesfully found total km and hrs. Total Km: {totalKmAndHrs[0]} Total hours: {totalKmAndHrs[1]}");
             }
+
 
             return totalKmAndHrs;
         }
         catch
-        { 
-        
+        {
+            _loggerModel.LogError("Getting the km and hours of the specifc route failed");
         }
         return null;
     }
@@ -315,60 +323,77 @@ public class OrderModel
     */
     public double[] CalculateRate(Carrier carrier, double totalKm, int vanType, double quantity, int job_type)
     {
-       
-        double ftlRate = carrier.FtlRate; 
-        double ltlRate = carrier.LtlRate;
-        double reeferCharge = carrier.ReefCharge;
-
         double[] totalAmount = new double[2];
-
-        //ftl
-        if (job_type == 0)
+        try
         {
-            //reefer van
-            if (vanType == 1)
+            //Assigns the carrier rates
+            double ftlRate = carrier.FtlRate;
+            double ltlRate = carrier.LtlRate;
+            double reeferCharge = carrier.ReefCharge;
+
+            
+
+            //ftl
+            if (job_type == 0)
             {
-                ftlRate += (reeferCharge + Ftlmarkup) * ftlRate;
-                double amount = ftlRate * totalKm;
-                totalAmount[0] = amount * Ftlmarkup;
-                                                     // Money gain for TMS
-                totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
-                return totalAmount;
+                //reefer van
+                if (vanType == 1)
+                {
+                    ftlRate += (reeferCharge + Ftlmarkup) * ftlRate; //add a markup for the charge 
+                    double amount = ftlRate * totalKm;
+                    totalAmount[0] = amount * Ftlmarkup;
+                    // Money gain for TMS
+                    totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
+                    _loggerModel.LogInfo($"Succesfully calculated the amount Tms money: {totalAmount[0]} Truck money: {totalAmount[1]}");
+                    return totalAmount;
+                    
+                }
+                else if (vanType == 0)
+                {
+                    ftlRate += Ftlmarkup * ftlRate;             //add a markup for the charge
+                    double amount = ftlRate * totalKm;
+                    totalAmount[0] = amount * Ftlmarkup;             // Money gain for TMS
+                    totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
+                    _loggerModel.LogInfo($"Succesfully calculated the amount Tms money: {totalAmount[0]} Truck money: {totalAmount[1]}");
+                    return totalAmount;
+                }
+                
             }
-            else if (vanType == 0)
+            //ltl
+            else if (job_type == 1)
             {
-                ftlRate += Ftlmarkup * ftlRate;
-                double amount = ftlRate * totalKm;
-                totalAmount[0] = amount * Ftlmarkup;             // Money gain for TMS
-                totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
-                return totalAmount;
+                //reefer van
+                if (vanType == 1)
+                {
+                    ltlRate += (Ltlmarkup + reeferCharge) * ltlRate;    //add a markup for the charge
+                    double amount = (ltlRate * totalKm) * quantity;
+
+                    totalAmount[0] = amount * Ltlmarkup;             // Money gain for TMS
+                    totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
+                    _loggerModel.LogInfo($"Succesfully calculated the amount Tms money: {totalAmount[0]} Truck money: {totalAmount[1]}");
+                    return totalAmount;
+
+                }
+                else if (vanType == 0)
+                {
+                    ltlRate += Ltlmarkup * ltlRate;                     //add a markup for the charge
+                    double amount = (ltlRate * totalKm) * quantity;
+                    totalAmount[0] = amount * Ltlmarkup;             // Money gain for TMS
+                    totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
+                    _loggerModel.LogInfo($"Succesfully calculated the amount Tms money: {totalAmount[0]} Truck money: {totalAmount[1]}");
+                    return totalAmount;
+                }
+               
             }
+            return totalAmount;
         }
-        //ltl
-        else if (job_type == 1)
+
+        catch
         {
-            //reefer van
-            if (vanType == 1)
-            {
-                ltlRate += (Ltlmarkup + reeferCharge) * ltlRate;
-                double amount = (ltlRate * totalKm) * quantity;
-
-                totalAmount[0] = amount * Ltlmarkup;             // Money gain for TMS
-                totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
-                return totalAmount;
-
-            }
-            else if (vanType == 0)
-            {
-                ltlRate += Ltlmarkup * ltlRate;
-                double amount = (ltlRate * totalKm) * quantity;
-                totalAmount[0] = amount * Ltlmarkup;             // Money gain for TMS
-                totalAmount[1] = amount - totalAmount[0];  // Money gain for carrier
-                return totalAmount;
-            }
-
+            _loggerModel.LogError("Calculating the total cost failed. The arguements values might be wrong");
+            return totalAmount;
         }
-        return totalAmount;
+        
 
     }
 
