@@ -72,7 +72,7 @@ public class BuyerViewModel : ViewModelBase
         ProcessInvoiceCommand = new RelayCommand(CallProcessInvoice);
 
 
-        _orderModelObject = new OrderModel(_tmsDbContext);
+        _orderModelObject = new OrderModel();
         _dataService = new DataService();
         _invoiceModel = new InvoiceGeneratorModel();
         LoadData();
