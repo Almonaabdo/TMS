@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TMS_Project.View"
         xmlns:viewModel="clr-namespace:TMS_Project.ViewModel"
         mc:Ignorable="d"
-        Title="BuyerView" Height="450" Width="800" WindowState="Maximized">
+        Title="BuyerView" Height="450" Width="800" MinHeight="450" MinWidth="800" WindowState="Maximized">
 
     <Window.DataContext>
         <viewModel:BuyerViewModel />
@@ -38,8 +38,8 @@
 
                         <!--logs out of the user; may or may not go back to the login page-->
                         <Button Content="Log Out" Command="{Binding LogInViewModel.LogoutCommand}"
-                                HorizontalAlignment="Left" Margin="684,360,0,0" VerticalAlignment="Top" Height="50"
-                                Width="130" Background="DarkBlue" Foreground="white" FontWeight="Medium" />
+                                HorizontalAlignment="Left" Margin="646,343,0,0" VerticalAlignment="Top" Height="36"
+                                Width="107" Background="DarkBlue" Foreground="white" FontWeight="Medium" />
 
                     </Grid>
                 </TabItem>
@@ -84,7 +84,8 @@
                                   Height="290" Width="615" IsReadOnly="True" SelectedItem="{Binding SelectedOrder}"/>
 
                         <!--processes the invoice if order is complete-->
-                        <Button Content="Process Invoice" Command="{Binding ProcessInvoiceCommand}" HorizontalAlignment="Center" Margin="0,345,0,0" VerticalAlignment="Top" Height="34" Width="140" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15"/>
+                        <Button Content="Process Invoice" Command="{Binding ProcessInvoiceCommand}" HorizontalAlignment="Left" Margin="397,345,0,0" VerticalAlignment="Top" Height="34" Width="140" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15"/>
+                        <Button Content="Refresh" Command="{Binding RefreshTableCommand}" HorizontalAlignment="Left" Margin="195,345,0,0" VerticalAlignment="Top" Height="34" Width="140" FontWeight="Bold" Foreground="#001233" Background="azure" FontSize="15"/>
 
                     </Grid>
                 </TabItem>

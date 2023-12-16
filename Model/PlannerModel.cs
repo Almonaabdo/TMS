@@ -8,8 +8,6 @@ namespace TMS_Project.Model;
 
 public class PlannerModel
 {
-
-
     /*
     * METHOD NAME: GetCarrier
     * DESCRIPTION: Gets carrier information from the DB

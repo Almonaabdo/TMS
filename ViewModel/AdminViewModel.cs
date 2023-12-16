@@ -5,7 +5,9 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Devart.Data.MySql;
+using TMS_Project.DataLayer.Model;
 using TMS_Project.Helper;
+using TMS_Project.Model;
 
 namespace TMS_Project.ViewModel
 {
@@ -76,7 +78,7 @@ namespace TMS_Project.ViewModel
         public AdminViewModel()
         {
             _currentDate = DateTime.Today;
-            TestDbCommand = new RelayCommand(TestConnection);
+            TestDbCommand = new RelayCommand(TestConnection, CanTestConnection);
         }
 
         public ICommand? Increase { get; set; }
@@ -84,6 +86,8 @@ namespace TMS_Project.ViewModel
 
 
         #endregion
+
+        #region MyRegion
 
         private string? _server;
         private string? _port;
@@ -141,32 +145,69 @@ namespace TMS_Project.ViewModel
             }
         }
 
+        #endregion
+       
         public ICommand TestDbCommand { get; }
 
+        #region Methods
+
         /*
-        * METHOD NAME: TestConnection
-        * DESCRIPTION: Tests the connection to the remote DB
-        * 
-        * RETURN: void
-        */
+         * METHOD NAME: TestConnection
+         * DESCRIPTION: Tests the connection to the remote DB
+         *
+         * RETURN: void
+         */
         private void TestConnection()
         {
-            var connectionString = $"Server={Server};Port={Port};Database={Database};User ID={Username};Password={Password};";
-            using var connection = new MySqlConnection(connectionString);
-            try
+
+            if (int.TryParse(Port, out var portNum))
             {
-                connection.Open();
-                MessageBox.Show("Connection successful");
+                var connectionString =
+                    $"Server={Server};Port={portNum};Database={Database};User ID={Username};Password={Password};";
+                using var connection = new MySqlConnection(connectionString);
+                try
+                {
+                    connection.Open();
+                    MessageBox.Show("Connection successful");
+                }
+                catch (Exception ex)
+                {
+                    LoggerModel.Instance.LogException($"{ex.Message}");
+                    MessageBox.Show($"Connection failed. Error: {ex.Message}");
+                }
+                finally
+                {
+                    connection.Close();
+                }
             }
-            catch (MySqlException ex)
+            else
             {
-                MessageBox.Show($"Connection failed. Error: {ex.Message}");
+                MessageBox.Show("Please enter valid information.", "Connection failure", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
-            finally
-            {
-                connection.Close();
-            }
+
         }
+
+        /*
+         * METHOD NAME: CanTestConnection
+         * DESCRIPTION: CanExecute method to check if button can eb enabled or not based on text input
+         *
+         * RETURN: void
+         */
+        private bool CanTestConnection()
+        {
+            if (!string.IsNullOrEmpty(Server) && !string.IsNullOrEmpty(Port) && !string.IsNullOrEmpty(Username) &&
+                !string.IsNullOrEmpty(Password) & !string.IsNullOrEmpty(Database))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+      
+
 
     }
 }

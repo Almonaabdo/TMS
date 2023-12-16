@@ -18,6 +18,7 @@ namespace TMS_Project.ViewModel
         public IEnumerable<Contract>? ContractData { get; private set; }
         public ICommand CreateOrderCommand { get; }
         public ICommand ProcessInvoiceCommand { get; }
+        public ICommand RefreshTableCommand { get; }
         private ObservableCollection<JoinedOrder>? _completedOrders;
         private readonly BuyerModel _buyerModel;
         private readonly AdminServices _adminServices;
@@ -77,7 +78,7 @@ namespace TMS_Project.ViewModel
             _buyerModel = new BuyerModel();
             CreateOrderCommand = new RelayCommand(CallCreateOrder);
             ProcessInvoiceCommand = new RelayCommand(CallProcessInvoice);
-
+            RefreshTableCommand = new RelayCommand(RefreshTable);
             CurrentDate = DateTime.Today;
             _orderModelObject = new OrderModel();
             _adminServices = new AdminServices();
@@ -86,6 +87,19 @@ namespace TMS_Project.ViewModel
         }
 
         #endregion
+
+        #region Refresh table
+        public void RefreshTable()
+        {
+            LoadData();
+        }
+
+
+
+
+
+        #endregion
+
 
         #region Load Data
 

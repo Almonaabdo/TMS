@@ -158,7 +158,7 @@ namespace TMS_Project.ViewModel
         * 
         * RETURN: void
         */
-        public void BackUp()
+        private void BackUp()
         {
             const int numOfIterations = 100;
 

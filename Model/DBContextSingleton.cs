@@ -10,4 +10,5 @@ public static class DbContextSingleton
 
     // Gets single instance of the db context
     public static TmsDbContext Instance => LazyInstance.Value;
+
 }

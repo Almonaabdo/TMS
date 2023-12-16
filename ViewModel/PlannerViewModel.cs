@@ -137,14 +137,31 @@ public class PlannerViewModel : ViewModelBase
 
     private InvoiceGeneratorModel? _generator;
 
+
+    /*
+     * METHOD NAME:  TwoWeekSummary
+     * DESCRIPTION: Method to call generation
+     *
+     * RETURN: void
+     */
     private void AllTimeSummary()
     {
         _generator?.ReportAllTime();
+        MessageBox.Show("Successfully created all time invoice summary.", "Confirmation", MessageBoxButton.OK,
+            MessageBoxImage.Information);
     }
 
+    /*
+     * METHOD NAME:  TwoWeekSummary
+     * DESCRIPTION: Method to call generation
+     *
+     * RETURN: void
+     */
     private void TwoWeekSummary()
     {
         _generator?.ReportTwoWeeks();
+        MessageBox.Show("Successfully created two week invoice summary.", "Confirmation", MessageBoxButton.OK,
+            MessageBoxImage.Information);
     }
 
     /*
@@ -228,6 +245,12 @@ public class PlannerViewModel : ViewModelBase
                                                      throw new InvalidOperationException());
     }
 
+    /*
+     * METHOD NAME: LoadAllFiles
+     * DESCRIPTION: Gets all the invoice files from path
+     *
+     * RETURN: void
+     */
     private ObservableCollection<string>? LoadAllFiles()
     {
         string? path = _configService.GetInvoicePath();
@@ -241,6 +264,12 @@ public class PlannerViewModel : ViewModelBase
         return null;
     }
 
+    /*
+     * METHOD NAME:  RefreshInvoice
+     * DESCRIPTION: Method to refresh files in the invoice
+     *
+     * RETURN: void
+     */
     private void RefreshInvoice()
     {
         InvoiceFiles = LoadAllFiles();
@@ -349,6 +378,13 @@ public class PlannerViewModel : ViewModelBase
 
     #region Complete orders in progress
 
+
+    /*
+     * METHOD NAME:CompleteInProgressOrders
+     * DESCRIPTION: Method to mark all orders completed
+     *
+     * RETURN: void
+     */
     private void CompleteInProgressOrders()
     {
         CurrentDate = DateTime.Now.AddDays(1);
@@ -421,6 +457,12 @@ public class PlannerViewModel : ViewModelBase
 
     #region Attach carrier to trip method
 
+/*
+ * METHOD NAME:AttachCarrierToOrder
+ * DESCRIPTION: Method to attach a trip to an order
+ *
+ * RETURN: void
+ */
     private void AttachCarrierToOrder(string? selectedCarrier)
     {
         if (selectedCarrier != null)
@@ -513,6 +555,12 @@ public class PlannerViewModel : ViewModelBase
         }
     }
 
+    /*
+     * METHOD NAME: CanCallCompleteOrder
+     * DESCRIPTION: Method to enable button if a in progress order is selected
+     *
+     * RETURN: True if selected
+     */
     private bool CanCallCompleteOrder()
     {
         return SelectedInProgressOrder != null;

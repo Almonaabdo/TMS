@@ -127,7 +127,6 @@ namespace TMS_Project.ViewModel
         // Command for saving Carrier changes
         public ICommand SaveCarrierCommand { get; }
         public ICommand CreateCarrierCommand { get; set; }
-        public ICommand? DeleteCarrierCommand { get; }
 
         #endregion
 

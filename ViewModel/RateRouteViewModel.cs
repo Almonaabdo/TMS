@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Net.NetworkInformation;
 using System.Windows;
 using System.Windows.Input;
+using Devart.Common;
 using TMS_Project.DataLayer.Model;
 using TMS_Project.Helper;
 using TMS_Project.Model;
@@ -24,7 +25,6 @@ public class RateRouteViewModel: ViewModelBase
     }
 
     public ObservableCollection<Rate> RateData { get; private set; } = null!;
-    public ObservableCollection<Route> JoinedRouteData { get; private set; } = null!;
     public ObservableCollection<JoinedRouteTable> RouteData { get; private set; } = null!;
 
     #region Commands
@@ -72,7 +72,7 @@ public class RateRouteViewModel: ViewModelBase
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            LoggerModel.Instance.LogException($"{e.Message}");
         }
     }
 
@@ -88,18 +88,21 @@ public class RateRouteViewModel: ViewModelBase
         try
         {
             List<JoinedRouteTable> updatedRoute = new List<JoinedRouteTable>(RouteData);
-
-            foreach (var routeData in updatedRoute)
+            if (_adminServices != null)
             {
-                _adminServices.SaveChanges(routeData);
+                foreach (var routeData in updatedRoute)
+                {
+                    _adminServices.SaveChanges(routeData);
+                }
             }
+           
 
             MessageBox.Show("Changes saved successfully!", "Database operation", MessageBoxButton.OK,
                 MessageBoxImage.Information);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+           LoggerModel.Instance.LogException($"{e.Message}");
         }
     }
 
